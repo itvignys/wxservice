@@ -1,0 +1,358 @@
+.container {
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+}
+
+/* 顶部卡片 */
+.header-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--accent), #00B894);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+}
+
+.header-icon {
+  font-size: 80rpx;
+  margin-right: 30rpx;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12rpx;
+}
+
+.header-desc {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.5;
+}
+
+/* 权益卡片 */
+.benefit-card {
+  background: linear-gradient(135deg, #fff8e7, #fff3cd);
+  border: 2rpx solid #ffe4b5;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 24rpx;
+}
+
+.benefit-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #856404;
+  margin-bottom: 20rpx;
+}
+
+.benefit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+}
+
+.benefit-icon {
+  width: 36rpx;
+  height: 36rpx;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  color: #fff;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  font-size: 28rpx;
+  color: #856404;
+}
+
+/* 表单卡片 */
+.form-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.form-header {
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.form-title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8rpx;
+}
+
+.form-subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item.error .item-input,
+.form-item.error .item-textarea {
+  border-color: #FF3B30;
+  background: #fff5f5;
+}
+
+.item-label {
+  font-size: 28rpx;
+  color: var(--text);
+  margin-bottom: 12rpx;
+  font-weight: 500;
+}
+
+.required {
+  color: #FF3B30;
+}
+
+.item-input,
+.item-textarea,
+.picker-value {
+  padding: 24rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.item-input:focus,
+.item-textarea:focus {
+  border-color: var(--primary);
+  background: #fff;
+}
+
+.item-textarea {
+  min-height: 160rpx;
+}
+
+.picker-value {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text);
+}
+
+.picker-arrow {
+  font-size: 24rpx;
+  color: #ccc;
+  transform: rotate(90deg);
+}
+
+.error-msg {
+  font-size: 24rpx;
+  color: #FF3B30;
+  margin-top: 8rpx;
+}
+
+/* 复选框 */
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.checkbox-text {
+  margin-left: 12rpx;
+  font-size: 28rpx;
+  color: var(--text);
+}
+
+/* 协议 */
+.agreement {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 30rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.agreement-text {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.agreement-link {
+  font-size: 26rpx;
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* 提交按钮 */
+.submit-btn {
+  margin-top: 30rpx;
+  padding: 28rpx;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 600;
+  border-radius: 16rpx;
+  line-height: 1;
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+.submit-btn.disabled {
+  background: #ccc;
+}
+
+/* 状态卡片 */
+.status-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.status-icon {
+  width: 44rpx;
+  height: 44rpx;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #fff;
+  margin-right: 16rpx;
+}
+
+.status-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.status-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.status-value {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.status-value.success,
+.status-value.available {
+  color: var(--accent);
+}
+
+.status-value.pending {
+  color: #FF9500;
+}
+
+.status-value.used {
+  color: #999;
+}
+
+/* 联系卡片 */
+.contact-card {
+  background: #f8f9fa;
+  border-radius: 20rpx;
+  padding: 30rpx;
+}
+
+.contact-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 24rpx;
+}
+
+.contact-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 24rpx;
+  border-radius: 16rpx;
+}
+
+.contact-icon {
+  font-size: 44rpx;
+  margin-right: 16rpx;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 6rpx;
+}
+
+.contact-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text);
+}

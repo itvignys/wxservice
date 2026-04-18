@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/chatbot/chatbot",
+    "pages/knowledge/knowledge",
+    "pages/tools/tools",
+    "pages/service/service"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#065A82",
+    "navigationBarTitleText": "GPU智修专家",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5",
+    "softInputMode": "adjustResize"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#065A82",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/chatbot/chatbot",
+        "text": "智能检测"
+      },
+      {
+        "pagePath": "pages/knowledge/knowledge",
+        "text": "知识库"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "工具下载"
+      }
+    ]
+  },
+  "useExtendedLib": {
+    "weui": true
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
