@@ -1,0 +1,86 @@
+<view class="chat-container">
+  <!-- 消息列表 -->
+  <scroll-view class="chat-messages" scroll-y scroll-into-view="{{scrollToMessage}}" enhanced show-scrollbar="{{false}}">
+    <!-- 欢迎消息 -->
+    <view class="message system">
+      <view class="message-content">
+        <text class="welcome-title">👋 欢迎使用GPU智修专家</text>
+        <text class="welcome-text">我是您的AI检测助手，可以帮您诊断显卡故障。请描述您遇到的问题，或选择下方的快捷选项。</text>
+      </view>
+    </view>
+
+    <!-- 快捷问题选项 -->
+    <view class="quick-questions" wx:if="{{showQuickQuestions}}">
+      <view class="quick-title">常见症状（点击选择）</view>
+      <view class="quick-tags">
+        <view class="quick-tag" wx:for="{{quickQuestions}}" wx:key="index" bindtap="sendQuickQuestion" data-text="{{item}}">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 消息列表 -->
+    <view wx:for="{{messages}}" wx:key="index" id="msg-{{index}}" class="message {{item.type}}">
+      <view class="avatar {{item.type}}">
+        <text wx:if="{{item.type === 'ai'}}">🤖</text>
+        <text wx:if="{{item.type === 'user'}}">👤</text>
+      </view>
+      <view class="message-content">
+        <text class="message-text">{{item.text}}</text>
+        
+        <!-- AI回复中的推荐问题 -->
+        <view wx:if="{{item.recommendations && item.recommendations.length > 0}}" class="recommendations">
+          <view class="rec-title">您可能想了解：</view>
+          <view class="rec-list">
+            <view class="rec-item" wx:for="{{item.recommendations}}" wx:for-item="rec" wx:key="id" bindtap="goToKnowledgeDetail" data-id="{{rec.id}}">
+              <text class="rec-icon">{{rec.icon}}</text>
+              <text class="rec-text">{{rec.title}}</text>
+              <text class="rec-rate">{{rec.successRate}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 升级服务提示 -->
+        <view wx:if="{{item.showUpgrade}}" class="upgrade-tip">
+          <view class="upgrade-content">
+            <text class="upgrade-title">💡 需要更专业的帮助？</text>
+            <text class="upgrade-desc">AI检测只能提供初步判断，如需人工专家服务可升级</text>
+            <button class="btn-upgrade" bindtap="goToExpert">联系专家</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view id="msg-bottom" style="height: 40rpx;"></view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="chat-input-area">
+    <view class="input-wrapper">
+      <input 
+        class="chat-input" 
+        placeholder="描述您的显卡问题..." 
+        placeholder-class="input-placeholder"
+        value="{{inputValue}}"
+        bindinput="onInput"
+        confirm-type="send"
+        bindconfirm="sendMessage"
+      />
+      <view class="input-actions">
+        <view class="action-btn" bindtap="showQuickOptions">
+          <text class="btn-icon">⚡</text>
+        </view>
+        <button class="send-btn {{inputValue ? 'active' : ''}}" bindtap="sendMessage">
+          <text>发送</text>
+        </button>
+      </view>
+    </view>
+    
+    <!-- 服务提示 -->
+    <view class="service-hint">
+      <text>AI检测免费，如需人工服务</text>
+      <text class="hint-link" bindtap="goToExpert">联系专家 →</text>
+    </view>
+  </view>
+</view>

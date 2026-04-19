@@ -1,0 +1,161 @@
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="header-title">{{serviceType === 'phone' ? '预约专家' : '预约上门服务'}}</text>
+    <text class="header-subtitle">请填写以下信息，我们会尽快与您联系</text>
+  </view>
+
+  <!-- 服务信息 -->
+  <view class="service-info-card">
+    <view class="service-icon">{{serviceType === 'phone' ? '📞' : '🚗'}}</view>
+    <view class="service-detail">
+      <text class="service-name">{{serviceType === 'phone' ? '专家一对一咨询' : '上门检测服务'}}</text>
+      <text class="service-price">{{serviceType === 'phone' ? '¥99' : '¥299起'}}</text>
+    </view>
+  </view>
+
+  <!-- 表单 -->
+  <view class="form-section">
+    <view class="form-title">联系信息</view>
+    
+    <view class="form-item">
+      <text class="form-label">联系人</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入联系人姓名"
+        value="{{form.name}}"
+        bindinput="onInput"
+        data-field="name"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">联系电话</text>
+      <input 
+        class="form-input" 
+        type="number"
+        placeholder="请输入手机号码"
+        value="{{form.phone}}"
+        bindinput="onInput"
+        data-field="phone"
+        maxlength="11"
+      />
+    </view>
+
+    <view class="form-item" wx:if="{{serviceType === 'onsite'}}">
+      <text class="form-label">服务地址</text>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入详细地址，包含省市区"
+        value="{{form.address}}"
+        bindinput="onInput"
+        data-field="address"
+      />
+    </view>
+  </view>
+
+  <!-- GPU信息 -->
+  <view class="form-section">
+    <view class="form-title">显卡信息</view>
+    
+    <view class="form-item">
+      <text class="form-label">显卡型号</text>
+      <input 
+        class="form-input" 
+        placeholder="如：RTX 3080、GTX 1660 Super"
+        value="{{form.gpuModel}}"
+        bindinput="onInput"
+        data-field="gpuModel"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">故障现象</text>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请详细描述显卡出现的问题，如花屏、黑屏、无法开机等"
+        value="{{form.issue}}"
+        bindinput="onInput"
+        data-field="issue"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">购买时间</text>
+      <picker mode="selector" range="{{purchaseTimeRange}}" bindchange="onPurchaseTimeChange">
+        <view class="form-picker {{form.purchaseTime ? '' : 'placeholder'}}">
+          {{form.purchaseTime || '请选择购买时间'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 企业信息（可选） -->
+  <view class="form-section">
+    <view class="form-title">
+      企业信息
+      <text class="optional">（选填，企业用户免费享一次上门检测）</text>
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">企业名称</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入企业名称"
+        value="{{form.companyName}}"
+        bindinput="onInput"
+        data-field="companyName"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">统一社会信用代码</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入18位信用代码"
+        value="{{form.creditCode}}"
+        bindinput="onInput"
+        data-field="creditCode"
+        maxlength="18"
+      />
+    </view>
+  </view>
+
+  <!-- 预约时间 -->
+  <view class="form-section">
+    <view class="form-title">预约时间</view>
+    
+    <view class="form-item">
+      <text class="form-label">期望日期</text>
+      <picker mode="date" start="{{today}}" bindchange="onDateChange">
+        <view class="form-picker {{form.date ? '' : 'placeholder'}}">
+          {{form.date || '请选择日期'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">期望时段</text>
+      <view class="time-slots">
+        <view 
+          class="time-slot {{form.timeSlot === item ? 'active' : ''}}"
+          wx:for="{{timeSlots}}"
+          wx:key="item"
+          bindtap="selectTimeSlot"
+          data-slot="{{item}}"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="bottom-bar">
+    <view class="price-info">
+      <text class="price-label">合计：</text>
+      <text class="price-value">{{serviceType === 'phone' ? '¥99' : '¥299起'}}</text>
+    </view>
+    <button class="btn-submit" bindtap="submitBooking">立即预约</button>
+  </view>
+</view>

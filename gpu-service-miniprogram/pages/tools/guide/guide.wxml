@@ -1,0 +1,69 @@
+<view class="container">
+  <!-- 工具信息 -->
+  <view class="tool-header">
+    <view class="tool-icon">{{guide.icon}}</view>
+    <view class="tool-info">
+      <text class="tool-name">{{guide.name}}</text>
+      <text class="tool-version">{{guide.version}}</text>
+    </view>
+  </view>
+
+  <!-- 使用步骤 -->
+  <scroll-view class="guide-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="section">
+      <view class="section-title">工具简介</view>
+      <view class="section-text">{{guide.intro}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">使用步骤</view>
+      <view class="step-list">
+        <view class="step-item" wx:for="{{guide.steps}}" wx:key="index">
+          <view class="step-number">{{index + 1}}</view>
+          <view class="step-content">
+            <text class="step-title">{{item.title}}</text>
+            <text class="step-desc">{{item.desc}}</text>
+            <view class="step-image" wx:if="{{item.image}}">
+              <text class="image-placeholder">[{{item.image}}]</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{guide.notes.length > 0}}">
+      <view class="section-title">注意事项</view>
+      <view class="note-list">
+        <view class="note-item" wx:for="{{guide.notes}}" wx:key="index">
+          <text class="note-icon">⚠️</text>
+          <text class="note-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">常见问题</view>
+      <view class="faq-list">
+        <view class="faq-item" wx:for="{{guide.faqs}}" wx:key="index">
+          <view class="faq-question">
+            <text class="faq-q">Q:</text>
+            <text>{{item.q}}</text>
+          </view>
+          <view class="faq-answer">
+            <text class="faq-a">A:</text>
+            <text>{{item.a}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view style="height: 150rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <button class="btn-back" bindtap="goBack">返回</button>
+    <button class="btn-download" bindtap="downloadTool">下载工具</button>
+  </view>
+</view>

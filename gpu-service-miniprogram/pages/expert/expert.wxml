@@ -1,0 +1,192 @@
+<view class="container">
+  <!-- 服务套餐头部 -->
+  <view class="service-header">
+    <text class="header-title">专家服务</text>
+    <text class="header-subtitle">从AI检测到专家上门，一站式GPU维修服务</text>
+  </view>
+
+  <!-- 服务套餐 -->
+  <view class="service-tiers">
+    <view class="tier-card tier-1">
+      <view class="tier-badge">基础版</view>
+      <view class="tier-header">
+        <text class="tier-name">AI 智能检测</text>
+        <text class="tier-price">免费</text>
+      </view>
+      <view class="tier-features">
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>智能问答故障诊断</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>初步问题分析报告</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>维修建议与方案</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>24小时在线服务</text>
+        </view>
+      </view>
+      <button class="btn-tier" bindtap="startAIChat">立即咨询</button>
+    </view>
+
+    <view class="tier-card tier-2">
+      <view class="tier-badge hot">推荐</view>
+      <view class="tier-header">
+        <text class="tier-name">专家一对一</text>
+        <text class="tier-price">¥99</text>
+      </view>
+      <view class="tier-features">
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>资深工程师电话问诊</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>深度故障分析</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>远程协助诊断</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>维修报价预估</text>
+        </view>
+        <view class="feature-item highlight">
+          <text class="check-icon">✓</text>
+          <text>含1次免费上门检测</text>
+        </view>
+      </view>
+      <button class="btn-tier primary" bindtap="bookExpert">预约专家</button>
+    </view>
+
+    <view class="tier-card tier-3">
+      <view class="tier-badge pro">企业版</view>
+      <view class="tier-header">
+        <text class="tier-name">上门服务</text>
+        <text class="tier-price">¥299起</text>
+      </view>
+      <view class="tier-features">
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>工程师上门检测</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>专业设备现场诊断</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>现场维修或取件</text>
+        </view>
+        <view class="feature-item">
+          <text class="check-icon">✓</text>
+          <text>30天售后保障</text>
+        </view>
+        <view class="feature-item highlight">
+          <text class="check-icon">✓</text>
+          <text>企业客户优先响应</text>
+        </view>
+      </view>
+      <button class="btn-tier" bindtap="bookOnsite">预约上门</button>
+    </view>
+  </view>
+
+  <!-- 企业信息填写提示 -->
+  <view class="notice-card" wx:if="{{!hasCompanyInfo}}">
+    <text class="notice-icon">🏢</text>
+    <view class="notice-content">
+      <text class="notice-title">企业用户专享</text>
+      <text class="notice-text">填写企业信息即可免费享受一次上门检测服务</text>
+    </view>
+    <button class="btn-fill" bindtap="fillCompanyInfo">去填写</button>
+  </view>
+
+  <!-- 服务流程 -->
+  <view class="process-section">
+    <view class="section-title">服务流程</view>
+    <view class="process-flow">
+      <view class="process-item">
+        <view class="process-icon">1</view>
+        <text class="process-name">在线咨询</text>
+        <text class="process-desc">AI或专家初步诊断</text>
+      </view>
+      <view class="process-arrow">→</view>
+      <view class="process-item">
+        <view class="process-icon">2</view>
+        <text class="process-name">预约服务</text>
+        <text class="process-desc">选择服务套餐</text>
+      </view>
+      <view class="process-arrow">→</view>
+      <view class="process-item">
+        <view class="process-icon">3</view>
+        <text class="process-name">深度检测</text>
+        <text class="process-desc">电话或上门服务</text>
+      </view>
+      <view class="process-arrow">→</view>
+      <view class="process-item">
+        <view class="process-icon">4</view>
+        <text class="process-name">维修报价</text>
+        <text class="process-desc">透明价格方案</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 专家列表 -->
+  <view class="expert-section">
+    <view class="section-title">专家团队</view>
+    <scroll-view scroll-x class="expert-list">
+      <view class="expert-card" wx:for="{{experts}}" wx:key="id">
+        <image class="expert-avatar" src="{{item.avatar}}" mode="aspectFill"/>
+        <text class="expert-name">{{item.name}}</text>
+        <text class="expert-title">{{item.title}}</text>
+        <text class="expert-exp">{{item.experience}}年经验</text>
+        <text class="expert-specialty">{{item.specialty}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 服务保障 -->
+  <view class="guarantee-section">
+    <view class="section-title">服务保障</view>
+    <view class="guarantee-grid">
+      <view class="guarantee-item">
+        <text class="guarantee-icon">🔒</text>
+        <text class="guarantee-name">信息保密</text>
+        <text class="guarantee-desc">企业信息严格保密</text>
+      </view>
+      <view class="guarantee-item">
+        <text class="guarantee-icon">✅</text>
+        <text class="guarantee-name">专业认证</text>
+        <text class="guarantee-desc">工程师持证上岗</text>
+      </view>
+      <view class="guarantee-item">
+        <text class="guarantee-icon">🛡️</text>
+        <text class="guarantee-name">售后保障</text>
+        <text class="guarantee-desc">30天免费返修</text>
+      </view>
+      <view class="guarantee-item">
+        <text class="guarantee-icon">💯</text>
+        <text class="guarantee-name">价格透明</text>
+        <text class="guarantee-desc">无隐形消费</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部咨询按钮 -->
+  <view class="bottom-bar">
+    <button class="btn-contact" open-type="contact">
+      <text class="contact-icon">💬</text>
+      <text>在线客服</text>
+    </button>
+    <button class="btn-call" bindtap="callHotline">
+      <text class="call-icon">📞</text>
+      <text>电话咨询</text>
+    </button>
+  </view>
+</view>

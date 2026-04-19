@@ -3,18 +3,24 @@
  */
 
 // 环境标识：dev=开发环境 prod=生产环境
-const ENV = 'dev'
+const ENV = 'test'
 
 const CONFIG = {
   dev: {
-    baseUrl: 'https://gpu.yuboshi.club',
-    uploadUrl: 'https://gpu.yuboshi.club/api/upload'
-    // baseUrl: 'http://127.0.0.1:8080',
-    // uploadUrl: 'http://127.0.0.1:8080/api/upload'
+    baseUrl: 'https://gpu.yuboshi.club:8443',
+    uploadUrl: 'https://gpu.yuboshi.club:8443/api/upload'
+    // baseUrl: 'http://110.42.209.219:8080',
+    // uploadUrl: 'http://110.42.209.219:8080/api/upload'
+  },
+  test: {
+    baseUrl: 'https://gpu.yuboshi.club:8443',
+    uploadUrl: 'https://gpu.yuboshi.club:8443/api/upload'
   },
   prod: {
-    baseUrl: 'https://gpu.yuboshi.club',
-    uploadUrl: 'https://gpu.yuboshi.club/api/upload'
+    baseUrl: 'https://gpu.yuboshi.club:8443',
+    uploadUrl: 'https://gpu.yuboshi.club:8443/api/upload'
+    // baseUrl: 'http://110.42.209.219:8080',
+    // uploadUrl: 'http://110.42.209.219:8080/api/upload'
   }
 }
 
