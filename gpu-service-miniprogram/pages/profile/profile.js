@@ -16,19 +16,31 @@ Page({
       bookingCount: 0,
       orderCount: 0
     },
-    cacheSize: '0KB'
+    cacheSize: '0KB',
+    userRoles: [],
+    isService: false,
+    isEngineer: false,
+    isInspector: false,
+    isAdmin: false,
+    showWorkMenu: false,
+    pendingCount: 0,
+    pendingAcceptCount: 0,
+    engineerTaskCount: 0,
+    inspectionCount: 0
   },
 
   onLoad() {
     this.loadUserInfo()
     this.loadCompanyInfo()
     this.loadStats()
+    this.loadUserRole()
     this.calculateCacheSize()
   },
 
   onShow() {
     this.loadCompanyInfo()
     this.loadStats()
+    this.loadUserRole()
   },
 
   loadUserInfo() {
@@ -39,6 +51,30 @@ Page({
         avatarUrl: userInfo.avatarUrl || '',
         isEnterprise: !!wx.getStorageSync('companyInfo')
       }
+    })
+  },
+
+  loadUserRole() {
+    const role = wx.getStorageSync('userRole') || 'customer'
+    const { ROLE_TEXT } = require('../../utils/constants')
+    const roleMap = {
+      isService: role === 'service' || role === 'admin',
+      isEngineer: role === 'engineer' || role === 'admin',
+      isInspector: role === 'inspector' || role === 'admin',
+      isAdmin: role === 'admin',
+      showWorkMenu: true // 所有人都能看到工单管理
+    }
+    // 角色标签
+    const roles = []
+    if (role === 'customer') roles.push('客户')
+    if (roleMap.isService) roles.push('客服')
+    if (roleMap.isEngineer) roles.push('工程师')
+    if (roleMap.isInspector) roles.push('质检员')
+    if (roleMap.isAdmin) roles.push('管理员')
+
+    this.setData({
+      ...roleMap,
+      userRoles: roles
     })
   },
 
@@ -69,63 +105,67 @@ Page({
   loadStats() {
     const chatHistory = wx.getStorageSync('chatHistory') || []
     const bookings = wx.getStorageSync('bookings') || []
-    
+
     this.setData({
       stats: {
         consultCount: chatHistory.length,
         bookingCount: bookings.length,
-        orderCount: 0 // 订单数量需要从订单数据获取
+        orderCount: 0
       }
     })
   },
 
   calculateCacheSize() {
-    // 简化的缓存大小计算
-    this.setData({
-      cacheSize: '< 1MB'
-    })
+    this.setData({ cacheSize: '< 1MB' })
   },
 
   onChooseAvatar(e) {
     const avatarUrl = e.detail.avatarUrl
-    this.setData({
-      'userInfo.avatarUrl': avatarUrl
-    })
-    
+    this.setData({ 'userInfo.avatarUrl': avatarUrl })
     const userInfo = wx.getStorageSync('userInfo') || {}
     userInfo.avatarUrl = avatarUrl
     wx.setStorageSync('userInfo', userInfo)
   },
 
-  goToBookings() {
-    wx.navigateTo({
-      url: '/pages/profile/bookings/bookings'
-    })
+  // 工单相关导航
+  goToCreateOrder() {
+    wx.navigateTo({ url: '/pages/repair/create/create' })
   },
 
-  goToOrders() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none'
-    })
+  goToMyOrders() {
+    wx.navigateTo({ url: '/pages/repair/list/list' })
+  },
+
+  goToPendingOrders() {
+    wx.navigateTo({ url: '/pages/repair/list/list?tab=pending' })
+  },
+
+  goToAllOrders() {
+    wx.navigateTo({ url: '/pages/repair/list/list?tab=all' })
+  },
+
+  goToEngineerTasks() {
+    wx.navigateTo({ url: '/pages/repair/list/list?tab=engineer' })
+  },
+
+  goToInspectionTasks() {
+    wx.navigateTo({ url: '/pages/repair/list/list?tab=inspection' })
+  },
+
+  goToBookings() {
+    wx.navigateTo({ url: '/pages/profile/bookings/bookings' })
   },
 
   goToHistory() {
-    wx.navigateTo({
-      url: '/pages/profile/history/history'
-    })
+    wx.navigateTo({ url: '/pages/profile/history/history' })
   },
 
   goToFavorites() {
-    wx.navigateTo({
-      url: '/pages/profile/favorites/favorites'
-    })
+    wx.navigateTo({ url: '/pages/profile/favorites/favorites' })
   },
 
   editCompanyInfo() {
-    wx.navigateTo({
-      url: '/pages/profile/company/company'
-    })
+    wx.navigateTo({ url: '/pages/profile/company/company' })
   },
 
   clearCache() {
@@ -154,20 +194,14 @@ Page({
   },
 
   goToAbout() {
-    wx.navigateTo({
-      url: '/pages/profile/about/about'
-    })
+    wx.navigateTo({ url: '/pages/profile/about/about' })
   },
 
   goToFeedback() {
-    wx.navigateTo({
-      url: '/pages/profile/feedback/feedback'
-    })
+    wx.navigateTo({ url: '/pages/profile/feedback/feedback' })
   },
 
   callHotline() {
-    wx.makePhoneCall({
-      phoneNumber: '400-888-8888'
-    })
+    wx.makePhoneCall({ phoneNumber: '400-888-8888' })
   }
 })

@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">确认签收</view>
+    <view class="form-group">
+      <text class="form-label">质保期(天)</text>
+      <input class="form-input" type="number" placeholder="如: 90" value="{{form.warrantyDays}}" bindinput="onInput" data-field="warrantyDays" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">质保范围</text>
+      <textarea class="form-textarea" placeholder="质保范围说明（选填）" value="{{form.warrantyScope}}" bindinput="onInput" data-field="warrantyScope" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">客户签名</text>
+      <canvas class="signature-canvas" canvas-id="signature" disable-scroll="true"
+        bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd"></canvas>
+      <view class="signature-actions">
+        <text class="sig-hint">请在上方签名</text>
+        <view class="sig-clear" bindtap="clearSignature">清除</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="signDelivery" loading="{{submitting}}">确认签收</button>
+  </view>
+</view>

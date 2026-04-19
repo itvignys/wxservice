@@ -50,6 +50,21 @@
   margin-bottom: 12rpx;
 }
 
+.user-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.role-tag {
+  display: inline-block;
+  font-size: 20rpx;
+  color: var(--primary);
+  background: rgba(74, 144, 217, 0.2);
+  padding: 6rpx 16rpx;
+  border-radius: 16rpx;
+}
+
 .user-level {
   display: inline-block;
   font-size: 22rpx;
@@ -57,6 +72,64 @@
   background: rgba(78, 205, 196, 0.2);
   padding: 8rpx 20rpx;
   border-radius: 20rpx;
+}
+
+/* 快捷报修 */
+.quick-repair {
+  display: flex;
+  align-items: center;
+  margin: 20rpx;
+  padding: 30rpx;
+  background: linear-gradient(135deg, #4a90d9, #5d4e9c);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 20rpx rgba(74, 144, 217, 0.3);
+}
+
+.quick-repair-icon {
+  font-size: 48rpx;
+  margin-right: 24rpx;
+}
+
+.quick-repair-text {
+  flex: 1;
+}
+
+.quick-repair-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.quick-repair-desc {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4rpx;
+}
+
+.quick-repair-arrow {
+  font-size: 40rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 徽标 */
+.menu-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 20rpx;
+  min-width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  border-radius: 18rpx;
+  padding: 0 10rpx;
+  margin-right: 12rpx;
+}
+
+.menu-badge.warn {
+  background: var(--warning);
+  color: #1a1a2e;
 }
 
 .user-stats {

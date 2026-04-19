@@ -38,6 +38,9 @@ public class WxUser {
     /** 服务等级: 0-AI问答 1-专家咨询 2-上门服务 */
     private Integer serviceLevel;
 
+    /** 角色: customer-客户 service-客服 engineer-工程师 inspector-质检员 admin-管理员 */
+    private String role;
+
     /** 创建时间 */
     private LocalDateTime createdAt;
 

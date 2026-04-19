@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">受理工单</view>
+    <view class="form-group">
+      <text class="form-label">指派工程师</text>
+      <picker mode="selector" range="{{engineers}}" range-key="name" bindchange="onEngineerChange">
+        <view class="form-picker {{selectedEngineer ? '' : 'placeholder'}}">
+          {{selectedEngineer ? selectedEngineer.name : '请选择工程师'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="acceptOrder" loading="{{submitting}}">确认受理</button>
+  </view>
+</view>

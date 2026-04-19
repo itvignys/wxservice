@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">质检报告</view>
+    <view class="form-group">
+      <text class="form-label">质检结论</text>
+      <view class="radio-group">
+        <view class="radio-item {{form.conclusion === 'passed' ? 'active pass' : ''}}" bindtap="onConclusionChange" data-value="passed">通过</view>
+        <view class="radio-item {{form.conclusion === 'failed' ? 'active fail' : ''}}" bindtap="onConclusionChange" data-value="failed">不通过</view>
+      </view>
+    </view>
+    <view class="form-group" wx:if="{{form.conclusion === 'failed'}}">
+      <text class="form-label">不通过原因</text>
+      <textarea class="form-textarea" placeholder="请说明质检不通过的原因" value="{{form.failReason}}" bindinput="onInput" data-field="failReason" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">检测项目</text>
+      <view class="check-list">
+        <view class="check-item" wx:for="{{checkItems}}" wx:key="index">
+          <view class="check-toggle {{item.checked ? 'checked' : ''}}" bindtap="toggleCheck" data-index="{{index}}">
+            {{item.checked ? '✓' : ''}}
+          </view>
+          <text class="check-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="form-group">
+      <text class="form-label">测试照片</text>
+      <view class="image-list">
+        <view class="image-item" wx:for="{{testPhotos}}" wx:key="*this">
+          <image src="{{item}}" mode="aspectFill" />
+          <view class="image-del" bindtap="deleteImage" data-index="{{index}}">✕</view>
+        </view>
+        <view class="image-add" bindtap="chooseImage" wx:if="{{testPhotos.length < 9}}">
+          <text class="add-icon">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="submitReport" loading="{{submitting}}">提交质检报告</button>
+  </view>
+</view>

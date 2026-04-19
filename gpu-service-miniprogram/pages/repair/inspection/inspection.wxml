@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">检测信息</view>
+    <view class="form-group">
+      <text class="form-label">故障主因</text>
+      <textarea class="form-textarea" placeholder="请描述主要故障原因" value="{{form.mainCause}}" bindinput="onInput" data-field="mainCause" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">次因（选填）</text>
+      <input class="form-input" placeholder="其他故障原因" value="{{form.secondaryCause}}" bindinput="onInput" data-field="secondaryCause" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">故障分类</text>
+      <picker mode="selector" range="{{faultCategories}}" bindchange="onCategoryChange">
+        <view class="form-picker {{form.faultCategory ? '' : 'placeholder'}}">
+          {{form.faultCategory || '请选择故障分类'}}
+        </view>
+      </picker>
+    </view>
+    <view class="form-group">
+      <text class="form-label">维修方案</text>
+      <textarea class="form-textarea" placeholder="请描述维修方案" value="{{form.repairScheme}}" bindinput="onInput" data-field="repairScheme" />
+    </view>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">预估信息</view>
+    <view class="form-group">
+      <text class="form-label">预估工时(小时)</text>
+      <input class="form-input" type="digit" placeholder="如: 2.5" value="{{form.estimatedHours}}" bindinput="onInput" data-field="estimatedHours" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">配件费用(元)</text>
+      <input class="form-input" type="digit" placeholder="0.00" value="{{form.estimatedCostParts}}" bindinput="onInput" data-field="estimatedCostParts" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">人工费用(元)</text>
+      <input class="form-input" type="digit" placeholder="0.00" value="{{form.estimatedCostLabor}}" bindinput="onInput" data-field="estimatedCostLabor" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">上门费用(元)</text>
+      <input class="form-input" type="digit" placeholder="0.00" value="{{form.estimatedCostVisit}}" bindinput="onInput" data-field="estimatedCostVisit" />
+    </view>
+  </view>
+
+  <view class="form-section">
+    <view class="section-title">检测照片</view>
+    <view class="image-list">
+      <view class="image-item" wx:for="{{inspectionPhotos}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill" />
+        <view class="image-del" bindtap="deleteImage" data-index="{{index}}">✕</view>
+      </view>
+      <view class="image-add" bindtap="chooseImage" wx:if="{{inspectionPhotos.length < 9}}">
+        <text class="add-icon">+</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="submitReport" loading="{{submitting}}">提交检测报告</button>
+  </view>
+</view>

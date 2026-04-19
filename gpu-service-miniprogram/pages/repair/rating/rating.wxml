@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">服务评价</view>
+    <view class="form-group">
+      <text class="form-label">服务评分</text>
+      <view class="star-rating">
+        <view class="star {{index < rating ? 'active' : ''}}" wx:for="{{5}}" wx:key="*this" bindtap="setRating" data-value="{{index + 1}}">
+          ★
+        </view>
+      </view>
+    </view>
+    <view class="form-group">
+      <text class="form-label">评价内容</text>
+      <textarea class="form-textarea" placeholder="请对我们的服务进行评价" value="{{form.review}}" bindinput="onInput" data-field="review" maxlength="300" />
+      <text class="char-count">{{form.review.length || 0}}/300</text>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="submitRating" loading="{{submitting}}">提交评价</button>
+  </view>
+</view>

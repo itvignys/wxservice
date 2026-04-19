@@ -14,7 +14,17 @@
     "pages/profile/about/about",
     "pages/profile/feedback/feedback",
     "pages/expert/expert",
-    "pages/expert/book/book"
+    "pages/expert/book/book",
+    "pages/repair/create/create",
+    "pages/repair/list/list",
+    "pages/repair/detail/detail",
+    "pages/repair/inspection/inspection",
+    "pages/repair/quotation/quotation",
+    "pages/repair/process/process",
+    "pages/repair/quality/quality",
+    "pages/repair/accept/accept",
+    "pages/repair/sign/sign",
+    "pages/repair/rating/rating"
   ],
   "window": {
     "backgroundTextStyle": "light",
