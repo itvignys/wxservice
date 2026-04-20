@@ -1,5 +1,5 @@
 // API基础配置
-const BASE_URL = 'https://your-api-domain.com'
+const BASE_URL = 'http://localhost:8080'
 
 // 统一请求方法
 function request(options) {
