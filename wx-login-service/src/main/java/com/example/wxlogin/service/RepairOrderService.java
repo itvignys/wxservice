@@ -1,10 +1,8 @@
 package com.example.wxlogin.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.wxlogin.entity.RepairOrder;
 
-import java.util.List;
 import java.util.Map;
 
 /**
