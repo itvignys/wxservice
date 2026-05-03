@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="form-section">
+    <view class="section-title">{{quotationTypeText}}</view>
+    <view class="form-group" wx:if="{{quotationType === 'supplement'}}">
+      <text class="form-label">补充原因</text>
+      <textarea class="form-textarea" placeholder="请说明补充报价的原因" value="{{form.supplementReason}}" bindinput="onInput" data-field="supplementReason" />
+    </view>
+    <view class="form-group" wx:if="{{quotationType === 'revision'}}">
+      <text class="form-label">修订原因</text>
+      <textarea class="form-textarea" placeholder="请说明修订报价的原因" value="{{form.discountReason}}" bindinput="onInput" data-field="discountReason" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">费用明细</text>
+      <view class="fee-list">
+        <view class="fee-item" wx:for="{{feeItems}}" wx:key="index">
+          <input class="fee-name" placeholder="项目名称" value="{{item.name}}" bindinput="onFeeInput" data-index="{{index}}" data-field="name" />
+          <input class="fee-amount" type="digit" placeholder="金额" value="{{item.amount}}" bindinput="onFeeInput" data-index="{{index}}" data-field="amount" />
+          <view class="fee-del" bindtap="deleteFeeItem" data-index="{{index}}">✕</view>
+        </view>
+      </view>
+      <view class="add-fee" bindtap="addFeeItem">+ 添加费用项</view>
+    </view>
+    <view class="form-group">
+      <text class="form-label">优惠金额(元)</text>
+      <input class="form-input" type="digit" placeholder="0.00" value="{{form.discountAmount}}" bindinput="onInput" data-field="discountAmount" />
+    </view>
+    <view class="form-group" wx:if="{{form.discountAmount > 0}}">
+      <text class="form-label">优惠原因</text>
+      <input class="form-input" placeholder="请填写优惠原因" value="{{form.discountReason}}" bindinput="onInput" data-field="discountReason" />
+    </view>
+  </view>
+
+  <view class="summary-card">
+    <view class="summary-row">
+      <text class="summary-label">费用合计</text>
+      <text class="summary-value">¥{{totalAmount}}</text>
+    </view>
+    <view class="summary-row" wx:if="{{form.discountAmount > 0}}">
+      <text class="summary-label">优惠</text>
+      <text class="summary-value discount">-¥{{form.discountAmount}}</text>
+    </view>
+    <view class="summary-row total">
+      <text class="summary-label">实付金额</text>
+      <text class="summary-value accent">¥{{actualAmount}}</text>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="submitQuotation" loading="{{submitting}}">提交报价</button>
+  </view>
+</view>

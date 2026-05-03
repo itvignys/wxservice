@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="page-header">
+    <text class="header-title">咨询历史</text>
+  </view>
+
+  <view class="history-list" wx:if="{{history.length > 0}}">
+    <view class="history-card" wx:for="{{history}}" wx:key="index" bindtap="viewDetail" data-index="{{index}}">
+      <view class="history-header">
+        <text class="history-title">{{item.title || 'GPU故障咨询'}}</text>
+        <text class="history-time">{{item.time}}</text>
+      </view>
+      <view class="history-preview">
+        <text class="preview-text">{{item.preview}}</text>
+      </view>
+      <view class="history-footer">
+        <text class="message-count">{{item.messageCount}}条对话</text>
+        <text class="view-detail">查看详情 ›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">💬</text>
+    <text class="empty-text">暂无咨询记录</text>
+    <button class="btn-chat" bindtap="goToChat">开始咨询</button>
+  </view>
+
+  <!-- 清空按钮 -->
+  <view class="clear-section" wx:if="{{history.length > 0}}">
+    <button class="btn-clear" bindtap="clearHistory">清空历史</button>
+  </view>
+</view>

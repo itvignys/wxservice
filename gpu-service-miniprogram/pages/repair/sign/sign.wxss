@@ -1,0 +1,47 @@
+.container { padding-bottom: 140rpx; }
+
+.form-section { margin: 20rpx; background: var(--bg-card); border-radius: 16rpx; padding: 30rpx; }
+
+.section-title {
+  font-size: 30rpx; font-weight: bold; color: var(--text-primary);
+  margin-bottom: 24rpx; display: flex; align-items: center;
+}
+
+.section-title::before {
+  content: ''; width: 6rpx; height: 28rpx;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  margin-right: 16rpx; border-radius: 3rpx;
+}
+
+.form-group { margin-bottom: 24rpx; }
+.form-label { display: block; font-size: 26rpx; color: var(--text-secondary); margin-bottom: 12rpx; }
+
+.form-input {
+  background: rgba(255, 255, 255, 0.05); border: 2rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 12rpx; padding: 20rpx 24rpx; font-size: 28rpx; color: var(--text-primary);
+}
+
+.form-textarea {
+  background: rgba(255, 255, 255, 0.05); border: 2rpx solid rgba(255, 255, 255, 0.1);
+  border-radius: 12rpx; padding: 20rpx 24rpx; font-size: 28rpx; color: var(--text-primary);
+  width: 100%; height: 120rpx; box-sizing: border-box;
+}
+
+.signature-canvas {
+  width: 100%; height: 300rpx; background: rgba(255, 255, 255, 0.05);
+  border: 2rpx solid rgba(255, 255, 255, 0.1); border-radius: 12rpx;
+}
+
+.signature-actions {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 12rpx;
+}
+
+.sig-hint { font-size: 22rpx; color: var(--text-secondary); }
+.sig-clear { font-size: 24rpx; color: var(--accent); padding: 8rpx 16rpx; }
+
+.btn-area {
+  position: fixed; bottom: 0; left: 0; right: 0; padding: 20rpx 30rpx;
+  padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom);
+  background: var(--bg-dark);
+}
+.btn-area .btn-primary { width: 100%; }

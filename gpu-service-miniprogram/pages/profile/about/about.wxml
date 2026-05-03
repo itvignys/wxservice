@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- Logo区域 -->
+  <view class="logo-section">
+    <view class="logo-icon">🎮</view>
+    <text class="app-name">GPU智修专家</text>
+    <text class="app-version">Version 1.0.0</text>
+  </view>
+
+  <!-- 简介 -->
+  <view class="intro-section">
+    <text class="intro-text">专业的GPU显卡维修服务平台，提供AI智能检测、专家一对一咨询、上门维修等一站式服务。</text>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="feature-section">
+    <view class="section-title">核心功能</view>
+    <view class="feature-list">
+      <view class="feature-item">
+        <text class="feature-icon">🤖</text>
+        <view class="feature-content">
+          <text class="feature-name">AI智能检测</text>
+          <text class="feature-desc">智能问答快速诊断GPU故障</text>
+        </view>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">👨‍🔧</text>
+        <view class="feature-content">
+          <text class="feature-name">专家服务</text>
+          <text class="feature-desc">资深工程师一对一电话/上门服务</text>
+        </view>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">📚</text>
+        <view class="feature-content">
+          <text class="feature-name">知识库</text>
+          <text class="feature-desc">丰富的显卡维修技术资料</text>
+        </view>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">🛠️</text>
+        <view class="feature-content">
+          <text class="feature-name">检测工具</text>
+          <text class="feature-desc">专业GPU检测工具下载与教程</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-section">
+    <view class="section-title">联系我们</view>
+    <view class="contact-list">
+      <view class="contact-item">
+        <text class="contact-label">客服热线</text>
+        <text class="contact-value" bindtap="callHotline">400-888-8888</text>
+      </view>
+      <view class="contact-item">
+        <text class="contact-label">服务时间</text>
+        <text class="contact-value">周一至周日 9:00-18:00</text>
+      </view>
+      <view class="contact-item">
+        <text class="contact-label">官方网站</text>
+        <text class="contact-value">www.gpu-repair.com</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版权信息 -->
+  <view class="copyright-section">
+    <text class="copyright-text">© 2026 GPU智修专家 版权所有</text>
+    <text class="copyright-text">专业显卡维修服务平台</text>
+  </view>
+</view>

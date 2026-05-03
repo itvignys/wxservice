@@ -1,0 +1,131 @@
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <text class="header-title">企业认证</text>
+    <text class="header-subtitle">认证企业用户可享受一次免费上门检测服务</text>
+  </view>
+
+  <!-- 认证状态 -->
+  <view class="status-card {{companyInfo.status}}" wx:if="{{companyInfo.name}}">
+    <text class="status-icon">{{companyInfo.status === 'verified' ? '✅' : '⏳'}}</text>
+    <text class="status-title">{{companyInfo.status === 'verified' ? '已认证' : '审核中'}}</text>
+    <text class="status-desc">{{companyInfo.status === 'verified' ? '您已享受企业用户权益' : '您的认证信息正在审核中'}}</text>
+  </view>
+
+  <!-- 表单 -->
+  <view class="form-section">
+    <view class="form-title">企业信息</view>
+    
+    <view class="form-item">
+      <text class="form-label">企业名称</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入营业执照上的企业全称"
+        value="{{form.name}}"
+        bindinput="onInput"
+        data-field="name"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">统一社会信用代码</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入18位统一社会信用代码"
+        value="{{form.code}}"
+        bindinput="onInput"
+        data-field="code"
+        maxlength="18"
+      />
+      <text class="form-hint">可在营业执照上找到，共18位字母和数字</text>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">营业执照</text>
+      <view class="upload-area" bindtap="chooseLicense" wx:if="{{!form.licenseImage}}">
+        <text class="upload-icon">📷</text>
+        <text class="upload-text">点击上传营业执照照片</text>
+        <text class="upload-hint">支持jpg、png格式，文件小于5MB</text>
+      </view>
+      <view class="upload-preview" wx:else>
+        <image class="preview-image" src="{{form.licenseImage}}" mode="aspectFit" bindtap="previewImage"/>
+        <view class="preview-delete" bindtap="deleteLicense">删除</view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">联系人</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入企业联系人姓名"
+        value="{{form.contact}}"
+        bindinput="onInput"
+        data-field="contact"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">联系电话</text>
+      <input 
+        class="form-input" 
+        type="number"
+        placeholder="请输入联系人手机号码"
+        value="{{form.phone}}"
+        bindinput="onInput"
+        data-field="phone"
+        maxlength="11"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">企业地址</text>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入企业详细地址"
+        value="{{form.address}}"
+        bindinput="onInput"
+        data-field="address"
+      />
+    </view>
+  </view>
+
+  <!-- 权益说明 -->
+  <view class="benefits-section">
+    <view class="section-title">企业用户权益</view>
+    <view class="benefit-list">
+      <view class="benefit-item">
+        <text class="benefit-icon">🎁</text>
+        <view class="benefit-content">
+          <text class="benefit-name">免费上门检测</text>
+          <text class="benefit-desc">价值299元的一次免费上门检测服务</text>
+        </view>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">⚡</text>
+        <view class="benefit-content">
+          <text class="benefit-name">优先响应</text>
+          <text class="benefit-desc">企业用户享受VIP通道，优先安排服务</text>
+        </view>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">💰</text>
+        <view class="benefit-content">
+          <text class="benefit-name">专属折扣</text>
+          <text class="benefit-desc">维修服务享受9折优惠</text>
+        </view>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">📋</text>
+        <view class="benefit-content">
+          <text class="benefit-name">发票服务</text>
+          <text class="benefit-desc">支持开具增值税普通/专用发票</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="bottom-bar">
+    <button class="btn-submit {{isFormValid ? '' : 'disabled'}}" bindtap="submitForm">提交认证</button>
+  </view>
+</view>

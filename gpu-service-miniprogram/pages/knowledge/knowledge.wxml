@@ -1,0 +1,84 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrapper">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索故障症状、关键词..."
+        placeholder-class="search-placeholder"
+        value="{{searchKeyword}}"
+        bindinput="onSearch"
+      />
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view class="category-tabs" scroll-x show-scrollbar="{{false}}">
+    <view class="tab-item {{currentCategory === 'all' ? 'active' : ''}}" bindtap="switchCategory" data-category="all">
+      全部
+    </view>
+    <view 
+      wx:for="{{categories}}" 
+      wx:key="id" 
+      class="tab-item {{currentCategory === item.id ? 'active' : ''}}"
+      bindtap="switchCategory"
+      data-category="{{item.id}}"
+    >
+      <text class="tab-icon">{{item.icon}}</text>
+      <text>{{item.name}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 问题列表 -->
+  <scroll-view class="problem-list" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="problem-card" wx:for="{{filteredProblems}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <view class="problem-header">
+        <view class="problem-icon">{{item.icon}}</view>
+        <view class="problem-title-wrap">
+          <text class="problem-title">{{item.title}}</text>
+          <view class="problem-tags">
+            <text class="tag tag-primary">{{item.type}}</text>
+            <text class="tag tag-success">{{item.successRate}}</text>
+          </view>
+        </view>
+        <view class="difficulty">{{item.difficultyStr}}</view>
+      </view>
+      
+      <view class="problem-body">
+        <view class="info-row">
+          <text class="info-label">常见原因</text>
+          <text class="info-text">{{item.causes}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">排查方法</text>
+          <text class="info-text">{{item.diagnosis}}</text>
+        </view>
+      </view>
+
+      <view class="problem-footer">
+        <view class="footer-item">
+          <text class="footer-label">维修成本</text>
+          <text class="footer-value">{{item.cost}}</text>
+        </view>
+        <view class="footer-arrow">查看详情 →</view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{filteredProblems.length === 0}}">
+      <text class="empty-icon">🔍</text>
+      <text class="empty-text">未找到相关问题</text>
+      <text class="empty-sub">尝试使用其他关键词搜索</text>
+    </view>
+  </scroll-view>
+
+  <!-- 底部咨询入口 -->
+  <view class="consult-bar">
+    <view class="consult-info">
+      <text class="consult-title">没找到答案？</text>
+      <text class="consult-desc">专家一对一咨询</text>
+    </view>
+    <button class="btn-consult" bindtap="goToExpert">立即咨询</button>
+  </view>
+</view>

@@ -1,0 +1,232 @@
+/* 详情页面样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* 头部 */
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  padding: 30rpx;
+  background: var(--bg-card);
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.05);
+}
+
+.header-icon {
+  width: 100rpx;
+  height: 100rpx;
+  background: var(--bg-light);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.header-info {
+  flex: 1;
+}
+
+.detail-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 16rpx;
+}
+
+.header-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 元信息栏 */
+.meta-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 30rpx;
+  background: var(--bg-card);
+  margin-bottom: 20rpx;
+}
+
+.meta-item {
+  text-align: center;
+}
+
+.meta-label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.meta-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.meta-value.difficulty {
+  color: var(--warning);
+}
+
+.meta-value.cost {
+  color: var(--accent);
+}
+
+.meta-value.success {
+  color: var(--success);
+}
+
+/* 内容区域 */
+.detail-content {
+  flex: 1;
+  padding: 20rpx;
+}
+
+.content-section {
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 20rpx;
+}
+
+.section-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.section-content.highlight {
+  background: var(--bg-light);
+  padding: 24rpx;
+  border-radius: 12rpx;
+  color: var(--text-primary);
+  border-left: 6rpx solid var(--primary);
+}
+
+/* 症状列表 */
+.symptom-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.symptom-item {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.symptom-dot {
+  font-size: 16rpx;
+  color: var(--primary);
+  margin-right: 12rpx;
+}
+
+.symptom-text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+/* 相关问题 */
+.related-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.related-item {
+  display: flex;
+  align-items: center;
+  background: var(--bg-light);
+  padding: 20rpx;
+  border-radius: 12rpx;
+}
+
+.related-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+
+.related-title {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-primary);
+}
+
+.related-rate {
+  font-size: 24rpx;
+  color: var(--success);
+}
+
+/* 底部操作栏 */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: var(--bg-card);
+  border-top: 2rpx solid rgba(255, 255, 255, 0.05);
+}
+
+.action-left {
+  flex-shrink: 0;
+}
+
+.btn-share {
+  display: flex;
+  align-items: center;
+  background: var(--bg-light);
+  color: var(--text-secondary);
+  font-size: 26rpx;
+  padding: 16rpx 30rpx;
+  border-radius: 32rpx;
+  border: none;
+}
+
+.btn-share::after {
+  border: none;
+}
+
+.btn-icon {
+  margin-right: 8rpx;
+}
+
+.action-right {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-expert {
+  background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+  color: #fff;
+  font-size: 28rpx;
+  padding: 20rpx 32rpx;
+  border-radius: 40rpx;
+  border: none;
+}
+
+.btn-expert::after {
+  border: none;
+}

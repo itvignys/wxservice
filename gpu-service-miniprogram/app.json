@@ -1,0 +1,65 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/chat/chat",
+    "pages/knowledge/knowledge",
+    "pages/knowledge/detail/detail",
+    "pages/tools/tools",
+    "pages/tools/guide/guide",
+    "pages/profile/profile",
+    "pages/profile/company/company",
+    "pages/profile/bookings/bookings",
+    "pages/profile/history/history",
+    "pages/profile/favorites/favorites",
+    "pages/profile/about/about",
+    "pages/profile/feedback/feedback",
+    "pages/expert/expert",
+    "pages/expert/book/book",
+    "pages/repair/create/create",
+    "pages/repair/list/list",
+    "pages/repair/detail/detail",
+    "pages/repair/inspection/inspection",
+    "pages/repair/quotation/quotation",
+    "pages/repair/process/process",
+    "pages/repair/quality/quality",
+    "pages/repair/accept/accept",
+    "pages/repair/sign/sign",
+    "pages/repair/rating/rating"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1a1a2e",
+    "navigationBarTitleText": "GPU智修专家",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#4a90d9",
+    "backgroundColor": "#1a1a2e",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/chat/chat",
+        "text": "AI检测"
+      },
+      {
+        "pagePath": "pages/knowledge/knowledge",
+        "text": "知识库"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "工具"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

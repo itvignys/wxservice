@@ -1,0 +1,105 @@
+<view class="container">
+  <!-- 问题头部 -->
+  <view class="detail-header">
+    <view class="header-icon">{{problem.icon}}</view>
+    <view class="header-info">
+      <text class="detail-title">{{problem.title}}</text>
+      <view class="header-tags">
+        <text class="tag tag-primary">{{problem.type}}</text>
+        <text class="tag tag-success">{{problem.successRate}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 难度和成本 -->
+  <view class="meta-bar">
+    <view class="meta-item">
+      <text class="meta-label">维修难度</text>
+      <text class="meta-value difficulty">{{problem.difficultyStr}}</text>
+    </view>
+    <view class="meta-item">
+      <text class="meta-label">维修成本</text>
+      <text class="meta-value cost">{{problem.cost}}</text>
+    </view>
+    <view class="meta-item">
+      <text class="meta-label">成功率</text>
+      <text class="meta-value success">{{problem.successRate}}</text>
+    </view>
+  </view>
+
+  <!-- 详细信息 -->
+  <scroll-view class="detail-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 症状 -->
+    <view class="content-section">
+      <view class="section-title">
+        <text class="section-icon">🔍</text>
+        <text>症状表现</text>
+      </view>
+      <view class="symptom-list">
+        <view class="symptom-item" wx:for="{{problem.symptoms}}" wx:key="index">
+          <text class="symptom-dot">●</text>
+          <text class="symptom-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 常见原因 -->
+    <view class="content-section">
+      <view class="section-title">
+        <text class="section-icon">💡</text>
+        <text>常见原因</text>
+      </view>
+      <view class="section-content">{{problem.causes}}</view>
+    </view>
+
+    <!-- 排查方法 -->
+    <view class="content-section">
+      <view class="section-title">
+        <text class="section-icon">🛠️</text>
+        <text>排查方法</text>
+      </view>
+      <view class="section-content">{{problem.diagnosis}}</view>
+    </view>
+
+    <!-- 维修方案 -->
+    <view class="content-section">
+      <view class="section-title">
+        <text class="section-icon">🔧</text>
+        <text>维修方案</text>
+      </view>
+      <view class="section-content highlight">{{problem.solution}}</view>
+    </view>
+
+    <!-- 相关推荐 -->
+    <view class="content-section" wx:if="{{relatedProblems.length > 0}}">
+      <view class="section-title">
+        <text class="section-icon">📎</text>
+        <text>相关问题</text>
+      </view>
+      <view class="related-list">
+        <view class="related-item" wx:for="{{relatedProblems}}" wx:key="id" bindtap="goToRelated" data-id="{{item.id}}">
+          <text class="related-icon">{{item.icon}}</text>
+          <text class="related-title">{{item.title}}</text>
+          <text class="related-rate">{{item.successRate}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view style="height: 200rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="action-bar">
+    <view class="action-left">
+      <button class="btn-share" open-type="share">
+        <text class="btn-icon">↗️</text>
+        <text>分享</text>
+      </button>
+    </view>
+    <view class="action-right">
+      <button class="btn-primary" bindtap="goToChat">AI咨询</button>
+      <button class="btn-expert" bindtap="goToExpert">联系专家</button>
+    </view>
+  </view>
+</view>

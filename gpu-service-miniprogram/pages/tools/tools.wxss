@@ -1,0 +1,271 @@
+/* 工具页面样式 */
+.container {
+  padding-bottom: 40rpx;
+}
+
+/* 页面头部 */
+.page-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 60rpx 40rpx;
+  text-align: center;
+}
+
+.header-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 16rpx;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 工具列表 */
+.tools-list {
+  padding: 20rpx;
+}
+
+.tool-card {
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.2);
+}
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.tool-icon {
+  width: 88rpx;
+  height: 88rpx;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  margin-right: 20rpx;
+}
+
+.tool-info {
+  flex: 1;
+}
+
+.tool-name {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.tool-version {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-top: 6rpx;
+}
+
+.tool-tag {
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+}
+
+.tool-tag.free {
+  background: rgba(81, 207, 102, 0.2);
+  color: var(--success);
+}
+
+.tool-tag.pro {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 217, 61, 0.2));
+  color: #ff6b6b;
+}
+
+.tool-desc {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+.tool-features {
+  background: var(--bg-light);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 0;
+}
+
+.feature-dot {
+  width: 32rpx;
+  height: 32rpx;
+  background: var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  color: #fff;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.feature-text {
+  font-size: 26rpx;
+  color: var(--text-primary);
+}
+
+.tool-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-guide {
+  flex: 1;
+  background: var(--bg-light);
+  color: var(--text-primary);
+  font-size: 26rpx;
+  padding: 20rpx 0;
+  border-radius: 40rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-guide::after {
+  border: none;
+}
+
+.btn-download {
+  flex: 1;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-size: 26rpx;
+  padding: 20rpx 0;
+  border-radius: 40rpx;
+  border: none;
+}
+
+.btn-download::after {
+  border: none;
+}
+
+/* 使用流程 */
+.process-card {
+  margin: 20rpx;
+}
+
+.process-steps {
+  padding-top: 10rpx;
+}
+
+.process-step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.process-step:last-child {
+  margin-bottom: 0;
+}
+
+.process-step .step-num {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.process-step .step-num.highlight {
+  background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+}
+
+.process-step .step-content {
+  flex: 1;
+}
+
+.process-step .step-title {
+  display: block;
+  font-size: 30rpx;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.process-step .step-desc {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-top: 6rpx;
+}
+
+/* 注意事项 */
+.tips-card {
+  margin: 20rpx;
+}
+
+.tips-list {
+  padding-top: 10rpx;
+}
+
+.tip-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.05);
+}
+
+.tip-item:last-child {
+  border-bottom: none;
+}
+
+.tip-icon {
+  width: 40rpx;
+  height: 40rpx;
+  background: var(--warning);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  color: #1a1a2e;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+.tip-text {
+  font-size: 28rpx;
+  color: var(--text-primary);
+}
+
+/* 底部咨询 */
+.consult-section {
+  margin: 40rpx 30rpx;
+  text-align: center;
+}
+
+.consult-text {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 20rpx;
+}

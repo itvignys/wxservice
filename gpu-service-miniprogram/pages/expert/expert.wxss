@@ -1,0 +1,399 @@
+/* 专家服务页面样式 */
+.container {
+  padding-bottom: 160rpx;
+}
+
+/* 服务头部 */
+.service-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 60rpx 40rpx;
+  text-align: center;
+}
+
+.header-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 16rpx;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 服务套餐 */
+.service-tiers {
+  padding: 20rpx;
+}
+
+.tier-card {
+  background: var(--bg-card);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  position: relative;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.2);
+}
+
+.tier-card.tier-1 {
+  border: 2rpx solid rgba(81, 207, 102, 0.3);
+}
+
+.tier-card.tier-2 {
+  border: 2rpx solid rgba(78, 205, 196, 0.3);
+  background: linear-gradient(135deg, var(--bg-card), rgba(78, 205, 196, 0.1));
+}
+
+.tier-card.tier-3 {
+  border: 2rpx solid rgba(255, 217, 61, 0.3);
+}
+
+.tier-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--text-secondary);
+  color: #fff;
+  font-size: 22rpx;
+  padding: 8rpx 20rpx;
+  border-bottom-left-radius: 16rpx;
+  border-top-right-radius: 20rpx;
+}
+
+.tier-badge.hot {
+  background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+}
+
+.tier-badge.pro {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.tier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.05);
+}
+
+.tier-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.tier-price {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.tier-features {
+  margin-bottom: 24rpx;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+.feature-item.highlight {
+  color: var(--warning);
+  font-weight: 500;
+}
+
+.check-icon {
+  width: 32rpx;
+  height: 32rpx;
+  background: var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  color: #fff;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.btn-tier {
+  width: 100%;
+  background: var(--bg-light);
+  color: var(--text-primary);
+  font-size: 30rpx;
+  padding: 24rpx 0;
+  border-radius: 40rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-tier::after {
+  border: none;
+}
+
+.btn-tier.primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  border: none;
+}
+
+/* 企业信息提示 */
+.notice-card {
+  margin: 20rpx;
+  background: linear-gradient(135deg, rgba(255, 217, 61, 0.1), rgba(255, 107, 107, 0.1));
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  border: 2rpx solid rgba(255, 217, 61, 0.2);
+}
+
+.notice-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.notice-content {
+  flex: 1;
+}
+
+.notice-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--warning);
+  margin-bottom: 6rpx;
+}
+
+.notice-text {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.btn-fill {
+  background: var(--warning);
+  color: #1a1a2e;
+  font-size: 26rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 30rpx;
+  border: none;
+  font-weight: 500;
+}
+
+.btn-fill::after {
+  border: none;
+}
+
+/* 服务流程 */
+.process-section {
+  margin: 20rpx;
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.05);
+}
+
+.process-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.process-item {
+  text-align: center;
+  width: 120rpx;
+}
+
+.process-icon {
+  width: 64rpx;
+  height: 64rpx;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin: 0 auto 12rpx;
+}
+
+.process-name {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-primary);
+  margin-bottom: 4rpx;
+}
+
+.process-desc {
+  display: block;
+  font-size: 20rpx;
+  color: var(--text-secondary);
+}
+
+.process-arrow {
+  font-size: 32rpx;
+  color: var(--text-secondary);
+  margin: 0 10rpx;
+}
+
+/* 专家团队 */
+.expert-section {
+  margin: 20rpx;
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.expert-list {
+  white-space: nowrap;
+}
+
+.expert-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200rpx;
+  padding: 20rpx;
+  margin-right: 16rpx;
+  background: var(--bg-light);
+  border-radius: 16rpx;
+}
+
+.expert-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: var(--primary);
+  margin-bottom: 16rpx;
+}
+
+.expert-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 4rpx;
+}
+
+.expert-title {
+  font-size: 22rpx;
+  color: var(--primary);
+  margin-bottom: 4rpx;
+}
+
+.expert-exp {
+  font-size: 20rpx;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.expert-specialty {
+  font-size: 20rpx;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+/* 服务保障 */
+.guarantee-section {
+  margin: 20rpx;
+  background: var(--bg-card);
+  border-radius: 16rpx;
+  padding: 30rpx;
+}
+
+.guarantee-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.guarantee-item {
+  text-align: center;
+  padding: 24rpx;
+  background: var(--bg-light);
+  border-radius: 12rpx;
+}
+
+.guarantee-icon {
+  font-size: 48rpx;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.guarantee-name {
+  display: block;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  margin-bottom: 6rpx;
+}
+
+.guarantee-desc {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: var(--bg-card);
+  border-top: 2rpx solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+}
+
+.btn-contact, .btn-call {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  font-size: 28rpx;
+  padding: 24rpx 0;
+  border-radius: 40rpx;
+  border: none;
+}
+
+.btn-contact::after, .btn-call::after {
+  border: none;
+}
+
+.btn-contact {
+  background: var(--bg-light);
+  color: var(--text-primary);
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-call {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+}
+
+.contact-icon, .call-icon {
+  font-size: 32rpx;
+}

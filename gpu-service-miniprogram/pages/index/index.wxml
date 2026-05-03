@@ -1,0 +1,117 @@
+<view class="container">
+  <!-- 顶部Banner -->
+  <view class="banner">
+    <view class="banner-content">
+      <text class="banner-title">GPU智修专家</text>
+      <text class="banner-subtitle">专业显卡故障检测与维修服务</text>
+      <view class="banner-stats">
+        <view class="stat-item">
+          <text class="stat-num">17+</text>
+          <text class="stat-label">常见故障</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-num">95%</text>
+          <text class="stat-label">诊断准确率</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-num">24h</text>
+          <text class="stat-label">专家响应</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="goToChat">
+      <view class="action-icon ai-icon">🤖</view>
+      <text class="action-name">AI检测</text>
+      <text class="action-desc">智能诊断故障</text>
+    </view>
+    <view class="action-item" bindtap="goToKnowledge">
+      <view class="action-icon kb-icon">📚</view>
+      <text class="action-name">知识库</text>
+      <text class="action-desc">17种常见问题</text>
+    </view>
+    <view class="action-item" bindtap="goToTools">
+      <view class="action-icon tool-icon">🛠️</view>
+      <text class="action-name">检测工具</text>
+      <text class="action-desc">本地诊断软件</text>
+    </view>
+    <view class="action-item" bindtap="goToExpert">
+      <view class="action-icon expert-icon">👨‍🔧</view>
+      <text class="action-name">专家服务</text>
+      <text class="action-desc">一对一咨询</text>
+    </view>
+  </view>
+
+  <!-- 服务阶梯 -->
+  <view class="card service-ladder">
+    <view class="card-title">阶梯式服务体系</view>
+    <view class="ladder-steps">
+      <view class="step-item" bindtap="goToChat">
+        <view class="step-num">1</view>
+        <view class="step-content">
+          <text class="step-title">AI智能问答</text>
+          <text class="step-desc">免费 • 即时响应</text>
+        </view>
+        <view class="step-arrow">→</view>
+      </view>
+      <view class="step-item" bindtap="goToExpert">
+        <view class="step-num">2</view>
+        <view class="step-content">
+          <text class="step-title">专家电话咨询</text>
+          <text class="step-desc">专业指导 • 远程协助</text>
+        </view>
+        <view class="step-arrow">→</view>
+      </view>
+      <view class="step-item" bindtap="goToOnsite">
+        <view class="step-num highlight">3</view>
+        <view class="step-content">
+          <text class="step-title">免费上门检测</text>
+          <text class="step-desc">仅限企业用户 • 首次免费</text>
+        </view>
+        <view class="step-tag">限时</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门问题 -->
+  <view class="card hot-issues">
+    <view class="card-title">热门故障问题</view>
+    <view class="issue-list">
+      <view class="issue-item" wx:for="{{hotIssues}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+        <view class="issue-icon">{{item.icon}}</view>
+        <view class="issue-info">
+          <text class="issue-title">{{item.title}}</text>
+          <text class="issue-type">{{item.type}}</text>
+        </view>
+        <view class="issue-rate">{{item.successRate}}</view>
+      </view>
+    </view>
+    <button class="btn-secondary" bindtap="goToKnowledge">查看全部问题</button>
+  </view>
+
+  <!-- 服务承诺 -->
+  <view class="card promises">
+    <view class="card-title">服务承诺</view>
+    <view class="promise-grid">
+      <view class="promise-item">
+        <text class="promise-icon">✓</text>
+        <text class="promise-text">首次咨询免费</text>
+      </view>
+      <view class="promise-item">
+        <text class="promise-icon">✓</text>
+        <text class="promise-text">专家24h响应</text>
+      </view>
+      <view class="promise-item">
+        <text class="promise-icon">✓</text>
+        <text class="promise-text">企业首单免费</text>
+      </view>
+      <view class="promise-item">
+        <text class="promise-icon">✓</text>
+        <text class="promise-text">维修质保90天</text>
+      </view>
+    </view>
+  </view>
+</view>

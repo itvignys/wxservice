@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="page-header">
+    <text class="header-title">收藏知识</text>
+  </view>
+
+  <view class="favorites-list" wx:if="{{favorites.length > 0}}">
+    <view class="knowledge-card" wx:for="{{favorites}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+      <view class="card-header">
+        <view class="card-category">{{item.category}}</view>
+        <view class="card-actions">
+          <text class="action-btn" catchtap="unfavorite" data-id="{{item.id}}">❌</text>
+        </view>
+      </view>
+      <text class="card-title">{{item.title}}</text>
+      <text class="card-desc">{{item.description}}</text>
+      <view class="card-footer">
+        <text class="card-views">👁 {{item.views}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <text class="empty-icon">⭐</text>
+    <text class="empty-text">暂无收藏内容</text>
+    <text class="empty-hint">在知识库中收藏感兴趣的内容</text>
+    <button class="btn-browse" bindtap="goToKnowledge">浏览知识库</button>
+  </view>
+</view>

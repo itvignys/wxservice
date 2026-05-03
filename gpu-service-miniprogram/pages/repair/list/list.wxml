@@ -1,0 +1,64 @@
+<view class="container">
+  <!-- 顶部Tab切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'my' ? 'active' : ''}}" bindtap="switchTab" data-tab="my">我的工单</view>
+    <view class="tab-item {{activeTab === 'pending' ? 'active' : ''}}" bindtap="switchTab" data-tab="pending" wx:if="{{isService || isAdmin}}">待受理</view>
+    <view class="tab-item {{activeTab === 'engineer' ? 'active' : ''}}" bindtap="switchTab" data-tab="engineer" wx:if="{{isEngineer || isAdmin}}">我的任务</view>
+    <view class="tab-item {{activeTab === 'inspection' ? 'active' : ''}}" bindtap="switchTab" data-tab="inspection" wx:if="{{isInspector || isAdmin}}">待质检</view>
+    <view class="tab-item {{activeTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all" wx:if="{{isService || isAdmin}}">全部</view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <scroll-view class="status-filter" scroll-x>
+    <view class="filter-item {{!filterStatus ? 'active' : ''}}" bindtap="filterByStatus" data-status="">全部</view>
+    <view class="filter-item {{filterStatus === 'pending' ? 'active' : ''}}" bindtap="filterByStatus" data-status="pending">待受理</view>
+    <view class="filter-item {{filterStatus === 'inspecting' ? 'active' : ''}}" bindtap="filterByStatus" data-status="inspecting">检测中</view>
+    <view class="filter-item {{filterStatus === 'scheme_pending' ? 'active' : ''}}" bindtap="filterByStatus" data-status="scheme_pending">待确认方案</view>
+    <view class="filter-item {{filterStatus === 'quotation_pending' ? 'active' : ''}}" bindtap="filterByStatus" data-status="quotation_pending">待确认报价</view>
+    <view class="filter-item {{filterStatus === 'repairing' ? 'active' : ''}}" bindtap="filterByStatus" data-status="repairing">维修中</view>
+    <view class="filter-item {{filterStatus === 'waiting_inspection' ? 'active' : ''}}" bindtap="filterByStatus" data-status="waiting_inspection">待质检</view>
+    <view class="filter-item {{filterStatus === 'delivered' ? 'active' : ''}}" bindtap="filterByStatus" data-status="delivered">已交付</view>
+  </scroll-view>
+
+  <!-- 工单列表 -->
+  <view class="order-list" wx:if="{{orders.length > 0}}">
+    <view class="order-card" wx:for="{{orders}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <view class="order-header">
+        <text class="order-no">{{item.orderNo}}</text>
+        <text class="order-status" style="color: {{statusColorMap[item.status]}}">{{statusTextMap[item.status]}}</text>
+      </view>
+      <view class="order-body">
+        <view class="order-info-row">
+          <text class="info-label">设备</text>
+          <text class="info-value">{{item.deviceType}} {{item.brandModel}}</text>
+        </view>
+        <view class="order-info-row">
+          <text class="info-label">故障</text>
+          <text class="info-value ellipsis">{{item.faultDesc}}</text>
+        </view>
+        <view class="order-info-row" wx:if="{{item.customerName}}">
+          <text class="info-label">客户</text>
+          <text class="info-value">{{item.customerName}}</text>
+        </view>
+      </view>
+      <view class="order-footer">
+        <text class="order-time">{{item.createdAt}}</text>
+        <view class="order-urgency urgency-{{item.urgency}}" wx:if="{{item.urgency !== 'normal'}}">
+          {{item.urgency === 'urgent' ? '加急' : '紧急'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && orders.length === 0}}">
+    <text class="empty-icon">📋</text>
+    <text class="empty-text">暂无工单</text>
+    <button class="btn-primary" bindtap="goToCreate" wx:if="{{activeTab === 'my'}}">去报修</button>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-more" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

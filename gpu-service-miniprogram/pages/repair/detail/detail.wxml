@@ -1,0 +1,214 @@
+<view class="container" wx:if="{{order}}">
+  <!-- 状态条 -->
+  <view class="status-bar" style="background: {{statusColor}}">
+    <text class="status-text">{{statusText}}</text>
+    <text class="order-no">{{order.orderNo}}</text>
+  </view>
+
+  <!-- 工单进度 -->
+  <view class="progress-section">
+    <view class="progress-steps">
+      <view class="step {{stepIndex >= 0 ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">报修</text>
+      </view>
+      <view class="step-line {{stepIndex >= 1 ? 'done' : ''}}"></view>
+      <view class="step {{stepIndex >= 1 ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">检测</text>
+      </view>
+      <view class="step-line {{stepIndex >= 2 ? 'done' : ''}}"></view>
+      <view class="step {{stepIndex >= 2 ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">报价</text>
+      </view>
+      <view class="step-line {{stepIndex >= 3 ? 'done' : ''}}"></view>
+      <view class="step {{stepIndex >= 3 ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">维修</text>
+      </view>
+      <view class="step-line {{stepIndex >= 4 ? 'done' : ''}}"></view>
+      <view class="step {{stepIndex >= 4 ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">质检</text>
+      </view>
+      <view class="step-line {{stepIndex >= 5 ? 'done' : ''}}"></view>
+      <view class="step {{stepIndex >= 5 ? 'done' : ''}}">
+        <view class="step-dot"></view>
+        <text class="step-label">交付</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设备信息 -->
+  <view class="card">
+    <view class="card-title">设备信息</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">设备类型</text>
+        <text class="info-value">{{order.deviceType}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">品牌型号</text>
+        <text class="info-value">{{order.brandModel}}</text>
+      </view>
+      <view class="info-item" wx:if="{{order.serialNo}}">
+        <text class="info-label">序列号</text>
+        <text class="info-value">{{order.serialNo}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">服务方式</text>
+        <text class="info-value">{{serviceTypeText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 故障描述 -->
+  <view class="card">
+    <view class="card-title">故障描述</view>
+    <text class="fault-desc">{{order.faultDesc}}</text>
+    <view class="image-list" wx:if="{{faultImages.length > 0}}">
+      <image wx:for="{{faultImages}}" wx:key="*this" src="{{item}}" mode="aspectFill" class="fault-img" bindtap="previewImage" data-url="{{item}}" />
+    </view>
+  </view>
+
+  <!-- 客户信息（工程师/客服可见） -->
+  <view class="card" wx:if="{{isStaff}}">
+    <view class="card-title">客户信息</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">姓名</text>
+        <text class="info-value">{{order.customerName}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">电话</text>
+        <text class="info-value link" bindtap="callCustomer">{{order.customerPhone}}</text>
+      </view>
+      <view class="info-item" wx:if="{{order.customerAddress}}">
+        <text class="info-label">地址</text>
+        <text class="info-value">{{order.customerAddress}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 检测报告 -->
+  <view class="card" wx:if="{{inspectionReport}}">
+    <view class="card-title">检测报告</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">主因</text>
+        <text class="info-value">{{inspectionReport.mainCause}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">维修方案</text>
+        <text class="info-value">{{inspectionReport.repairScheme}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">预估工时</text>
+        <text class="info-value">{{inspectionReport.estimatedHours}}小时</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 报价信息 -->
+  <view class="card" wx:if="{{quotation}}">
+    <view class="card-title">
+      {{quotation.quotationType === 'supplement' ? '补充' : ''}}报价信息
+      <text class="quotation-type-tag" wx:if="{{quotation.quotationType === 'revision'}}">修订</text>
+      <text class="quotation-type-tag supplement" wx:if="{{quotation.quotationType === 'supplement'}}">补充</text>
+    </view>
+    <view class="quotation-amount">
+      <text class="amount-label">报价金额</text>
+      <text class="amount-value">¥{{quotation.actualAmount}}</text>
+    </view>
+    <view class="info-grid" wx:if="{{quotation.discountAmount > 0}}">
+      <view class="info-item">
+        <text class="info-label">优惠</text>
+        <text class="info-value discount">-¥{{quotation.discountAmount}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 维修过程 -->
+  <view class="card" wx:if="{{repairProcess}}">
+    <view class="card-title">维修过程</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">工程师</text>
+        <text class="info-value">{{repairProcess.engineerName}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">实际工时</text>
+        <text class="info-value">{{repairProcess.actualHours}}小时</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">维修结果</text>
+        <text class="info-value">{{repairProcess.repairResult}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 质检报告 -->
+  <view class="card" wx:if="{{qualityReport}}">
+    <view class="card-title">质检报告</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">结论</text>
+        <text class="info-value {{qualityReport.conclusion === 'passed' ? 'pass' : 'fail'}}">{{qualityReport.conclusion === 'passed' ? '通过' : '不通过'}}</text>
+      </view>
+      <view class="info-item" wx:if="{{qualityReport.failReason}}">
+        <text class="info-label">原因</text>
+        <text class="info-value">{{qualityReport.failReason}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 交付信息 -->
+  <view class="card" wx:if="{{deliveryRecord}}">
+    <view class="card-title">交付信息</view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">签收时间</text>
+        <text class="info-value">{{deliveryRecord.deliveryTime}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">质保期</text>
+        <text class="info-value">{{deliveryRecord.warrantyDays}}天</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮区域 -->
+  <view class="action-area">
+    <!-- 客户操作 -->
+    <block wx:if="{{isCustomer}}">
+      <button class="btn-primary" wx:if="{{order.status === 'pending'}}" bindtap="editOrder">修改工单</button>
+      <button class="btn-primary" wx:if="{{order.status === 'scheme_pending'}}" bindtap="confirmScheme">确认方案</button>
+      <button class="btn-secondary" wx:if="{{order.status === 'scheme_pending'}}" bindtap="rejectScheme">拒绝方案</button>
+      <button class="btn-primary" wx:if="{{order.status === 'quotation_pending'}}" bindtap="confirmQuotation">确认报价</button>
+      <button class="btn-secondary" wx:if="{{order.status === 'quotation_pending'}}" bindtap="rejectQuotation">拒绝报价</button>
+      <button class="btn-primary" wx:if="{{order.status === 'quality_passed'}}" bindtap="signDelivery">确认签收</button>
+      <button class="btn-primary" wx:if="{{order.status === 'delivered'}}" bindtap="submitRating">评价</button>
+    </block>
+    <!-- 客服操作 -->
+    <block wx:if="{{isService}}">
+      <button class="btn-primary" wx:if="{{order.status === 'pending'}}" bindtap="acceptOrder">受理工单</button>
+      <button class="btn-primary" wx:if="{{order.status === 'quality_passed' || order.status === 'delivered'}}" bindtap="confirmPayment">确认收款</button>
+      <button class="btn-danger" wx:if="{{order.status !== 'closed' && order.status !== 'cancelled'}}" bindtap="closeOrder">关闭工单</button>
+    </block>
+    <!-- 工程师操作 -->
+    <block wx:if="{{isEngineer}}">
+      <button class="btn-primary" wx:if="{{order.status === 'accepted'}}" bindtap="startInspection">开始检测</button>
+      <button class="btn-primary" wx:if="{{order.status === 'inspecting'}}" bindtap="goToInspectionReport">提交检测报告</button>
+      <button class="btn-primary" wx:if="{{order.status === 'scheme_pending'}}" bindtap="goToQuotation">提交报价</button>
+      <button class="btn-primary" wx:if="{{order.status === 'waiting_repair'}}" bindtap="startRepair">开始维修</button>
+      <button class="btn-secondary" wx:if="{{order.status === 'repairing'}}" bindtap="goToRepairProcess">记录维修过程</button>
+      <button class="btn-primary" wx:if="{{order.status === 'repairing'}}" bindtap="completeRepair">完成维修</button>
+      <button class="btn-secondary" wx:if="{{order.status === 'repairing'}}" bindtap="goToSupplementQuotation">补充报价</button>
+    </block>
+    <!-- 质检员操作 -->
+    <block wx:if="{{isInspector}}">
+      <button class="btn-primary" wx:if="{{order.status === 'waiting_inspection'}}" bindtap="goToQualityReport">提交质检报告</button>
+    </block>
+  </view>
+</view>
