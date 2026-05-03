@@ -1,0 +1,2 @@
+-- 微信登录服务数据库初始化脚本
+-- 执行前请确保已创建数据库: CREATE DATABASE wx_login DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
