@@ -1,0 +1,122 @@
+<view class="container">
+  <!-- 顶部说明 -->
+  <view class="header-card">
+    <view class="header-icon">🛠️</view>
+    <view class="header-content">
+      <text class="header-title">本地检测工具</text>
+      <text class="header-desc">下载专业工具，在本地进行GPU故障诊断</text>
+    </view>
+  </view>
+
+  <!-- 检测教程 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">📖</text>
+      <text class="section-title">检测教程</text>
+    </view>
+    
+    <view class="tutorial-list">
+      <view class="tutorial-item {{currentStep === index ? 'active' : ''}}" 
+            wx:for="{{tutorials}}" 
+            wx:key="id"
+            bindtap="toggleStep"
+            data-index="{{index}}">
+        <view class="step-header">
+          <view class="step-number">{{index + 1}}</view>
+          <view class="step-info">
+            <text class="step-title">{{item.title}}</text>
+            <text class="step-desc">{{item.brief}}</text>
+          </view>
+          <text class="step-arrow">{{currentStep === index ? '▼' : '▶'}}</text>
+        </view>
+        <view class="step-content" wx:if="{{currentStep === index}}">
+          <view class="step-detail">
+            <text class="detail-text">{{item.content}}</text>
+            <view class="detail-tips" wx:if="{{item.tips}}">
+              <text class="tips-title">💡 小贴士：</text>
+              <text class="tips-content">{{item.tips}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工具列表 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">⬇️</text>
+      <text class="section-title">工具下载</text>
+    </view>
+    
+    <view class="tool-list">
+      <view class="tool-card" wx:for="{{tools}}" wx:key="id">
+        <view class="tool-header">
+          <view class="tool-icon">{{item.icon}}</view>
+          <view class="tool-info">
+            <text class="tool-name">{{item.name}}</text>
+            <text class="tool-version">{{item.version}}</text>
+          </view>
+          <view class="tool-badge {{item.type}}">{{item.typeName}}</view>
+        </view>
+        
+        <view class="tool-desc">{{item.description}}</view>
+        
+        <view class="tool-features">
+          <view class="feature-tag" wx:for="{{item.features}}" wx:key="*this" wx:for-item="feature">
+            <text class="feature-dot"></text>
+            <text class="feature-text">{{feature}}</text>
+          </view>
+        </view>
+        
+        <view class="tool-footer">
+          <view class="tool-meta">
+            <text class="meta-item">📦 {{item.size}}</text>
+            <text class="meta-item">💻 {{item.platform}}</text>
+          </view>
+          <button class="download-btn" 
+                  bindtap="downloadTool" 
+                  data-id="{{item.id}}"
+                  disabled="{{item.downloading}}">
+            <text wx:if="{{!item.downloading}}">下载</text>
+            <view wx:if="{{item.downloading}}" class="download-progress">
+              <view class="progress-bar">
+                <view class="progress-fill" style="width: {{item.progress}}%"></view>
+              </view>
+              <text class="progress-text">{{item.progress}}%</text>
+            </view>
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 常见问题 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">❓</text>
+      <text class="section-title">常见问题</text>
+    </view>
+    
+    <view class="faq-list">
+      <view class="faq-item" wx:for="{{faqs}}" wx:key="id">
+        <view class="faq-question" bindtap="toggleFaq" data-id="{{item.id}}">
+          <text class="q-mark">Q</text>
+          <text class="q-text">{{item.question}}</text>
+          <text class="q-arrow">{{openFaq === item.id ? '▼' : '▶'}}</text>
+        </view>
+        <view class="faq-answer" wx:if="{{openFaq === item.id}}">
+          <text class="a-mark">A</text>
+          <text class="a-text">{{item.answer}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="footer-tip">
+    <text class="tip-icon">💡</text>
+    <text class="tip-text">如果本地检测无法解决问题，建议使用AI诊断或联系专家</text>
+    <button class="tip-btn" bindtap="goToChatbot">立即诊断</button>
+  </view>
+</view>

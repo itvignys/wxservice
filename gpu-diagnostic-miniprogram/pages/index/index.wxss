@@ -1,0 +1,258 @@
+/* Banner */
+.banner {
+  background: linear-gradient(135deg, #065A82 0%, #1C7293 50%, #02C39A 100%);
+  border-radius: 24rpx;
+  padding: 50rpx 40rpx;
+  margin-bottom: 30rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 1;
+}
+
+.banner-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0,0,0,0.2);
+}
+
+.banner-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.9);
+}
+
+.banner-decoration {
+  position: absolute;
+  right: 30rpx;
+  bottom: -20rpx;
+  font-size: 160rpx;
+  opacity: 0.15;
+  transform: rotate(-15deg);
+}
+
+/* 服务阶梯 */
+.service-ladder {
+  padding: 20rpx 0;
+}
+
+.ladder-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: #f8f9fa;
+  border-radius: 16rpx;
+  margin-bottom: 8rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.ladder-item.active {
+  background: linear-gradient(135deg, rgba(6,90,130,0.05), rgba(2,195,154,0.05));
+  border-color: var(--primary);
+}
+
+.ladder-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+  margin-right: 24rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+}
+
+.ladder-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ladder-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6rpx;
+}
+
+.ladder-desc {
+  font-size: 24rpx;
+  color: var(--text-light);
+}
+
+.ladder-price {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.ladder-arrow {
+  text-align: center;
+  font-size: 36rpx;
+  color: #ccc;
+  padding: 12rpx 0;
+}
+
+/* 功能网格 */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+  padding: 20rpx 0;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 10rpx;
+}
+
+.feature-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0,0,0,0.12);
+}
+
+.feature-emoji {
+  font-size: 48rpx;
+}
+
+.feature-name {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6rpx;
+}
+
+.feature-desc {
+  font-size: 22rpx;
+  color: var(--text-light);
+}
+
+/* 统计数据 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+  padding: 20rpx 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: var(--text-light);
+}
+
+/* 常见问题标签 */
+.view-more {
+  margin-left: auto;
+  font-size: 26rpx;
+  color: var(--primary);
+}
+
+.quick-issues {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  padding: 20rpx 0;
+}
+
+.issue-tag {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: #f5f7fa;
+  border-radius: 12rpx;
+  transition: all 0.3s;
+}
+
+.issue-tag:active {
+  background: #e8ecf1;
+  transform: scale(0.98);
+}
+
+.issue-icon {
+  margin-right: 12rpx;
+  font-size: 32rpx;
+}
+
+.issue-text {
+  font-size: 26rpx;
+  color: var(--text);
+}
+
+/* 企业提示 */
+.company-tip {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(2,195,154,0.1), rgba(6,90,130,0.1));
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-top: 20rpx;
+  border: 2rpx dashed var(--accent);
+}
+
+.tip-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.tip-content {
+  flex: 1;
+}
+
+.tip-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8rpx;
+}
+
+.tip-desc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-light);
+}
+
+.tip-btn {
+  background: var(--accent);
+  color: #fff;
+  font-size: 26rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 12rpx;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.tip-btn::after {
+  border: none;
+}

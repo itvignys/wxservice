@@ -1,0 +1,135 @@
+<view class="container">
+  <!-- Banner区域 -->
+  <view class="banner">
+    <view class="banner-content">
+      <text class="banner-title">GPU智修专家</text>
+      <text class="banner-subtitle">专业英伟达显卡故障诊断与维修服务</text>
+    </view>
+    <view class="banner-decoration">🔧</view>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-icon" style="background: rgba(2,195,154,0.1);">🚀</view>
+      <text class="card-title">快速开始</text>
+    </view>
+    <view class="feature-grid">
+      <view class="feature-item" bindtap="goToChatbot">
+        <view class="feature-icon" style="background: linear-gradient(135deg, #065A82, #1C7293);">
+          <text class="feature-emoji">🤖</text>
+        </view>
+        <text class="feature-name">AI诊断</text>
+        <text class="feature-desc">智能故障分析</text>
+      </view>
+      <view class="feature-item" bindtap="goToKnowledge">
+        <view class="feature-icon" style="background: linear-gradient(135deg, #02C39A, #00B894);">
+          <text class="feature-emoji">📚</text>
+        </view>
+        <text class="feature-name">知识库</text>
+        <text class="feature-desc">故障解决方案</text>
+      </view>
+      <view class="feature-item" bindtap="goToTools">
+        <view class="feature-icon" style="background: linear-gradient(135deg, #FF9500, #FF7700);">
+          <text class="feature-emoji">🛠️</text>
+        </view>
+        <text class="feature-name">检测工具</text>
+        <text class="feature-desc">本地诊断软件</text>
+      </view>
+      <view class="feature-item" bindtap="callExpert">
+        <view class="feature-icon" style="background: linear-gradient(135deg, #5856D6, #7B68EE);">
+          <text class="feature-emoji">📞</text>
+        </view>
+        <text class="feature-name">联系专家</text>
+        <text class="feature-desc">人工咨询服务</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务阶梯展示（已隐藏） -->
+  <view class="card" wx:if="{{false}}">
+    <view class="card-header">
+      <view class="card-icon" style="background: rgba(6,90,130,0.1);">📊</view>
+      <text class="card-title">三级服务体系</text>
+    </view>
+    <view class="service-ladder">
+      <view class="ladder-item {{currentLevel >= 0 ? 'active' : ''}}">
+        <view class="ladder-icon">🤖</view>
+        <view class="ladder-info">
+          <text class="ladder-name">AI智能诊断</text>
+          <text class="ladder-desc">24小时在线，秒级响应</text>
+          <text class="ladder-price">免费</text>
+        </view>
+      </view>
+      <view class="ladder-arrow">↓</view>
+      <view class="ladder-item {{currentLevel >= 1 ? 'active' : ''}}">
+        <view class="ladder-icon">👨‍🔧</view>
+        <view class="ladder-info">
+          <text class="ladder-name">专家一对一</text>
+          <text class="ladder-desc">资深工程师电话咨询</text>
+          <text class="ladder-price">免费</text>
+        </view>
+      </view>
+      <view class="ladder-arrow">↓</view>
+      <view class="ladder-item {{currentLevel >= 2 ? 'active' : ''}}">
+        <view class="ladder-icon">🚪</view>
+        <view class="ladder-info">
+          <text class="ladder-name">上门检测服务</text>
+          <text class="ladder-desc">现场专业诊断（限企业）</text>
+          <text class="ladder-price">首次免费</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 服务统计 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-icon" style="background: rgba(255,149,0,0.1);">📈</view>
+      <text class="card-title">服务数据</text>
+    </view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-number">{{stats.diagnosisCount}}+</text>
+        <text class="stat-label">累计诊断</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.knowledgeCount}}</text>
+        <text class="stat-label">知识条目</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.successRate}}%</text>
+        <text class="stat-label">修复成功率</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{stats.expertCount}}</text>
+        <text class="stat-label">专业工程师</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 常见问题快捷入口 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-icon" style="background: rgba(255,59,48,0.1);">❓</view>
+      <text class="card-title">常见故障</text>
+      <text class="view-more" bindtap="goToKnowledge">查看全部 ></text>
+    </view>
+    <view class="quick-issues">
+      <view class="issue-tag" wx:for="{{commonIssues}}" wx:key="id" bindtap="quickSearch" data-keyword="{{item.question}}">
+        <text class="issue-icon">{{item.icon}}</text>
+        <text class="issue-text">{{item.question}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 企业信息入口 -->
+  <view class="company-tip">
+    <text class="tip-icon">{{companyInfo ? '🏢' : '💡'}}</text>
+    <view class="tip-content">
+      <text class="tip-title">{{companyInfo ? companyInfo.name : '完善企业信息，解锁更多服务'}}</text>
+      <text class="tip-desc">{{companyInfo ? '点击查看/修改企业信息' : '提交企业信息后可享受一次免费上门检测服务'}}</text>
+    </view>
+    <button class="tip-btn" bindtap="fillCompanyInfo">{{companyInfo ? '查看/修改' : '立即填写'}}</button>
+  </view>
+</view>

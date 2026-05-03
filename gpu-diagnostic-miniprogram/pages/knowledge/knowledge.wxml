@@ -1,0 +1,163 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索故障现象、问题描述..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+        bindconfirm="performSearch"
+      />
+      <text class="clear-icon" wx:if="{{searchKeyword}}" bindtap="clearSearch">✕</text>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view class="category-bar" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="category-list">
+      <view 
+        class="category-item {{currentCategory === '全部' ? 'active' : ''}}" 
+        bindtap="selectCategory" 
+        data-category="全部"
+      >
+        <text class="category-name">全部</text>
+        <text class="category-count">{{totalCount}}</text>
+      </view>
+      <view 
+        wx:for="{{categories}}" 
+        wx:key="*this"
+        class="category-item {{currentCategory === item ? 'active' : ''}}" 
+        bindtap="selectCategory" 
+        data-category="{{item}}"
+      >
+        <text class="category-name">{{item}}</text>
+        <text class="category-count">{{categoryStats[item]}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 知识列表 -->
+  <scroll-view class="knowledge-list" scroll-y enhanced refresher-enabled refresher-triggered="{{isRefreshing}}" bindrefresherrefresh="onRefresh">
+    <view class="knowledge-item" wx:for="{{knowledgeList}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+      <view class="knowledge-header">
+        <view class="category-tag" style="background: {{categoryColors[item.category] || '#065A82'}}">
+          {{item.category}}
+        </view>
+        <view class="difficulty-badge">
+          <text class="difficulty-text">难度：</text>
+          <text class="difficulty-stars">{{item.difficulty}}</text>
+        </view>
+      </view>
+      
+      <view class="knowledge-title">{{item.question}}</view>
+      
+      <view class="knowledge-brief">
+        <view class="brief-row">
+          <text class="brief-label">原因：</text>
+          <text class="brief-content">{{item.causes}}</text>
+        </view>
+      </view>
+      
+      <view class="knowledge-footer">
+        <view class="footer-item">
+          <text class="footer-icon">🛠️</text>
+          <text class="footer-text">{{item.cost}}</text>
+        </view>
+        <view class="footer-item">
+          <text class="footer-icon">📊</text>
+          <text class="footer-text">{{item.successRate}}</text>
+        </view>
+        <view class="footer-item arrow">
+          <text class="footer-icon">➤</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{knowledgeList.length === 0}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-title">暂无相关数据</text>
+      <text class="empty-desc">试试其他关键词或分类</text>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{knowledgeList.length > 0 && !isRefreshing}}">
+      <text class="load-text">已显示全部 {{knowledgeList.length}} 条记录</text>
+    </view>
+  </scroll-view>
+
+  <!-- 详情弹窗 -->
+  <view class="detail-modal" wx:if="{{showDetail && selectedItem}}" bindtap="closeDetail">
+    <view class="modal-content" catchtap="preventClose">
+      <view class="modal-header">
+        <view class="modal-category" style="background: {{categoryColors[selectedItem.category] || '#065A82'}}">
+          {{selectedItem.category}}
+        </view>
+        <text class="modal-close" bindtap="closeDetail">✕</text>
+      </view>
+      
+      <scroll-view class="modal-body" scroll-y>
+        <view class="detail-title">{{selectedItem.question}}</view>
+        
+        <view class="detail-section">
+          <view class="section-header">
+            <text class="section-icon">⚠️</text>
+            <text class="section-title">常见原因</text>
+          </view>
+          <view class="section-content">
+            <text>{{selectedItem.causes}}</text>
+          </view>
+        </view>
+        
+        <view class="detail-section">
+          <view class="section-header">
+            <text class="section-icon">🔍</text>
+            <text class="section-title">排查方法</text>
+          </view>
+          <view class="section-content">
+            <text>{{selectedItem.diagnosis}}</text>
+          </view>
+        </view>
+        
+        <view class="detail-section">
+          <view class="section-header">
+            <text class="section-icon">🛠️</text>
+            <text class="section-title">维修方案</text>
+          </view>
+          <view class="section-content">
+            <text>{{selectedItem.solution}}</text>
+          </view>
+        </view>
+        
+        <view class="detail-stats">
+          <view class="stat-box">
+            <text class="stat-label">维修难度</text>
+            <text class="stat-value">{{selectedItem.difficulty}}</text>
+          </view>
+          <view class="stat-box">
+            <text class="stat-label">维修成本</text>
+            <text class="stat-value">{{selectedItem.cost}}</text>
+          </view>
+          <view class="stat-box">
+            <text class="stat-label">成功率</text>
+            <text class="stat-value success">{{selectedItem.successRate}}</text>
+          </view>
+        </view>
+      </scroll-view>
+      
+      <view class="modal-footer">
+        <button class="action-btn consult" bindtap="consultExpert">
+          <text class="btn-icon">👨‍🔧</text>
+          <text>咨询专家</text>
+        </button>
+        <button class="action-btn diagnose" bindtap="goToDiagnose">
+          <text class="btn-icon">🤖</text>
+          <text>AI诊断</text>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

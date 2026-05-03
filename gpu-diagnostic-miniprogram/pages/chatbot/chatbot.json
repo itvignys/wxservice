@@ -1,0 +1,9 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "智能检测",
+  "enablePullDownRefresh": false,
+  "disableScroll": false,
+  "window": {
+    "softInputMode": "adjustResize"
+  }
+}
