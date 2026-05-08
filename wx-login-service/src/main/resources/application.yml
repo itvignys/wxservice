@@ -43,7 +43,7 @@ logging:
 
 # 元宝AI配置
 yuanbao:
-  api-key: ${YUANBAO_API_KEY:sk-e4xlTZqHg748DkZv16idTfTDXN7jEaOihz3KlGABWzCoz07s}
+  api-key: ${YUANBAO_API_KEY:ak-20260414-1770af0d561c42f85f9df2cbdf01ca8d}
   model: ${YUANBAO_MODEL:minimax-m2.5}
   endpoint: ${YUANBAO_ENDPOINT:https://tokenhub.tencentmaas.com/v1/chat/completions}
   max-context-rounds: 10
