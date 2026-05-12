@@ -41,10 +41,22 @@ logging:
   level:
     com.example.wxlogin: debug
 
-# 元宝AI配置
+# 管理后台配置（运营人员openid白名单）
+# 【获取openid方法】
+# 1. 打开小程序，进入任意页面
+# 2. 在app.js的autoLogin成功回调中，console.log会打印openid
+# 3. 或在微信开发者工具控制台查看：后端登录成功: oxxxxx
+# 4. 将获取到的openid填入下方列表，重新打包部署
+admin:
+  allowed-openids:
+    - "oXXXXXXXXXXXXXXXXXXXXXXXX"  # TODO: 替换为实际运营人员openid后再部署
+  password: ${ADMIN_PASSWORD:gpuadmin2024}
+
+# 元宝AI配置（腾讯混元大模型 OpenAI兼容接口）
 yuanbao:
   api-key: ${YUANBAO_API_KEY:sk-e4xlTZqHg748DkZv16idTfTDXN7jEaOihz3KlGABWzCoz07s}
   model: ${YUANBAO_MODEL:minimax-m2.5}
+  vision-model: ${YUANBAO_VISION_MODEL:hunyuan-vision}
   endpoint: ${YUANBAO_ENDPOINT:https://tokenhub.tencentmaas.com/v1/chat/completions}
   max-context-rounds: 10
   timeout: 30000

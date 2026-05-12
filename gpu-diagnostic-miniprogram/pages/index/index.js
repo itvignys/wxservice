@@ -85,6 +85,10 @@ Page({
     wx.switchTab({ url: '/pages/tools/tools' })
   },
 
+  goToAdmin() {
+    wx.navigateTo({ url: '/pages/admin/admin' })
+  },
+
   quickSearch(e) {
     const keyword = e.currentTarget.dataset.keyword
     wx.switchTab({ url: '/pages/knowledge/knowledge' })

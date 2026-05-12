@@ -55,6 +55,7 @@ App({
             .then(result => {
               const userData = result.data
               console.log('后端登录成功:', userData.openid)
+              console.log('【运营人员配置】请将以下openid填入后端application.yml的admin.allowed-openids列表:', userData.openid)
 
               // 存储用户信息
               this.globalData.userInfo = userData

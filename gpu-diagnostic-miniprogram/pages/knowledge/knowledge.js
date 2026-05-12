@@ -1,3 +1,4 @@
+const app = getApp()
 const api = require('../../utils/api.js')
 const constants = require('../../utils/constants.js')
 const knowledgeData = require('../../data/knowledge.js') // 离线兜底数据

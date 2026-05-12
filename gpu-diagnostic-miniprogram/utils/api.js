@@ -33,7 +33,8 @@ function request(options) {
       data,
       header: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + (wx.getStorageSync(constants.STORAGE_KEYS.TOKEN) || '')
+        'Authorization': 'Bearer ' + (wx.getStorageSync(constants.STORAGE_KEYS.TOKEN) || ''),
+        'X-Openid': wx.getStorageSync(constants.STORAGE_KEYS.OPENID) || ''
       },
       success(res) {
         if (loading) {
@@ -202,13 +203,80 @@ function getKnowledgeDetail(id) {
  * 发送消息给AI
  * @param {string} message - 用户消息
  * @param {Array} context - 对话上下文
+ * @param {string} [sessionId] - 会话ID
  */
-function sendAiChat(message, context) {
+function sendAiChat(message, context, sessionId) {
   return post(constants.API.AI_CHAT, {
     message,
     context: context || [],
-    scene: 'gpu_diagnosis'
+    scene: 'gpu_diagnosis',
+    sessionId
   })
+}
+
+/**
+ * 发送图片给AI分析（混元Vision多模态）
+ * @param {string} message - 用户消息/提问
+ * @param {string} imageBase64 - 图片Base64数据（含MIME前缀，如 data:image/jpeg;base64,...）
+ * @param {Array} context - 对话上下文
+ */
+function sendAiImageChat(message, imageBase64, context) {
+  return post(constants.API.AI_CHAT, {
+    message,
+    imageBase64,
+    context: context || [],
+    scene: 'gpu_diagnosis_image'
+  })
+}
+
+/**
+ * 用户对AI回答反馈（点赞/点踩）
+ * @param {number} id - 对话记录ID
+ * @param {boolean} helpful - true=有用, false=无用
+ */
+function sendAiFeedback(id, helpful) {
+  return post(constants.API.AI_FEEDBACK, { id, helpful }, { loading: false })
+}
+
+/**
+ * 检索历史优质问答（RAG检索层）
+ * @param {string} keyword - 关键词
+ * @param {number} [limit=5] - 返回数量
+ */
+function searchAiHistory(keyword, limit = 5) {
+  return get(constants.API.AI_SEARCH, { keyword, limit }, { loading: false })
+}
+
+/**
+ * 获取AI统计数据资产
+ */
+function getAiStats() {
+  return get(constants.API.AI_STATS, null, { loading: false })
+}
+
+// ========== 管理后台API ==========
+
+/**
+ * 获取待确认的知识条目（AI自动提纯草稿）
+ */
+function getPendingKnowledge() {
+  return get(constants.API.ADMIN_PENDING_KNOWLEDGE, null, { loading: false })
+}
+
+/**
+ * 管理员确认知识入库
+ * @param {number} id - 知识条目ID
+ */
+function confirmKnowledge(id) {
+  return post(constants.API.ADMIN_CONFIRM_KNOWLEDGE, { id })
+}
+
+/**
+ * 手动触发知识提纯
+ * @param {number} [batchSize=50] - 每批处理数量
+ */
+function triggerDistill(batchSize = 50) {
+  return post(constants.API.ADMIN_TRIGGER_DISTILL, null, { loading: true })
 }
 
 // ========== 企业信息相关API ==========
@@ -253,6 +321,13 @@ module.exports = {
   searchKnowledge,
   getKnowledgeDetail,
   sendAiChat,
+  sendAiImageChat,
+  sendAiFeedback,
+  searchAiHistory,
+  getAiStats,
+  getPendingKnowledge,
+  confirmKnowledge,
+  triggerDistill,
   saveCompanyInfo,
   getCompanyInfo
 }

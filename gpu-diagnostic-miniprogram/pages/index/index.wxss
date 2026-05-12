@@ -106,7 +106,7 @@
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20rpx;
+  gap: 12rpx;
   padding: 20rpx 0;
 }
 
@@ -114,33 +114,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20rpx 10rpx;
+  padding: 16rpx 6rpx;
 }
 
 .feature-icon {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 24rpx;
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16rpx;
-  box-shadow: 0 8rpx 20rpx rgba(0,0,0,0.12);
+  margin-bottom: 12rpx;
+  box-shadow: 0 6rpx 16rpx rgba(0,0,0,0.1);
 }
 
 .feature-emoji {
-  font-size: 48rpx;
+  font-size: 40rpx;
 }
 
 .feature-name {
-  font-size: 26rpx;
+  font-size: 24rpx;
   font-weight: 500;
   color: var(--text);
-  margin-bottom: 6rpx;
+  margin-bottom: 4rpx;
 }
 
 .feature-desc {
-  font-size: 22rpx;
+  font-size: 20rpx;
   color: var(--text-light);
 }
 

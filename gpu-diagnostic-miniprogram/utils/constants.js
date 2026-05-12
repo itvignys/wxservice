@@ -48,7 +48,15 @@ module.exports = {
     
     // AI对话
     AI_CHAT: '/api/ai/chat',
-    
+    AI_FEEDBACK: '/api/ai/feedback',
+    AI_SEARCH: '/api/ai/search',
+    AI_STATS: '/api/ai/stats',
+
+    // 管理后台
+    ADMIN_PENDING_KNOWLEDGE: '/api/ai/admin/pending-knowledge',
+    ADMIN_CONFIRM_KNOWLEDGE: '/api/ai/admin/confirm-knowledge',
+    ADMIN_TRIGGER_DISTILL: '/api/ai/admin/trigger-distill',
+
     // 企业信息
     COMPANY_SAVE: '/api/company/save',
     COMPANY_INFO: '/api/company/'

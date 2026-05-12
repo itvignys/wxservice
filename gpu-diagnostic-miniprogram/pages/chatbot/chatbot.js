@@ -12,6 +12,7 @@ Page({
     serviceLevel: 0,
     companyInfo: null,
     keyboardHeight: 0,
+    sessionId: '',
     quickSymptoms: [
       '显卡黑屏无信号',
       '屏幕花屏有条纹',
@@ -24,6 +25,9 @@ Page({
 
   onLoad() {
     this.loadUserData()
+    // 初始化会话ID
+    const sessionId = this.generateSessionId()
+    this.setData({ sessionId })
     // 检查是否有搜索关键词
     const keyword = wx.getStorageSync('searchKeyword')
     if (keyword) {
@@ -31,6 +35,10 @@ Page({
       wx.removeStorageSync('searchKeyword')
     }
     setTimeout(() => { this.scrollToBottom() }, 300)
+  },
+
+  generateSessionId() {
+    return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
   },
 
   onShow() {
@@ -125,16 +133,17 @@ Page({
         source: 'knowledge' // 标记来源为知识库
       })
     } else {
-      // 2. 知识库无高匹配 -> 调用元宝AI接口
+      // 2. 知识库无高匹配 -> 调用元宝AI接口（RAG增强）
       try {
         const context = this.getChatContext()
-        const result = await api.sendAiChat(message, context)
+        const result = await api.sendAiChat(message, context, this.data.sessionId)
         
         this.setData({ isLoading: false })
         this.addMessage('ai', 'text', result.data.reply, {
           isYuanbao: true,
           showUpgrade: true,
-          source: 'yuanbao' // 标记来源为元宝AI
+          source: 'yuanbao',
+          convId: result.data.convId // 后端返回的对话记录ID，用于反馈
         })
       } catch (error) {
         console.error('AI调用失败:', error)
@@ -183,7 +192,7 @@ Page({
     return `根据您描述的现象，我为您找到高度匹配的解决方案：\n\n「${item.question}」\n\n📋 常见原因：${item.causes}\n\n🔍 排查方法：${item.diagnosis}\n\n🛠️ 维修方案：${item.solution}\n\n⭐ 难度：${item.difficulty} | 💰 成本：${item.cost} | ✅ 成功率：${item.successRate}\n\n如需进一步诊断，可以继续描述问题或联系我们的专家。`
   },
 
-  // 获取对话上下文（保留最近5轮对话）
+  // 获取对话上下文（保留最近5轮文字对话，过滤掉图片路径）
   getChatContext() {
     const messages = this.data.messages
     const context = []
@@ -191,7 +200,8 @@ Page({
     
     for (let i = messages.length - 1; i >= 0 && count < 10; i--) {
       const msg = messages[i]
-      if (msg.type === 'user' || msg.type === 'ai') {
+      // 只收集 user 和 ai 的文本消息，跳过图片等本地路径消息
+      if ((msg.type === 'user' || msg.type === 'ai') && msg.contentType !== 'image') {
         context.unshift({
           role: msg.type === 'user' ? 'user' : 'assistant',
           content: msg.content
@@ -217,22 +227,107 @@ Page({
     })
   },
 
-  // 分析图片（后续可对接真实图像识别API）
-  analyzeImage(imagePath) {
+  // 分析图片（对接元宝AI Vision多模态）
+  async analyzeImage(imagePath) {
     this.setData({ isLoading: true })
-    
-    // TODO: 可扩展对接元宝AI的图像识别能力
-    setTimeout(() => {
+    try {
+      const fs = wx.getFileSystemManager()
+      const base64 = fs.readFileSync(imagePath, 'base64')
+      const mime = imagePath.endsWith('.png') ? 'image/png' : 'image/jpeg'
+      const imageBase64 = `data:${mime};base64,${base64}`
+      const context = this.getChatContext()
+      const result = await api.sendAiImageChat('请分析这张图片中的显卡故障', imageBase64, context)
+
       this.setData({ isLoading: false })
-      this.addMessage('ai', 'text', `已收到您上传的图片，正在进行图像分析...\n\n从图片来看，这可能是显卡硬件故障的迹象。建议您：\n\n1. 如果看到的是物理损伤（烧焦、变形等），请立即停止使用\n2. 如果是花屏/条纹，可能是显存或核心问题\n3. 建议联系我们的专家进行进一步诊断`, {
+      this.addMessage('ai', 'text', result.data.reply, {
+        isYuanbao: true,
+        showUpgrade: true,
+        source: 'yuanbao',
+        convId: result.data.convId
+      })
+    } catch (error) {
+      console.error('图片分析失败:', error)
+      this.setData({ isLoading: false })
+      this.addMessage('ai', 'text', '图片分析服务暂时不可用，请稍后重试，或直接描述您遇到的问题。', {
         showUpgrade: true,
         source: 'fallback'
       })
-    }, 1500)
+    }
   },
 
   previewImage(e) {
     wx.previewImage({ urls: [e.currentTarget.dataset.url] })
+  },
+
+  // 点击元宝AI解答标签，重新调用AI接口深入回答
+  async onYuanbaoClick(e) {
+    const msgId = Number(e.currentTarget.dataset.id)
+    const messages = this.data.messages
+    const msgIndex = messages.findIndex(m => m.id === msgId)
+    if (msgIndex === -1) {
+      console.warn('onYuanbaoClick: 未找到消息, msgId=', msgId)
+      return
+    }
+
+    // 向上查找最近的用户问题
+    let userMessage = null
+    for (let i = msgIndex - 1; i >= 0; i--) {
+      if (messages[i].type === 'user') {
+        userMessage = messages[i]
+        break
+      }
+    }
+    if (!userMessage) {
+      wx.showToast({ title: '未找到对应问题', icon: 'none' })
+      return
+    }
+
+    this.setData({ isLoading: true })
+    try {
+      const context = this.getChatContext()
+      const result = await api.sendAiChat(
+        `请更深入地分析这个问题：${userMessage.content}`,
+        context,
+        this.data.sessionId
+      )
+      this.setData({ isLoading: false })
+      this.addMessage('ai', 'text', result.data.reply, {
+        isYuanbao: true,
+        showUpgrade: true,
+        source: 'yuanbao',
+        convId: result.data.convId
+      })
+    } catch (error) {
+      console.error('元宝AI深入分析失败:', error)
+      this.setData({ isLoading: false })
+      wx.showToast({ title: 'AI调用失败，请稍后重试', icon: 'none' })
+    }
+  },
+
+  // 用户对AI回答反馈（点赞/点踩）
+  async onFeedback(e) {
+    const { id, helpful } = e.currentTarget.dataset
+    const messages = this.data.messages
+    const idx = messages.findIndex(m => m.id === id)
+    if (idx === -1) return
+
+    const msg = messages[idx]
+    if (!msg.convId) {
+      wx.showToast({ title: '暂无可反馈的记录', icon: 'none' })
+      return
+    }
+
+    try {
+      await api.sendAiFeedback(msg.convId, helpful)
+      // 本地标记已反馈，避免重复点击
+      this.setData({
+        [`messages[${idx}].feedback`]: helpful ? 'like' : 'dislike'
+      })
+      wx.showToast({ title: helpful ? '感谢点赞' : '已记录，我们会改进', icon: 'none' })
+    } catch (err) {
+      console.error('反馈提交失败:', err)
+      wx.showToast({ title: '反馈失败，请重试', icon: 'none' })
+    }
   },
 
   showKnowledgeBase() {
@@ -260,6 +355,7 @@ Page({
   },
 
   bookOnsite() {
+    console.log('bookOnsite 被点击, companyInfo=', this.data.companyInfo)
     if (!this.data.companyInfo) {
       wx.showModal({
         title: '需要企业信息',

@@ -49,7 +49,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.32.0",
+  "libVersion": "3.14.3",
   "appid": "wx6cbe218883fbcafb",
   "projectname": "gpu-diagnostic-miniprogram",
   "condition": {},

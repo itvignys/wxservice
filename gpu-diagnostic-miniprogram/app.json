@@ -4,15 +4,16 @@
     "pages/chatbot/chatbot",
     "pages/knowledge/knowledge",
     "pages/tools/tools",
-    "pages/service/service"
+    "pages/profile/profile",
+    "pages/service/service",
+    "pages/admin/admin"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#065A82",
     "navigationBarTitleText": "GPU智修专家",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f5f5f5",
-    "softInputMode": "adjustResize"
+    "backgroundColor": "#f5f5f5"
   },
   "tabBar": {
     "color": "#999999",
@@ -22,19 +23,33 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home-active.png"
       },
       {
         "pagePath": "pages/chatbot/chatbot",
-        "text": "智能检测"
+        "text": "AI检测",
+        "iconPath": "images/tabbar/ai.png",
+        "selectedIconPath": "images/tabbar/ai-active.png"
       },
       {
         "pagePath": "pages/knowledge/knowledge",
-        "text": "知识库"
+        "text": "知识库",
+        "iconPath": "images/tabbar/knowledge.png",
+        "selectedIconPath": "images/tabbar/knowledge-active.png"
       },
       {
         "pagePath": "pages/tools/tools",
-        "text": "工具下载"
+        "text": "工具",
+        "iconPath": "images/tabbar/tools.png",
+        "selectedIconPath": "images/tabbar/tools-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tabbar/profile.png",
+        "selectedIconPath": "images/tabbar/profile-active.png"
       }
     ]
   },

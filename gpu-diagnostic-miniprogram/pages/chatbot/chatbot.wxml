@@ -79,8 +79,22 @@
               <text class="success-rate">成功率：{{item.knowledgeMatch.successRate}}</text>
             </view>
           </view>
+          <!-- 反馈按钮 -->
+          <view wx:if="{{item.type === 'ai' && item.source !== 'fallback'}}" class="feedback-bar">
+            <text class="feedback-hint">这个回答对您有帮助吗？</text>
+            <view class="feedback-btns">
+              <view class="feedback-btn {{item.feedback === 'like' ? 'active' : ''}}" bindtap="onFeedback" data-id="{{item.id}}" data-helpful="{{true}}">
+                <text class="feedback-icon">👍</text>
+                <text class="feedback-text">有用</text>
+              </view>
+              <view class="feedback-btn {{item.feedback === 'dislike' ? 'active' : ''}}" bindtap="onFeedback" data-id="{{item.id}}" data-helpful="{{false}}">
+                <text class="feedback-icon">👎</text>
+                <text class="feedback-text">没用</text>
+              </view>
+            </view>
+          </view>
           <!-- 元宝AI回复 -->
-          <view wx:if="{{item.isYuanbao}}" class="yuanbao-badge">
+          <view wx:if="{{item.isYuanbao}}" class="yuanbao-badge" bindtap="onYuanbaoClick" data-id="{{item.id}}">
             <text class="yuanbao-icon">💡</text>
             <text class="yuanbao-text">元宝AI解答</text>
           </view>
@@ -90,27 +104,27 @@
               <text class="divider-text">未解决问题？</text>
             </view>
             <view class="upgrade-options">
-              <button class="upgrade-btn expert" bindtap="contactExpert" wx:if="{{serviceLevel < 1}}">
+              <view class="upgrade-btn expert" bindtap="contactExpert" wx:if="{{serviceLevel < 1}}">
                 <text class="btn-icon">👨‍🔧</text>
                 <view class="btn-info">
                   <text class="btn-title">联系专家</text>
                   <text class="btn-desc">免费电话咨询</text>
                 </view>
-              </button>
-              <button class="upgrade-btn onsite" bindtap="bookOnsite" wx:if="{{serviceLevel < 2 && companyInfo}}">
+              </view>
+              <view class="upgrade-btn onsite" bindtap="bookOnsite" wx:if="{{serviceLevel < 2 && companyInfo}}">
                 <text class="btn-icon">🚪</text>
                 <view class="btn-info">
                   <text class="btn-title">预约上门</text>
                   <text class="btn-desc">免费检测服务</text>
                 </view>
-              </button>
-              <button class="upgrade-btn onsite disabled" wx:if="{{serviceLevel < 2 && !companyInfo}}">
+              </view>
+              <view class="upgrade-btn onsite disabled" bindtap="bookOnsite" wx:if="{{serviceLevel < 2 && !companyInfo}}">
                 <text class="btn-icon">🚪</text>
                 <view class="btn-info">
                   <text class="btn-title">预约上门</text>
                   <text class="btn-desc">需完善企业信息</text>
                 </view>
-              </button>
+              </view>
             </view>
           </view>
         </view>
