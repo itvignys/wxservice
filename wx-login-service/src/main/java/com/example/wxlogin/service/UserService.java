@@ -28,4 +28,19 @@ public interface UserService {
      * @return 更新后的用户信息
      */
     WxUser updateProfile(WxUser userData);
+
+    /**
+     * App 端手机号验证码登录
+     * 手机号不存在则自动注册，生成 app_ 前缀的 openid
+     * @param phone 手机号
+     * @return 登录后的用户信息
+     */
+    WxUser loginByPhone(String phone);
+
+    /**
+     * 根据手机号查询用户
+     * @param phone 手机号
+     * @return 用户信息，未找到返回 null
+     */
+    WxUser findByPhone(String phone);
 }

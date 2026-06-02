@@ -42,6 +42,30 @@ public class KnowledgeServiceImpl extends ServiceImpl<GpuKnowledgeMapper, GpuKno
 
     @Override
     public List<GpuKnowledge> search(String keyword, String category) {
+        // 优先使用MySQL FULLTEXT全文检索（当有关键词且无分类筛选时）
+        if (StringUtils.hasText(keyword) && (!StringUtils.hasText(category) || "全部".equals(category))) {
+            String ftKeyword = keyword.trim();
+            // 简单处理：为每个词加上+前缀以增强相关度排序（布尔模式）
+            String booleanQuery = ftKeyword.replaceAll("\\s+", " +");
+            if (!booleanQuery.startsWith("+")) {
+                booleanQuery = "+" + booleanQuery;
+            }
+            try {
+                List<GpuKnowledge> ftResult = knowledgeMapper.fullTextSearch(booleanQuery, 50);
+                if (!ftResult.isEmpty()) {
+                    log.info("知识库FTS命中: keyword={}, result={}", keyword, ftResult.size());
+                    return ftResult;
+                }
+                // FTS无结果，降级到模糊搜索
+                List<GpuKnowledge> fallback = knowledgeMapper.fallbackSearch(ftKeyword, 50);
+                log.info("知识库FTS无结果，降级LIKE搜索: keyword={}, result={}", keyword, fallback.size());
+                return fallback;
+            } catch (Exception e) {
+                log.warn("全文检索异常，降级到LIKE查询: {}", e.getMessage());
+                // 降级到原模糊查询
+            }
+        }
+
         LambdaQueryWrapper<GpuKnowledge> wrapper = new LambdaQueryWrapper<>();
 
         // 分类筛选

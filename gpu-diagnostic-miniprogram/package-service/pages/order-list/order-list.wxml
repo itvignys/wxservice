@@ -1,0 +1,100 @@
+<view class="container">
+  <!-- 状态筛选栏 -->
+  <view class="status-tabs">
+    <view 
+      class="tab-item {{currentStatus === item.value ? 'active' : ''}}" 
+      wx:for="{{statusTabs}}" 
+      wx:key="value"
+      bindtap="switchStatus"
+      data-status="{{item.value}}"
+    >
+      <text class="tab-text">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 骨架屏 -->
+  <view class="skeleton-list" wx:if="{{showSkeleton}}">
+    <view class="skeleton-card" wx:for="{{3}}" wx:key="index">
+      <view class="skeleton-row">
+        <view class="skeleton" style="width: 200rpx; height: 36rpx;"></view>
+        <view class="skeleton" style="width: 100rpx; height: 36rpx;"></view>
+      </view>
+      <view class="skeleton" style="width: 100%; height: 28rpx; margin-top: 16rpx;"></view>
+      <view class="skeleton" style="width: 60%; height: 28rpx; margin-top: 12rpx;"></view>
+    </view>
+  </view>
+
+  <!-- 工单列表 -->
+  <scroll-view 
+    class="order-list" 
+    scroll-y 
+    refresher-enabled 
+    refresher-triggered="{{isRefreshing}}"
+    bindrefresherrefresh="onRefresh"
+    bindscrolltolower="onReachBottom"
+    wx:if="{{!showSkeleton}}"
+  >
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{orders.length === 0 && !isLoading}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-title">暂无工单</text>
+      <text class="empty-desc">您还没有提交过维修工单</text>
+      <view class="empty-btn" bindtap="createOrder">
+        <text>创建工单</text>
+      </view>
+    </view>
+
+    <!-- 工单卡片 -->
+    <view 
+      class="order-card" 
+      wx:for="{{orders}}" 
+      wx:key="id"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="order-header">
+        <view class="order-no">
+          <text class="order-no-label">工单号：</text>
+          <text class="order-no-value">{{item.orderNo || item.id}}</text>
+        </view>
+        <view class="order-status" style="color: {{item.statusColor}};">
+          <text class="status-dot" style="background: {{item.statusColor}};"></text>
+          <text>{{item.statusText}}</text>
+        </view>
+      </view>
+      <view class="order-body">
+        <view class="order-info-row">
+          <text class="info-label">设备：</text>
+          <text class="info-value">{{item.deviceType}} {{item.brandModel}}</text>
+        </view>
+        <view class="order-info-row">
+          <text class="info-label">故障：</text>
+          <text class="info-value">{{item.faultDesc}}</text>
+        </view>
+        <view class="order-info-row">
+          <text class="info-label">服务：</text>
+          <text class="info-value">{{item.serviceType === 'onsite' ? '上门服务' : item.serviceType === 'instore' ? '到店维修' : '邮寄维修'}}</text>
+        </view>
+      </view>
+      <view class="order-footer">
+        <text class="order-time">{{item.createdAtText}}</text>
+        <text class="order-arrow">></text>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{orders.length > 0}}">
+      <text wx:if="{{isLoading}}">加载中...</text>
+      <text wx:elif="{{!hasMore}}">已加载全部</text>
+      <text wx:else>上拉加载更多</text>
+    </view>
+  </scroll-view>
+
+  <!-- 底部创建按钮 -->
+  <view class="bottom-bar" wx:if="{{orders.length > 0}}">
+    <view class="create-btn" bindtap="createOrder">
+      <text class="create-icon">+</text>
+      <text>创建工单</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,62 @@
+name: gpu_diagnostic_app
+description: GPU智修专家 - Flutter跨平台App
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 状态管理
+  flutter_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
+
+  # 网络请求
+  dio: ^5.4.0
+  dio_smart_retry: ^6.0.0
+
+  # 本地存储
+  shared_preferences: ^2.2.2
+
+  # JSON序列化
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
+
+  # 图片选择
+  image_picker: ^1.0.7
+
+  # 图片预览
+  photo_view: ^0.14.0
+
+  # URL 跳转（打电话、打开网页等）
+  url_launcher: ^6.2.5
+
+  # 下拉刷新
+  pull_to_refresh: ^2.0.0
+
+  # 工具
+  flutter_screenutil: ^5.9.0
+  fluttertoast: ^8.2.4
+  shimmer: ^3.0.0
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.8
+  freezed: ^2.4.6
+  json_serializable: ^6.7.1
+  riverpod_generator: ^2.3.9
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/tabbar/
+    - assets/images/

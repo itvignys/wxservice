@@ -1,0 +1,198 @@
+<view class="admin-container">
+  <!-- 顶部统计卡片 -->
+  <view class="stats-section">
+    <view class="stats-card primary">
+      <text class="stats-value">{{stats.valuableCount}}</text>
+      <text class="stats-label">优质数据资产</text>
+    </view>
+    <view class="stats-card info">
+      <text class="stats-value">{{stats.totalCount}}</text>
+      <text class="stats-label">总对话量</text>
+    </view>
+    <view class="stats-card warning">
+      <text class="stats-value">{{stats.pendingCount}}</text>
+      <text class="stats-label">待确认草稿</text>
+    </view>
+  </view>
+
+  <!-- 数据看板 -->
+  <view class="dashboard-section">
+    <view class="dashboard-title">📊 数据看板</view>
+    <!-- 满意度 -->
+    <view class="dashboard-card">
+      <view class="dashboard-card-title">用户满意度</view>
+      <view class="satisfaction-bar">
+        <view class="satisfaction-item like">
+          <text class="satisfaction-icon">👍</text>
+          <text class="satisfaction-count">{{satisfaction.like}}</text>
+          <text class="satisfaction-label">有用</text>
+        </view>
+        <view class="satisfaction-item dislike">
+          <text class="satisfaction-icon">👎</text>
+          <text class="satisfaction-count">{{satisfaction.dislike}}</text>
+          <text class="satisfaction-label">没用</text>
+        </view>
+      </view>
+    </view>
+    <!-- 热门问题TOP10 -->
+    <view class="dashboard-card" wx:if="{{topQuestions.length > 0}}">
+      <view class="dashboard-card-title">🔥 热门问题 TOP10（近7天）</view>
+      <view wx:for="{{topQuestions}}" wx:key="index" class="top-question-item">
+        <text class="top-rank">{{index + 1}}</text>
+        <text class="top-text">{{item.question}}</text>
+        <text class="top-count">{{item.count}}次</text>
+      </view>
+    </view>
+    <!-- 每日对话量 -->
+    <view class="dashboard-card" wx:if="{{dailyStats.length > 0}}">
+      <view class="dashboard-card-title">📈 每日对话量（近30天）</view>
+      <view class="daily-stats-list">
+        <view wx:for="{{dailyStats}}" wx:key="date" class="daily-stat-item">
+          <text class="daily-date">{{item.date}}</text>
+          <view class="daily-bar-bg">
+            <view class="daily-bar-fill" style="width: {{item.count * 5}}rpx;"></view>
+          </view>
+          <text class="daily-count">{{item.count}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮区 -->
+  <view class="action-section">
+    <view class="action-btn {{isDistilling ? 'disabled' : ''}}" bindtap="onTriggerDistill">
+      <text class="action-icon">🔄</text>
+      <text class="action-text">{{isDistilling ? '正在提纯...' : '手动触发知识提纯'}}</text>
+    </view>
+  </view>
+
+  <!-- 历史问答检索 -->
+  <view class="search-section">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="检索历史优质问答..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+        bindconfirm="onSearchConfirm"
+      />
+      <text class="clear-icon" wx:if="{{searchKeyword}}" bindtap="onClearSearch">✕</text>
+    </view>
+  </view>
+
+  <!-- 历史检索结果 -->
+  <view wx:if="{{historyList.length > 0}}" class="history-section">
+    <view class="section-title">检索结果（{{historyList.length}}条）</view>
+    <view wx:for="{{historyList}}" wx:key="id" class="history-card">
+      <view class="history-question">Q：{{item.question}}</view>
+      <view class="history-answer">A：{{item.answer}}</view>
+      <view class="history-meta">
+        <text class="history-source">来源：{{item.source}}</text>
+        <text class="history-time">{{item.createdAt}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待确认知识列表 -->
+  <view class="pending-section">
+    <view class="section-header">
+      <text class="section-title">待确认知识条目</text>
+      <text class="section-count">{{pendingList.length}} 条</text>
+    </view>
+
+    <view wx:if="{{isLoading}}" class="loading-state">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <view wx:elif="{{pendingList.length === 0}}" class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无待确认草稿</text>
+      <text class="empty-hint">优质对话被用户点赞后，可点击上方"手动触发知识提纯"生成</text>
+    </view>
+
+    <view wx:for="{{pendingList}}" wx:key="id" class="knowledge-card">
+      <view class="card-header">
+        <view class="category-tag" style="background: {{categoryColors[item.category] || '#999'}};">
+          {{item.category || '其他'}}
+        </view>
+        <text class="card-id">#{{item.id}}</text>
+      </view>
+      <view class="card-title">{{item.question}}</view>
+      <view class="card-preview">
+        <text class="preview-label">原因：</text>
+        <text class="preview-text">{{item.causes}}</text>
+      </view>
+      <view class="card-preview">
+        <text class="preview-label">方案：</text>
+        <text class="preview-text">{{item.solution}}</text>
+      </view>
+      <view class="card-footer">
+        <view class="card-meta">
+          <text class="meta-item">难度：{{item.difficulty}}</text>
+          <text class="meta-item">成本：{{item.cost}}</text>
+          <text class="meta-item">成功率：{{item.successRate}}</text>
+        </view>
+        <view class="card-actions">
+          <view class="btn-view" bindtap="onViewDetail" data-id="{{item.id}}">
+            <text>查看详情</text>
+          </view>
+          <view class="btn-confirm" bindtap="onConfirm" data-id="{{item.id}}">
+            <text>确认入库</text>
+          </view>
+          <view class="btn-delete" bindtap="onDelete" data-id="{{item.id}}">
+            <text>删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 详情弹窗 -->
+  <view wx:if="{{showDetail}}" class="detail-mask" bindtap="onCloseDetail">
+    <view class="detail-modal" catchtap="noop">
+      <view class="detail-header">
+        <view class="detail-category" style="background: {{selectedItem._categoryColor}};">
+          {{selectedItem.category || '其他'}}
+        </view>
+        <view class="detail-close" bindtap="onCloseDetail">✕</view>
+      </view>
+      <scroll-view class="detail-body" scroll-y>
+        <view class="detail-title">{{selectedItem.question}}</view>
+        <view class="detail-block">
+          <text class="detail-label">常见原因</text>
+          <text class="detail-content">{{selectedItem.causes}}</text>
+        </view>
+        <view class="detail-block">
+          <text class="detail-label">排查方法</text>
+          <text class="detail-content">{{selectedItem.diagnosis}}</text>
+        </view>
+        <view class="detail-block">
+          <text class="detail-label">维修方案</text>
+          <text class="detail-content">{{selectedItem.solution}}</text>
+        </view>
+        <view class="detail-block">
+          <text class="detail-label">难度评估</text>
+          <text class="detail-content">{{selectedItem.difficulty}}</text>
+        </view>
+        <view class="detail-block">
+          <text class="detail-label">维修成本</text>
+          <text class="detail-content">{{selectedItem.cost}}</text>
+        </view>
+        <view class="detail-block">
+          <text class="detail-label">成功率</text>
+          <text class="detail-content">{{selectedItem.successRate}}</text>
+        </view>
+      </scroll-view>
+      <view class="detail-footer">
+        <view class="btn-confirm-large" bindtap="onConfirm" data-id="{{selectedItem.id}}">
+          <text>确认入库</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

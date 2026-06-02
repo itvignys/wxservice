@@ -1,4 +1,17 @@
 <view class="chat-container">
+  <!-- 头部操作栏 -->
+  <view class="chat-header">
+    <view class="header-left">
+      <text class="header-title">AI诊断助手</text>
+    </view>
+    <view class="header-right">
+      <view class="header-btn" bindtap="newChat">
+        <text class="header-btn-icon">+</text>
+        <text class="header-btn-text">新对话</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 服务等级进度条 -->
   <view class="service-progress">
     <view class="progress-item {{serviceLevel >= 0 ? 'active' : ''}}">
@@ -18,7 +31,7 @@
   </view>
 
   <!-- 消息列表 -->
-  <scroll-view class="chat-list" scroll-y scroll-into-view="{{scrollToView}}" enhanced show-scrollbar scroll-with-animation scroll-with-animation="true">
+  <scroll-view class="chat-list" scroll-y scroll-into-view="{{scrollToView}}" enhanced show-scrollbar scroll-with-animation refresher-enabled refresher-triggered="{{isRefreshing}}" bindrefresherrefresh="onRefresh">
     <!-- 欢迎消息 -->
     <view class="chat-item ai" id="msg-welcome">
       <view class="avatar ai-avatar">🤖</view>
@@ -34,12 +47,17 @@
     </view>
 
     <!-- 消息列表 -->
-    <view wx:for="{{messages}}" wx:key="id" class="chat-item {{item.type}}" id="msg-{{item.id}}">
+    <view wx:for="{{messages}}" wx:key="id" class="chat-item {{item.type}}" id="msg-{{item.id}}" bindlongpress="onMessageLongPress" data-id="{{item.id}}" data-type="{{item.type}}" data-contenttype="{{item.contentType}}">
       <!-- 用户消息 -->
       <block wx:if="{{item.type === 'user'}}">
         <view class="message user-message">
           <text class="message-text" wx:if="{{item.contentType === 'text'}}">{{item.content}}</text>
           <image class="message-image" wx:if="{{item.contentType === 'image'}}" src="{{item.content}}" mode="widthFix" bindtap="previewImage" data-url="{{item.content}}"/>
+          <!-- 语音消息 -->
+          <view class="voice-message" wx:if="{{item.contentType === 'voice'}}" bindtap="playVoice" data-url="{{item.content}}">
+            <text class="voice-icon">🔊</text>
+            <text class="voice-duration">{{item.duration || 0}}"</text>
+          </view>
         </view>
         <view class="avatar user-avatar">👤</view>
       </block>
@@ -48,7 +66,10 @@
       <block wx:if="{{item.type === 'ai'}}">
         <view class="avatar ai-avatar">🤖</view>
         <view class="message ai-message">
-          <text class="message-text" wx:if="{{item.contentType === 'text'}}">{{item.content}}</text>
+          <view class="message-text-wrap" wx:if="{{item.contentType === 'text'}}">
+            <text class="message-text">{{item.content}}</text>
+            <text class="typing-cursor" wx:if="{{item.isTyping}}">|</text>
+          </view>
           <!-- 知识库匹配结果 -->
           <view wx:if="{{item.knowledgeMatch}}" class="knowledge-card">
             <view class="knowledge-header">
@@ -79,10 +100,34 @@
               <text class="success-rate">成功率：{{item.knowledgeMatch.successRate}}</text>
             </view>
           </view>
+          <!-- 反馈按钮 -->
+          <view wx:if="{{item.type === 'ai' && item.source !== 'fallback'}}" class="feedback-bar">
+            <text class="feedback-hint">这个回答对您有帮助吗？</text>
+            <view class="feedback-btns">
+              <view class="feedback-btn {{item.feedback === 'like' ? 'active' : ''}}" bindtap="onFeedback" data-id="{{item.id}}" data-helpful="{{true}}">
+                <text class="feedback-icon">👍</text>
+                <text class="feedback-text">有用</text>
+              </view>
+              <view class="feedback-btn {{item.feedback === 'dislike' ? 'active' : ''}}" bindtap="onFeedback" data-id="{{item.id}}" data-helpful="{{false}}">
+                <text class="feedback-icon">👎</text>
+                <text class="feedback-text">没用</text>
+              </view>
+            </view>
+          </view>
           <!-- 元宝AI回复 -->
-          <view wx:if="{{item.isYuanbao}}" class="yuanbao-badge">
+          <view wx:if="{{item.isYuanbao}}" class="yuanbao-badge" bindtap="onYuanbaoClick" data-id="{{item.id}}">
             <text class="yuanbao-icon">💡</text>
             <text class="yuanbao-text">元宝AI解答</text>
+          </view>
+          <!-- RAG来源溯源 -->
+          <view wx:if="{{item.ragSources && item.ragSources.length > 0}}" class="rag-sources">
+            <text class="rag-label">参考来源：</text>
+            <view class="rag-list">
+              <view class="rag-chip" wx:for="{{item.ragSources}}" wx:key="id" wx:for-item="src">
+                <text class="rag-chip-icon">{{src.type === 'knowledge' ? '📚' : '💬'}}</text>
+                <text class="rag-chip-text">{{src.title}}</text>
+              </view>
+            </view>
           </view>
           <!-- 升级服务按钮 -->
           <view wx:if="{{item.showUpgrade}}" class="upgrade-section">
@@ -90,27 +135,27 @@
               <text class="divider-text">未解决问题？</text>
             </view>
             <view class="upgrade-options">
-              <button class="upgrade-btn expert" bindtap="contactExpert" wx:if="{{serviceLevel < 1}}">
+              <view class="upgrade-btn expert" bindtap="contactExpert" wx:if="{{serviceLevel < 1}}">
                 <text class="btn-icon">👨‍🔧</text>
                 <view class="btn-info">
                   <text class="btn-title">联系专家</text>
                   <text class="btn-desc">免费电话咨询</text>
                 </view>
-              </button>
-              <button class="upgrade-btn onsite" bindtap="bookOnsite" wx:if="{{serviceLevel < 2 && companyInfo}}">
+              </view>
+              <view class="upgrade-btn onsite" bindtap="bookOnsite" wx:if="{{serviceLevel < 2 && companyInfo}}">
                 <text class="btn-icon">🚪</text>
                 <view class="btn-info">
                   <text class="btn-title">预约上门</text>
                   <text class="btn-desc">免费检测服务</text>
                 </view>
-              </button>
-              <button class="upgrade-btn onsite disabled" wx:if="{{serviceLevel < 2 && !companyInfo}}">
+              </view>
+              <view class="upgrade-btn onsite disabled" bindtap="bookOnsite" wx:if="{{serviceLevel < 2 && !companyInfo}}">
                 <text class="btn-icon">🚪</text>
                 <view class="btn-info">
                   <text class="btn-title">预约上门</text>
                   <text class="btn-desc">需完善企业信息</text>
                 </view>
-              </button>
+              </view>
             </view>
           </view>
         </view>
@@ -168,9 +213,32 @@
         show-confirm-bar="{{false}}"
         hold-keyboard
       />
+      <!-- 语音录音按钮 -->
+      <view 
+        class="voice-btn {{isRecording ? 'recording' : ''}}" 
+        bindlongpress="startRecord" 
+        bindtouchend="stopRecord"
+      >
+        <text class="voice-btn-icon">{{isRecording ? '◼' : '🎤'}}</text>
+      </view>
       <button class="send-btn {{inputMessage ? 'active' : ''}}" bindtap="sendMessage">
         <text class="send-icon">➤</text>
       </button>
+    </view>
+  </view>
+
+  <!-- 录音状态提示 -->
+  <view class="record-toast" wx:if="{{isRecording}}">
+    <view class="record-toast-content">
+      <view class="record-wave">
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+      </view>
+      <text class="record-toast-text">正在录音 {{recordTime}}s</text>
+      <text class="record-toast-hint">松开结束，最多60秒</text>
     </view>
   </view>
 </view>

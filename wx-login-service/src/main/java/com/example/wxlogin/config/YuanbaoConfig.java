@@ -18,6 +18,9 @@ public class YuanbaoConfig {
     /** 模型名称：hunyuan-turbo 或 hunyuan-pro */
     private String model = "hunyuan-turbo";
 
+    /** 视觉分析模型名称：hunyuan-vision */
+    private String visionModel = "hunyuan-vision";
+
     /** API端点地址 */
     private String endpoint = "https://hunyuan.cloud.tencent.com/v1/chat/completions";
 

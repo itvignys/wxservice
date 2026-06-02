@@ -1,8 +1,11 @@
 package com.example.wxlogin.controller;
 
 import com.example.wxlogin.dto.ApiResponse;
+import com.example.wxlogin.dto.AppLoginRequest;
 import com.example.wxlogin.dto.LoginRequest;
+import com.example.wxlogin.dto.SmsSendRequest;
 import com.example.wxlogin.entity.WxUser;
+import com.example.wxlogin.service.SmsCodeService;
 import com.example.wxlogin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final SmsCodeService smsCodeService;
 
     /**
      * 微信小程序登录
@@ -64,6 +68,53 @@ public class UserController {
             return ApiResponse.success("更新成功", updated);
         } catch (Exception e) {
             log.error("更新用户资料失败", e);
+            return ApiResponse.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 发送短信验证码
+     * POST /api/user/sms/send
+     *
+     * 请求体: { phone }
+     * 演示环境直接返回验证码，生产环境应调用短信网关
+     */
+    @PostMapping("/sms/send")
+    public ApiResponse<String> sendSmsCode(@Validated @RequestBody SmsSendRequest request) {
+        log.info("请求发送验证码，手机号: {}", request.getPhone());
+        try {
+            String code = smsCodeService.sendCode(request.getPhone());
+            // 演示环境：直接返回验证码给前端，方便测试
+            // 生产环境：应删除返回的 code，仅返回 "发送成功"
+            return ApiResponse.success("验证码已发送", code);
+        } catch (Exception e) {
+            log.error("发送验证码失败", e);
+            return ApiResponse.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * App 端手机号验证码登录
+     * POST /api/user/login/app
+     *
+     * 请求体: { phone, verifyCode }
+     * 手机号不存在则自动注册
+     */
+    @PostMapping("/login/app")
+    public ApiResponse<WxUser> appLogin(@Validated @RequestBody AppLoginRequest request) {
+        log.info("App 登录请求，手机号: {}", request.getPhone());
+        try {
+            // 校验验证码
+            boolean verified = smsCodeService.verifyCode(request.getPhone(), request.getVerifyCode());
+            if (!verified) {
+                return ApiResponse.fail("验证码错误或已过期");
+            }
+
+            // 登录/注册
+            WxUser user = userService.loginByPhone(request.getPhone());
+            return ApiResponse.success("登录成功", user);
+        } catch (Exception e) {
+            log.error("App 登录失败", e);
             return ApiResponse.fail(e.getMessage());
         }
     }

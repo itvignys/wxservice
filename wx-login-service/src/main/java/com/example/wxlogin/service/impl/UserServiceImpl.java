@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         if (existUser == null) {
             throw new RuntimeException("用户不存在");
         }
-        
+
         // 只更新允许修改的字段
         if (userData.getNickname() != null) {
             existUser.setNickname(userData.getNickname());
@@ -93,6 +93,43 @@ public class UserServiceImpl implements UserService {
         wxUserMapper.updateById(existUser);
         log.info("用户资料更新成功: {}", userData.getOpenid());
         return existUser;
+    }
+
+    @Override
+    @Transactional
+    public WxUser loginByPhone(String phone) {
+        // 先根据手机号查找用户
+        WxUser existUser = findByPhone(phone);
+
+        if (existUser != null) {
+            // 用户已存在，更新登录时间
+            existUser.setUpdatedAt(LocalDateTime.now());
+            wxUserMapper.updateById(existUser);
+            log.info("App 用户登录成功: {}, openid: {}", phone, existUser.getOpenid());
+            return existUser;
+        } else {
+            // 新用户，自动注册
+            WxUser newUser = new WxUser();
+            // 生成 app_ 前缀的 openid，确保唯一性
+            String openid = "app_" + phone + "_" + System.currentTimeMillis();
+            newUser.setOpenid(openid);
+            newUser.setPhone(phone);
+            newUser.setNickname("手机用户" + phone.substring(phone.length() - 4));
+            newUser.setServiceLevel(0);
+            newUser.setRole("customer");
+            newUser.setCreatedAt(LocalDateTime.now());
+            newUser.setUpdatedAt(LocalDateTime.now());
+            wxUserMapper.insert(newUser);
+            log.info("App 新用户注册成功: {}, openid: {}", phone, openid);
+            return newUser;
+        }
+    }
+
+    @Override
+    public WxUser findByPhone(String phone) {
+        LambdaQueryWrapper<WxUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(WxUser::getPhone, phone);
+        return wxUserMapper.selectOne(wrapper);
     }
 
 }

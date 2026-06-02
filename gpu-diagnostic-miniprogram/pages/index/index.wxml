@@ -1,15 +1,32 @@
 <view class="container">
-  <!-- Banner区域 -->
-  <view class="banner">
-    <view class="banner-content">
-      <text class="banner-title">GPU智修专家</text>
-      <text class="banner-subtitle">专业英伟达显卡故障诊断与维修服务</text>
+  <!-- 骨架屏 -->
+  <view wx:if="{{showSkeleton}}">
+    <view class="skeleton skeleton-banner"></view>
+    <view class="skeleton skeleton-card"></view>
+    <view class="skeleton-row">
+      <view class="skeleton skeleton-circle" wx:for="{{4}}" wx:key="index"></view>
     </view>
-    <view class="banner-decoration">🔧</view>
+    <view class="skeleton skeleton-card"></view>
+    <view class="skeleton-row">
+      <view class="skeleton skeleton-tag" wx:for="{{3}}" wx:key="index"></view>
+    </view>
   </view>
 
+  <!-- Banner轮播区域 -->
+  <swiper class="banner-swiper" wx:if="{{!showSkeleton}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="4000" duration="500" circular="{{true}}" bindchange="onBannerChange" indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#ffffff">
+    <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-index="{{index}}">
+      <view class="banner" style="background: {{item.bg}};">
+        <view class="banner-content">
+          <text class="banner-title">{{item.title}}</text>
+          <text class="banner-subtitle">{{item.subtitle}}</text>
+        </view>
+        <view class="banner-decoration">{{item.icon}}</view>
+      </view>
+    </swiper-item>
+  </swiper>
+
   <!-- 功能入口 -->
-  <view class="card">
+  <view class="card" wx:if="{{!showSkeleton}}">
     <view class="card-header">
       <view class="card-icon" style="background: rgba(2,195,154,0.1);">🚀</view>
       <text class="card-title">快速开始</text>
@@ -83,7 +100,7 @@
   </view>
 
   <!-- 服务统计 -->
-  <view class="card">
+  <view class="card" wx:if="{{!showSkeleton}}">
     <view class="card-header">
       <view class="card-icon" style="background: rgba(255,149,0,0.1);">📈</view>
       <text class="card-title">服务数据</text>
@@ -109,7 +126,7 @@
   </view>
 
   <!-- 常见问题快捷入口 -->
-  <view class="card">
+  <view class="card" wx:if="{{!showSkeleton}}">
     <view class="card-header">
       <view class="card-icon" style="background: rgba(255,59,48,0.1);">❓</view>
       <text class="card-title">常见故障</text>
@@ -124,7 +141,7 @@
   </view>
 
   <!-- 企业信息入口 -->
-  <view class="company-tip">
+  <view class="company-tip" wx:if="{{!showSkeleton}}">
     <text class="tip-icon">{{companyInfo ? '🏢' : '💡'}}</text>
     <view class="tip-content">
       <text class="tip-title">{{companyInfo ? companyInfo.name : '完善企业信息，解锁更多服务'}}</text>

@@ -33,7 +33,8 @@ function request(options) {
       data,
       header: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + (wx.getStorageSync(constants.STORAGE_KEYS.TOKEN) || '')
+        'Authorization': 'Bearer ' + (wx.getStorageSync(constants.STORAGE_KEYS.TOKEN) || ''),
+        'X-Openid': wx.getStorageSync(constants.STORAGE_KEYS.OPENID) || ''
       },
       success(res) {
         if (loading) {
@@ -162,6 +163,23 @@ function updateProfile(data) {
   return put(constants.API.USER_PROFILE, data)
 }
 
+/**
+ * 发送短信验证码
+ * @param {string} phone - 手机号
+ */
+function sendSmsCode(phone) {
+  return post(constants.API.SMS_SEND, { phone })
+}
+
+/**
+ * App/手机号验证码登录
+ * @param {string} phone - 手机号
+ * @param {string} verifyCode - 验证码
+ */
+function appLogin(phone, verifyCode) {
+  return post(constants.API.APP_LOGIN, { phone, verifyCode })
+}
+
 // ========== 知识库相关API ==========
 
 /**
@@ -202,13 +220,87 @@ function getKnowledgeDetail(id) {
  * 发送消息给AI
  * @param {string} message - 用户消息
  * @param {Array} context - 对话上下文
+ * @param {string} [sessionId] - 会话ID
  */
-function sendAiChat(message, context) {
+function sendAiChat(message, context, sessionId) {
   return post(constants.API.AI_CHAT, {
     message,
     context: context || [],
-    scene: 'gpu_diagnosis'
+    scene: 'gpu_diagnosis',
+    sessionId
   })
+}
+
+/**
+ * 发送图片给AI分析（混元Vision多模态）
+ * @param {string} message - 用户消息/提问
+ * @param {string} imageUrl - 图片URL（后端上传后返回的可访问地址）
+ * @param {Array} context - 对话上下文
+ */
+function sendAiImageChat(message, imageUrl, context) {
+  return post(constants.API.AI_CHAT, {
+    message,
+    imageUrl,
+    context: context || [],
+    scene: 'gpu_diagnosis_image'
+  })
+}
+
+/**
+ * 用户对AI回答反馈（点赞/点踩）
+ * @param {number} id - 对话记录ID
+ * @param {boolean} helpful - true=有用, false=无用
+ */
+function sendAiFeedback(id, helpful) {
+  return post(constants.API.AI_FEEDBACK, { id, helpful }, { loading: false })
+}
+
+/**
+ * 检索历史优质问答（RAG检索层）
+ * @param {string} keyword - 关键词
+ * @param {number} [limit=5] - 返回数量
+ */
+function searchAiHistory(keyword, limit = 5) {
+  return get(constants.API.AI_SEARCH, { keyword, limit }, { loading: false })
+}
+
+/**
+ * 获取AI统计数据资产
+ */
+function getAiStats() {
+  return get(constants.API.AI_STATS, null, { loading: false })
+}
+
+/**
+ * 获取首页仪表盘统计数据
+ */
+function getDashboardStats() {
+  return get(constants.API.DASHBOARD_STATS, null, { loading: false })
+}
+
+// ========== 管理后台API ==========
+
+/**
+ * 获取待确认的知识条目（AI自动提纯草稿）
+ */
+function getPendingKnowledge() {
+  return get(constants.API.ADMIN_PENDING_KNOWLEDGE, null, { loading: false })
+}
+
+/**
+ * 管理员确认知识入库
+ * @param {number} id - 知识条目ID
+ */
+function confirmKnowledge(id) {
+  return post(constants.API.ADMIN_CONFIRM_KNOWLEDGE, { id })
+}
+
+/**
+ * 手动触发知识提纯
+ * @param {number} [batchSize=50] - 每批处理数量
+ */
+function triggerDistill(batchSize = 50) {
+  return post(constants.API.ADMIN_TRIGGER_DISTILL, null, { loading: true })
 }
 
 // ========== 企业信息相关API ==========
@@ -218,6 +310,32 @@ function sendAiChat(message, context) {
  */
 function saveCompanyInfo(data) {
   return post(constants.API.COMPANY_SAVE, data)
+}
+
+/**
+ * 创建维修工单（服务预约）
+ * @param {Object} order - 工单数据
+ */
+function createOrder(order) {
+  return post(constants.API.ORDER_CREATE, order)
+}
+
+/**
+ * 获取我的工单列表
+ * @param {number} page - 页码
+ * @param {number} size - 每页数量
+ * @param {string} status - 状态筛选
+ */
+function getMyOrders(page = 1, size = 10, status) {
+  return get(constants.API.ORDER_MY, { page, size, status }, { loading: false })
+}
+
+/**
+ * 获取工单详情
+ * @param {number} orderId - 工单ID
+ */
+function getOrderDetail(orderId) {
+  return get(constants.API.ORDER_DETAIL + orderId, null, { loading: false })
 }
 
 /**
@@ -240,6 +358,30 @@ function getCompanyInfo(openid) {
   })
 }
 
+// ========== 订阅消息API ==========
+
+/**
+ * 发送订阅消息
+ * @param {string} openid - 用户openid
+ * @param {string} templateId - 模板ID
+ * @param {Object} data - 模板数据
+ * @param {string} [page] - 跳转页面
+ */
+function sendSubscribeMessage(openid, templateId, data, page) {
+  return post(constants.API.WXMSG_SUBSCRIBE_SEND, { openid, templateId, data, page }, { loading: false })
+}
+
+/**
+ * 发送工单状态变更通知
+ * @param {string} openid - 用户openid
+ * @param {string} orderNo - 工单编号
+ * @param {string} status - 状态
+ * @param {string} [remark] - 备注
+ */
+function sendOrderStatusNotice(openid, orderNo, status, remark) {
+  return post(constants.API.WXMSG_ORDER_STATUS, { openid, orderNo, status, remark }, { loading: false })
+}
+
 module.exports = {
   request,
   get,
@@ -253,6 +395,21 @@ module.exports = {
   searchKnowledge,
   getKnowledgeDetail,
   sendAiChat,
+  sendAiImageChat,
+  sendAiFeedback,
+  searchAiHistory,
+  getAiStats,
+  getDashboardStats,
+  getPendingKnowledge,
+  confirmKnowledge,
+  triggerDistill,
   saveCompanyInfo,
-  getCompanyInfo
+  getCompanyInfo,
+  sendSmsCode,
+  appLogin,
+  createOrder,
+  getMyOrders,
+  getOrderDetail,
+  sendSubscribeMessage,
+  sendOrderStatusNotice
 }

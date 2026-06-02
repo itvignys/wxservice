@@ -1,0 +1,112 @@
+<view class="container">
+  <!-- 骨架屏 -->
+  <view class="skeleton-detail" wx:if="{{showSkeleton}}">
+    <view class="skeleton" style="width: 300rpx; height: 40rpx; margin-bottom: 24rpx;"></view>
+    <view class="skeleton" style="width: 100%; height: 200rpx; margin-bottom: 24rpx; border-radius: 16rpx;"></view>
+    <view class="skeleton" style="width: 100%; height: 120rpx; margin-bottom: 24rpx; border-radius: 16rpx;"></view>
+    <view class="skeleton" style="width: 100%; height: 300rpx; border-radius: 16rpx;"></view>
+  </view>
+
+  <!-- 工单内容 -->
+  <scroll-view class="detail-scroll" scroll-y wx:if="{{!showSkeleton && order}}">
+    <!-- 状态卡片 -->
+    <view class="status-card">
+      <view class="status-header">
+        <view class="status-badge" style="background: {{order.statusColor}}20; color: {{order.statusColor}};">
+          <text class="status-dot" style="background: {{order.statusColor}};"></text>
+          <text>{{order.statusText}}</text>
+        </view>
+        <view class="order-no-area" bindtap="copyOrderNo">
+          <text class="order-no-text">工单号：{{order.orderNo || order.id}}</text>
+          <text class="copy-icon">📋</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 状态时间线 -->
+    <view class="timeline-card" wx:if="{{statusSteps.length > 0}}">
+      <text class="card-title">进度跟踪</text>
+      <view class="timeline">
+        <view class="timeline-item {{item.active ? 'active' : ''}} {{item.current ? 'current' : ''}}" wx:for="{{statusSteps}}" wx:key="key">
+          <view class="timeline-dot-wrapper">
+            <view class="timeline-dot"></view>
+          </view>
+          <view class="timeline-content">
+            <text class="timeline-label">{{item.label}}</text>
+            <text class="timeline-desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 设备信息 -->
+    <view class="info-card">
+      <text class="card-title">设备信息</text>
+      <view class="info-row">
+        <text class="info-label">设备类型</text>
+        <text class="info-value">{{order.deviceType || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">品牌型号</text>
+        <text class="info-value">{{order.brandModel || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">序列号</text>
+        <text class="info-value">{{order.serialNo || '-'}}</text>
+      </view>
+    </view>
+
+    <!-- 故障信息 -->
+    <view class="info-card">
+      <text class="card-title">故障信息</text>
+      <view class="info-row">
+        <text class="info-label">故障描述</text>
+        <text class="info-value">{{order.faultDesc || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">紧急程度</text>
+        <text class="info-value">{{order.urgencyText}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">服务方式</text>
+        <text class="info-value">{{order.serviceTypeText}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.expectedTime}}">
+        <text class="info-label">期望时间</text>
+        <text class="info-value">{{order.expectedTime}}</text>
+      </view>
+    </view>
+
+    <!-- 联系信息 -->
+    <view class="info-card">
+      <text class="card-title">联系信息</text>
+      <view class="info-row">
+        <text class="info-label">联系人</text>
+        <text class="info-value">{{order.customerName || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">联系电话</text>
+        <view class="info-value phone-value" bindtap="callPhone" data-phone="{{order.customerPhone}}">
+          <text>{{order.customerPhone || '-'}}</text>
+          <text class="phone-icon" wx:if="{{order.customerPhone}}">📞</text>
+        </view>
+      </view>
+      <view class="info-row">
+        <text class="info-label">地址</text>
+        <text class="info-value">{{order.customerAddress || '-'}}</text>
+      </view>
+    </view>
+
+    <!-- 时间信息 -->
+    <view class="info-card">
+      <text class="card-title">时间信息</text>
+      <view class="info-row">
+        <text class="info-label">创建时间</text>
+        <text class="info-value">{{order.createdAtText}}</text>
+      </view>
+    </view>
+
+    <!-- 底部占位 -->
+    <view style="height: 40rpx;"></view>
+  </scroll-view>
+</view>
