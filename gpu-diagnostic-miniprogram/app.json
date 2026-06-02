@@ -4,9 +4,18 @@
     "pages/chatbot/chatbot",
     "pages/knowledge/knowledge",
     "pages/tools/tools",
-    "pages/profile/profile",
-    "pages/service/service",
-    "pages/admin/admin"
+    "pages/profile/profile"
+  ],
+  "subPackages": [
+    {
+      "root": "package-service",
+      "pages": [
+        "pages/service/service",
+        "pages/admin/admin",
+        "pages/order-list/order-list",
+        "pages/order-detail/order-detail"
+      ]
+    }
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,4 +1,17 @@
 <view class="chat-container">
+  <!-- 头部操作栏 -->
+  <view class="chat-header">
+    <view class="header-left">
+      <text class="header-title">AI诊断助手</text>
+    </view>
+    <view class="header-right">
+      <view class="header-btn" bindtap="newChat">
+        <text class="header-btn-icon">+</text>
+        <text class="header-btn-text">新对话</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 服务等级进度条 -->
   <view class="service-progress">
     <view class="progress-item {{serviceLevel >= 0 ? 'active' : ''}}">
@@ -18,7 +31,7 @@
   </view>
 
   <!-- 消息列表 -->
-  <scroll-view class="chat-list" scroll-y scroll-into-view="{{scrollToView}}" enhanced show-scrollbar scroll-with-animation scroll-with-animation="true">
+  <scroll-view class="chat-list" scroll-y scroll-into-view="{{scrollToView}}" enhanced show-scrollbar scroll-with-animation refresher-enabled refresher-triggered="{{isRefreshing}}" bindrefresherrefresh="onRefresh">
     <!-- 欢迎消息 -->
     <view class="chat-item ai" id="msg-welcome">
       <view class="avatar ai-avatar">🤖</view>
@@ -34,12 +47,17 @@
     </view>
 
     <!-- 消息列表 -->
-    <view wx:for="{{messages}}" wx:key="id" class="chat-item {{item.type}}" id="msg-{{item.id}}">
+    <view wx:for="{{messages}}" wx:key="id" class="chat-item {{item.type}}" id="msg-{{item.id}}" bindlongpress="onMessageLongPress" data-id="{{item.id}}" data-type="{{item.type}}" data-contenttype="{{item.contentType}}">
       <!-- 用户消息 -->
       <block wx:if="{{item.type === 'user'}}">
         <view class="message user-message">
           <text class="message-text" wx:if="{{item.contentType === 'text'}}">{{item.content}}</text>
           <image class="message-image" wx:if="{{item.contentType === 'image'}}" src="{{item.content}}" mode="widthFix" bindtap="previewImage" data-url="{{item.content}}"/>
+          <!-- 语音消息 -->
+          <view class="voice-message" wx:if="{{item.contentType === 'voice'}}" bindtap="playVoice" data-url="{{item.content}}">
+            <text class="voice-icon">🔊</text>
+            <text class="voice-duration">{{item.duration || 0}}"</text>
+          </view>
         </view>
         <view class="avatar user-avatar">👤</view>
       </block>
@@ -48,7 +66,10 @@
       <block wx:if="{{item.type === 'ai'}}">
         <view class="avatar ai-avatar">🤖</view>
         <view class="message ai-message">
-          <text class="message-text" wx:if="{{item.contentType === 'text'}}">{{item.content}}</text>
+          <view class="message-text-wrap" wx:if="{{item.contentType === 'text'}}">
+            <text class="message-text">{{item.content}}</text>
+            <text class="typing-cursor" wx:if="{{item.isTyping}}">|</text>
+          </view>
           <!-- 知识库匹配结果 -->
           <view wx:if="{{item.knowledgeMatch}}" class="knowledge-card">
             <view class="knowledge-header">
@@ -97,6 +118,16 @@
           <view wx:if="{{item.isYuanbao}}" class="yuanbao-badge" bindtap="onYuanbaoClick" data-id="{{item.id}}">
             <text class="yuanbao-icon">💡</text>
             <text class="yuanbao-text">元宝AI解答</text>
+          </view>
+          <!-- RAG来源溯源 -->
+          <view wx:if="{{item.ragSources && item.ragSources.length > 0}}" class="rag-sources">
+            <text class="rag-label">参考来源：</text>
+            <view class="rag-list">
+              <view class="rag-chip" wx:for="{{item.ragSources}}" wx:key="id" wx:for-item="src">
+                <text class="rag-chip-icon">{{src.type === 'knowledge' ? '📚' : '💬'}}</text>
+                <text class="rag-chip-text">{{src.title}}</text>
+              </view>
+            </view>
           </view>
           <!-- 升级服务按钮 -->
           <view wx:if="{{item.showUpgrade}}" class="upgrade-section">
@@ -182,9 +213,32 @@
         show-confirm-bar="{{false}}"
         hold-keyboard
       />
+      <!-- 语音录音按钮 -->
+      <view 
+        class="voice-btn {{isRecording ? 'recording' : ''}}" 
+        bindlongpress="startRecord" 
+        bindtouchend="stopRecord"
+      >
+        <text class="voice-btn-icon">{{isRecording ? '◼' : '🎤'}}</text>
+      </view>
       <button class="send-btn {{inputMessage ? 'active' : ''}}" bindtap="sendMessage">
         <text class="send-icon">➤</text>
       </button>
+    </view>
+  </view>
+
+  <!-- 录音状态提示 -->
+  <view class="record-toast" wx:if="{{isRecording}}">
+    <view class="record-toast-content">
+      <view class="record-wave">
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+        <view class="wave-bar"></view>
+      </view>
+      <text class="record-toast-text">正在录音 {{recordTime}}s</text>
+      <text class="record-toast-hint">松开结束，最多60秒</text>
     </view>
   </view>
 </view>

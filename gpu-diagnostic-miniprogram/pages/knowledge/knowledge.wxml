@@ -15,8 +15,17 @@
     </view>
   </view>
 
+  <!-- 骨架屏 -->
+  <view wx:if="{{showSkeleton}}" class="skeleton-section">
+    <view class="skeleton skeleton-text" style="width:80%; height:60rpx; margin-bottom:20rpx; border-radius:30rpx;"></view>
+    <view class="skeleton-row">
+      <view class="skeleton skeleton-tag" wx:for="{{5}}" wx:key="index"></view>
+    </view>
+    <view class="skeleton skeleton-card" wx:for="{{4}}" wx:key="index" style="height:180rpx;"></view>
+  </view>
+
   <!-- 分类筛选 -->
-  <scroll-view class="category-bar" scroll-x enhanced show-scrollbar="{{false}}">
+  <scroll-view class="category-bar" scroll-x enhanced show-scrollbar="{{false}}" wx:if="{{!showSkeleton}}">
     <view class="category-list">
       <view 
         class="category-item {{currentCategory === '全部' ? 'active' : ''}}" 
@@ -40,7 +49,7 @@
   </scroll-view>
 
   <!-- 知识列表 -->
-  <scroll-view class="knowledge-list" scroll-y enhanced refresher-enabled refresher-triggered="{{isRefreshing}}" bindrefresherrefresh="onRefresh">
+  <scroll-view class="knowledge-list" scroll-y enhanced refresher-enabled refresher-triggered="{{isRefreshing}}" bindrefresherrefresh="onRefresh" wx:if="{{!showSkeleton}}">
     <view class="knowledge-item" wx:for="{{knowledgeList}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
       <view class="knowledge-header">
         <view class="category-tag" style="background: {{categoryColors[item.category] || '#065A82'}}">

@@ -63,25 +63,34 @@ public class AiController {
         try {
             String reply;
             String source = "yuanbao";
-            boolean hasImage = request.getImageBase64() != null && !request.getImageBase64().isEmpty();
+            boolean hasImage = (request.getImageBase64() != null && !request.getImageBase64().isEmpty())
+                    || (request.getImageUrl() != null && !request.getImageUrl().isEmpty());
+            List<Map<String, Object>> ragSources = new ArrayList<>();
+
+            // 优先使用 imageUrl，否则降级使用 imageBase64
+            String imageInput = request.getImageUrl() != null && !request.getImageUrl().isEmpty()
+                    ? request.getImageUrl()
+                    : request.getImageBase64();
 
             if (hasImage) {
                 reply = yuanbaoAiService.chatWithImage(
                     request.getMessage(),
-                    request.getImageBase64(),
+                    imageInput,
                     request.getContext()
                 );
             } else {
-                reply = yuanbaoAiService.chat(request.getMessage(), request.getContext());
+                YuanbaoAiService.ChatResult chatResult = yuanbaoAiService.chat(request.getMessage(), request.getContext());
+                reply = chatResult.getReply();
+                ragSources = chatResult.getRagSources();
             }
 
-            // 持久化对话记录
+            // 持久化对话记录（存imageUrl或imageBase64）
             Long convId = null;
             try {
                 AiConversation saved = conversationService.saveConversation(
                     userId, sessionId,
                     request.getMessage(), reply,
-                    request.getImageBase64(), source,
+                    imageInput, source,
                     null
                 );
                 convId = saved.getId();
@@ -94,6 +103,7 @@ public class AiController {
             data.put("isYuanbao", true);
             data.put("hasImage", hasImage);
             data.put("convId", convId);
+            data.put("ragSources", ragSources);
 
             return ApiResponse.success(data);
         } catch (Exception e) {

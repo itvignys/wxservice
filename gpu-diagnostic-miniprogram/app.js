@@ -8,7 +8,8 @@ App({
     serviceLevel: 0, // 0: AI问答, 1: 专家咨询, 2: 上门服务
     companyInfo: null,
     hasUsedFreeService: false,
-    isLoggedIn: false // 是否已登录后端
+    isLoggedIn: false, // 是否已登录后端
+    loginType: 'wx' // 'wx' = 微信登录, 'phone' = 手机号登录
   },
 
   onLaunch() {
@@ -22,6 +23,30 @@ App({
 
     // 自动登录后端
     this.autoLogin()
+
+    // 注册全局分享兜底
+    this.setupGlobalShare()
+  },
+
+  // 全局分享配置：为没有自定义分享的页面提供默认分享能力
+  setupGlobalShare() {
+    wx.onAppRoute((res) => {
+      const pages = getCurrentPages()
+      const view = pages[pages.length - 1]
+      if (view && typeof view.onShareAppMessage !== 'function') {
+        view.onShareAppMessage = () => ({
+          title: 'GPU智修专家 - 专业显卡故障诊断与维修',
+          path: '/pages/index/index',
+          imageUrl: '/images/share-cover.png'
+        })
+      }
+      if (view && typeof view.onShareTimeline !== 'function') {
+        view.onShareTimeline = () => ({
+          title: 'GPU智修专家 - 专业显卡故障诊断与维修',
+          query: 'source=timeline'
+        })
+      }
+    })
   },
 
   // 加载本地缓存
@@ -139,6 +164,47 @@ App({
     wx.setStorageSync(constants.STORAGE_KEYS.COMPANY_INFO, info)
   },
 
+  // 手机号登录成功后的统一处理
+  handlePhoneLogin(userData) {
+    console.log('手机号登录成功:', userData.openid)
+    this.globalData.userInfo = userData
+    this.globalData.isLoggedIn = true
+    this.globalData.loginType = 'phone'
+    wx.setStorageSync(constants.STORAGE_KEYS.USER_INFO, userData)
+    wx.setStorageSync(constants.STORAGE_KEYS.OPENID, userData.openid)
+    this.notifyPagesRefresh()
+
+    // 加载企业信息
+    api.getCompanyInfo(userData.openid)
+      .then(result => {
+        if (result && result.data) {
+          this.globalData.companyInfo = result.data
+          wx.setStorageSync(constants.STORAGE_KEYS.COMPANY_INFO, result.data)
+        } else {
+          this.globalData.companyInfo = null
+          wx.removeStorageSync(constants.STORAGE_KEYS.COMPANY_INFO)
+        }
+        this.notifyPagesRefresh()
+      })
+      .catch(() => {})
+  },
+
+  // 退出登录
+  logout() {
+    this.globalData.userInfo = null
+    this.globalData.isLoggedIn = false
+    this.globalData.loginType = 'wx'
+    this.globalData.companyInfo = null
+    this.globalData.serviceLevel = 0
+    this.globalData.hasUsedFreeService = false
+    wx.removeStorageSync(constants.STORAGE_KEYS.TOKEN)
+    wx.removeStorageSync(constants.STORAGE_KEYS.OPENID)
+    wx.removeStorageSync(constants.STORAGE_KEYS.USER_INFO)
+    wx.removeStorageSync(constants.STORAGE_KEYS.COMPANY_INFO)
+    wx.removeStorageSync(constants.STORAGE_KEYS.SERVICE_LEVEL)
+    wx.removeStorageSync(constants.STORAGE_KEYS.HAS_USED_FREE_SERVICE)
+  },
+
   // 企业信息不存在时弹框提示
   showCompanyInfoPrompt() {
     wx.showModal({
@@ -149,7 +215,7 @@ App({
       success: (res) => {
         if (res.confirm) {
           wx.navigateTo({
-            url: '/pages/service/service'
+            url: '/package-service/pages/service/service'
           })
         }
       }

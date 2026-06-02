@@ -3,6 +3,7 @@ package com.example.wxlogin.service;
 import com.example.wxlogin.config.YuanbaoConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 /**
  * 元宝AI对话服务（RAG增强）
+ * 内置简易熔断机制：连续失败3次后，30秒内直接拒绝请求，触发上层降级
  */
 @Slf4j
 @Service
@@ -27,18 +29,87 @@ public class YuanbaoAiService {
     private final RagService ragService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    // ========== 简易熔断状态（非分布式，单机够用） ==========
+    private volatile int consecutiveFailures = 0;
+    private volatile long circuitOpenTime = 0;
+    private static final int CIRCUIT_THRESHOLD = 3;
+    private static final long CIRCUIT_TIMEOUT_MS = 30000;
+
     /**
-     * 发送聊天消息并获取AI回复
+     * AI对话结果（包含RAG来源）
+     */
+    @Data
+    public static class ChatResult {
+        private String reply;
+        private List<Map<String, Object>> ragSources;
+    }
+
+    private boolean isCircuitOpen() {
+        if (consecutiveFailures >= CIRCUIT_THRESHOLD) {
+            long now = System.currentTimeMillis();
+            if (now - circuitOpenTime < CIRCUIT_TIMEOUT_MS) {
+                return true;
+            }
+            // 熔断窗口已过，尝试半开
+            consecutiveFailures = 0;
+        }
+        return false;
+    }
+
+    private void recordSuccess() {
+        consecutiveFailures = 0;
+    }
+
+    private void recordFailure() {
+        consecutiveFailures++;
+        if (consecutiveFailures >= CIRCUIT_THRESHOLD) {
+            circuitOpenTime = System.currentTimeMillis();
+            log.warn("元宝AI服务熔断器已打开，将在{}ms后尝试恢复", CIRCUIT_TIMEOUT_MS);
+        }
+    }
+
+    /**
+     * 发送聊天消息并获取AI回复（带RAG来源）
      *
      * @param message   用户消息
      * @param context   对话历史上下文（最近N轮），每项包含 role 和 content
-     * @return AI回复文本
+     * @return AI回复结果（包含reply和ragSources）
      */
-    public String chat(String message, List<Map<String, String>> context) {
+    public ChatResult chat(String message, List<Map<String, String>> context) {
+        // 熔断检查
+        if (isCircuitOpen()) {
+            log.warn("元宝AI服务熔断中，直接拒绝请求");
+            throw new RuntimeException("AI服务繁忙，请稍后重试");
+        }
+
         try {
-            // RAG检索：召回相关知识注入Prompt
+            // RAG检索：召回相关知识注入Prompt，同时收集来源
+            List<Map<String, Object>> ragSources = new ArrayList<>();
             String ragContext = ragService.retrieveAndBuildContext(message, 3);
             String systemContent = buildRagSystemPrompt(yuanbaoConfig.getSystemPrompt(), ragContext);
+
+            // 收集RAG来源（知识库 + 历史问答）用于前端溯源展示
+            try {
+                var kbList = ragService.retrieveFromKnowledgeBase(message, 3);
+                for (var kb : kbList) {
+                    Map<String, Object> src = new HashMap<>();
+                    src.put("type", "knowledge");
+                    src.put("id", kb.getId());
+                    src.put("title", kb.getQuestion());
+                    src.put("category", kb.getCategory());
+                    ragSources.add(src);
+                }
+                var histList = ragService.retrieveFromHistory(message, 2);
+                for (var h : histList) {
+                    Map<String, Object> src = new HashMap<>();
+                    src.put("type", "history");
+                    src.put("id", h.getId());
+                    src.put("title", h.getQuestion());
+                    ragSources.add(src);
+                }
+            } catch (Exception ragEx) {
+                log.warn("收集RAG来源失败（非致命）", ragEx);
+            }
 
             // 构建请求体
             Map<String, Object> requestBody = new HashMap<>();
@@ -95,16 +166,22 @@ public class YuanbaoAiService {
                     String reply = choices.get(0).path("message").path("content").asText("");
                     if (!reply.isEmpty()) {
                         log.info("元宝AI回复成功，长度: {}", reply.length());
-                        return reply;
+                        recordSuccess();
+                        ChatResult result = new ChatResult();
+                        result.setReply(reply);
+                        result.setRagSources(ragSources);
+                        return result;
                     }
                 }
             }
 
             log.warn("元宝AI返回数据格式异常: {}", responseEntity.getBody());
+            recordFailure();
             throw new RuntimeException("AI返回数据解析失败");
 
         } catch (Exception e) {
             log.error("调用元宝AI失败", e);
+            recordFailure();
             throw new RuntimeException("AI服务暂时不可用: " + e.getMessage());
         }
     }
@@ -112,12 +189,19 @@ public class YuanbaoAiService {
     /**
      * 发送图片分析请求并获取AI回复（混元Vision多模态）
      *
-     * @param message      用户消息/提问
-     * @param imageBase64  图片Base64数据（含MIME前缀，如 data:image/jpeg;base64,...）
-     * @param context      对话历史上下文
+     * @param message     用户消息/提问
+     * @param imageInput  图片数据：支持 Base64 data URL（data:image/jpeg;base64,...）
+     *                    或 HTTP(S) 图片 URL（如 https://example.com/1.jpg）
+     * @param context     对话历史上下文
      * @return AI回复文本
      */
-    public String chatWithImage(String message, String imageBase64, List<Map<String, String>> context) {
+    public String chatWithImage(String message, String imageInput, List<Map<String, String>> context) {
+        // 熔断检查
+        if (isCircuitOpen()) {
+            log.warn("元宝AI服务熔断中，直接拒绝图片分析请求");
+            throw new RuntimeException("AI服务繁忙，请稍后重试");
+        }
+
         try {
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("model", yuanbaoConfig.getVisionModel());
@@ -153,7 +237,7 @@ public class YuanbaoAiService {
             Map<String, Object> imageContent = new HashMap<>();
             imageContent.put("type", "image_url");
             Map<String, Object> imageUrlObj = new HashMap<>();
-            imageUrlObj.put("url", imageBase64);
+            imageUrlObj.put("url", imageInput);
             imageContent.put("image_url", imageUrlObj);
             contents.add(imageContent);
 
@@ -188,16 +272,19 @@ public class YuanbaoAiService {
                     String reply = choices.get(0).path("message").path("content").asText("");
                     if (!reply.isEmpty()) {
                         log.info("元宝AI图片分析成功，回复长度: {}", reply.length());
+                        recordSuccess();
                         return reply;
                     }
                 }
             }
 
             log.warn("元宝AI图片分析返回数据格式异常: {}", responseEntity.getBody());
+            recordFailure();
             throw new RuntimeException("AI图片分析返回数据解析失败");
 
         } catch (Exception e) {
             log.error("调用元宝AI图片分析失败", e);
+            recordFailure();
             throw new RuntimeException("AI图片分析服务暂时不可用: " + e.getMessage());
         }
     }

@@ -15,6 +15,7 @@ Page({
     showDetail: false,
     selectedItem: null,
     isLoading: false, // 新增：API加载状态
+    showSkeleton: true,
     categoryColors: {
       '显示类': '#065A82',
       '驱动类': '#02C39A',
@@ -41,7 +42,7 @@ Page({
   // ========== 数据加载（优先API，降级到本地） ==========
   
   loadData() {
-    this.setData({ isLoading: true })
+    this.setData({ isLoading: true, showSkeleton: true })
 
     // 并行加载分类统计和列表
     Promise.all([
@@ -56,7 +57,8 @@ Page({
         categoryStats: statsData.stats || {},
         knowledgeList: list,
         totalCount: list.length,
-        isLoading: false
+        isLoading: false,
+        showSkeleton: false
       })
     }).catch(err => {
       console.warn('知识库API加载失败，使用本地数据:', err.message)
@@ -70,9 +72,10 @@ Page({
         categoryStats: fallbackStats,
         knowledgeList: fallbackList,
         totalCount: fallbackList.length,
-        isLoading: false
+        isLoading: false,
+        showSkeleton: false
       })
-      
+
       wx.showToast({ title: '已切换离线模式', icon: 'none' })
     })
   },

@@ -67,7 +67,7 @@ public class RagServiceImpl implements RagService {
 
     @Override
     public List<GpuKnowledge> retrieveFromKnowledgeBase(String query, int limit) {
-        // 当前使用MySQL LIKE模糊查询，后续可接入全文检索
+        // 已通过KnowledgeServiceImpl接入MySQL FULLTEXT全文检索（ngram分词）
         List<GpuKnowledge> list = knowledgeService.search(query, null);
         return list.stream().limit(limit).collect(Collectors.toList());
     }

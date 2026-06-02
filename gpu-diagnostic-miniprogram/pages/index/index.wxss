@@ -1,11 +1,29 @@
-/* Banner */
+/* Banner轮播 */
+.banner-swiper {
+  height: 280rpx;
+  margin-bottom: 30rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+
+.banner-swiper .wx-swiper-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 8rpx;
+  transition: all 0.3s;
+}
+
+.banner-swiper .wx-swiper-dot-active {
+  width: 32rpx;
+}
+
 .banner {
-  background: linear-gradient(135deg, #065A82 0%, #1C7293 50%, #02C39A 100%);
+  height: 100%;
   border-radius: 24rpx;
   padding: 50rpx 40rpx;
-  margin-bottom: 30rpx;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .banner-content {

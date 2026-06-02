@@ -176,7 +176,16 @@ Page({
         
         // 更新全局状态和本地缓存
         app.saveCompanyInfo(savedData)
-        
+
+        // 通知前一个页面刷新企业信息
+        const pages = getCurrentPages()
+        if (pages.length >= 2) {
+          const prevPage = pages[pages.length - 2]
+          if (prevPage && typeof prevPage.loadUserData === 'function') {
+            prevPage.loadUserData()
+          }
+        }
+
         wx.showToast({
           title: this.data.isEdit ? '更新成功' : '提交成功',
           icon: 'success',

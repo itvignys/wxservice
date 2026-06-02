@@ -39,6 +39,8 @@ module.exports = {
     // 用户相关
     USER_LOGIN: '/api/user/login',
     USER_PROFILE: '/api/user/profile',
+    SMS_SEND: '/api/user/sms/send',
+    APP_LOGIN: '/api/user/login/app',
     
     // 知识库相关
     KNOWLEDGE_LIST: '/api/knowledge/list',
@@ -59,7 +61,30 @@ module.exports = {
 
     // 企业信息
     COMPANY_SAVE: '/api/company/save',
-    COMPANY_INFO: '/api/company/'
+    COMPANY_INFO: '/api/company/',
+
+    // 首页仪表盘
+    DASHBOARD_STATS: '/api/dashboard/stats',
+
+    // 文件上传
+    UPLOAD: '/api/upload',
+
+    // 维修工单
+    ORDER_CREATE: '/api/order/create',
+    ORDER_MY: '/api/order/my',
+    ORDER_DETAIL: '/api/order/',
+
+    // 订阅消息
+    WXMSG_SUBSCRIBE_SEND: '/api/wxmsg/subscribe-send',
+    WXMSG_ORDER_STATUS: '/api/wxmsg/order-status'
+  },
+
+  // 微信小程序订阅消息模板ID（需在小程序后台申请后填入）
+  SUBSCRIBE_TEMPLATES: {
+    // 工单状态变更通知模板ID
+    ORDER_STATUS: '',
+    // 维修完成通知模板ID
+    REPAIR_COMPLETE: ''
   },
   
   // Storage Key常量
