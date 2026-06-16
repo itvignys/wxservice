@@ -137,7 +137,7 @@ Page({
       clearInterval(this.data.typingTimer)
     }
 
-    const msgId = Date.now()
+    const msgId = Date.now() + '_' + Math.random().toString(36).substring(2, 6)
     const message = {
       id: msgId,
       type,
@@ -363,7 +363,7 @@ Page({
   },
 
   generateSessionId() {
-    return 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6)
+    return 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8)
   },
 
   onShow() {
@@ -386,10 +386,6 @@ Page({
     }
   },
 
-  scrollToBottom() {
-    this.setData({ scrollToView: 'scroll-bottom' })
-  },
-
   // 发送消息
   sendMessage() {
     const message = this.data.inputMessage.trim()
@@ -410,7 +406,7 @@ Page({
   // 添加消息，返回消息ID以便后续操作（如替换临时路径）
   addMessage(type, contentType, content, extra = {}) {
     const message = {
-      id: Date.now(),
+      id: Date.now() + '_' + Math.random().toString(36).substring(2, 6),
       type,
       contentType,
       content,
@@ -702,7 +698,7 @@ Page({
 
   // 点击元宝AI解答标签，重新调用AI接口深入回答
   async onYuanbaoClick(e) {
-    const msgId = Number(e.currentTarget.dataset.id)
+    const msgId = e.currentTarget.dataset.id
     const messages = this.data.messages
     const msgIndex = messages.findIndex(m => m.id === msgId)
     if (msgIndex === -1) {

@@ -239,6 +239,10 @@ Page({
     if (this.countdownTimer) clearInterval(this.countdownTimer)
   },
 
+  onHide() {
+    if (this.countdownTimer) clearInterval(this.countdownTimer)
+  },
+
   goToAppointments() {
     wx.navigateTo({
       url: '/package-service/pages/order-list/order-list'

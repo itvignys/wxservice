@@ -53,7 +53,7 @@ public class AiController {
             request.getImageBase64() != null && !request.getImageBase64().isEmpty());
 
         if("your-yuanbao-api-key-here".equals(yuanbaoConfig.getApiKey())) {
-            return ApiResponse.success(null);
+            return ApiResponse.fail("AI 服务未配置，请联系管理员配置 API Key");
         }
 
         // 提取用户标识（优先从header，否则用IP+UA哈希兜底）

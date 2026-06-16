@@ -190,7 +190,7 @@ Page({
     if (diff < 86400000 && now.getDate() === d.getDate()) {
       return `今天 ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`
     }
-    if (diff < 172800000 && now.getDate() - d.getDate() === 1) {
+    if (diff < 172800000 && diff >= 86400000) {
       return `昨天 ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`
     }
     return `${d.getMonth() + 1}月${d.getDate()}日`

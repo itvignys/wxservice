@@ -69,7 +69,7 @@ public class WechatUtil {
             Map<String, Object> result = objectMapper.readValue(response.getBody(), Map.class);
             if (result.containsKey("access_token")) {
                 String token = (String) result.get("access_token");
-                int expiresIn = (Integer) result.getOrDefault("expires_in", 7200);
+                int expiresIn = ((Number) result.getOrDefault("expires_in", 7200)).intValue();
                 TokenCache newCache = new TokenCache();
                 newCache.setAccessToken(token);
                 newCache.setExpireTime(now + expiresIn * 1000L);
@@ -119,7 +119,7 @@ public class WechatUtil {
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
             ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
             Map<String, Object> result = objectMapper.readValue(response.getBody(), Map.class);
-            int errcode = (Integer) result.getOrDefault("errcode", -1);
+            int errcode = ((Number) result.getOrDefault("errcode", -1)).intValue();
             if (errcode == 0) {
                 log.info("订阅消息发送成功，openid={}, templateId={}", openid, templateId);
                 return true;

@@ -45,24 +45,31 @@ public class KnowledgeServiceImpl extends ServiceImpl<GpuKnowledgeMapper, GpuKno
         // 优先使用MySQL FULLTEXT全文检索（当有关键词且无分类筛选时）
         if (StringUtils.hasText(keyword) && (!StringUtils.hasText(category) || "全部".equals(category))) {
             String ftKeyword = keyword.trim();
-            // 简单处理：为每个词加上+前缀以增强相关度排序（布尔模式）
-            String booleanQuery = ftKeyword.replaceAll("\\s+", " +");
-            if (!booleanQuery.startsWith("+")) {
-                booleanQuery = "+" + booleanQuery;
-            }
-            try {
-                List<GpuKnowledge> ftResult = knowledgeMapper.fullTextSearch(booleanQuery, 50);
-                if (!ftResult.isEmpty()) {
-                    log.info("知识库FTS命中: keyword={}, result={}", keyword, ftResult.size());
-                    return ftResult;
+            // 过滤 MySQL 布尔模式特殊字符，防止语法错误
+            ftKeyword = ftKeyword.replaceAll("[+\\-<>()~*\"@]", " ");
+            if (!StringUtils.hasText(ftKeyword)) {
+                // 关键字全是特殊字符，降级到原模糊查询
+            } else {
+                // 简单处理：为每个词加上+前缀以增强相关度排序（布尔模式）
+                String[] words = ftKeyword.split("\\s+");
+                String booleanQuery = java.util.Arrays.stream(words)
+                        .filter(w -> w.length() >= 2)
+                        .map(w -> "+" + w)
+                        .collect(java.util.stream.Collectors.joining(" "));
+                try {
+                    List<GpuKnowledge> ftResult = knowledgeMapper.fullTextSearch(booleanQuery, 50);
+                    if (!ftResult.isEmpty()) {
+                        log.info("知识库FTS命中: keyword={}, result={}", keyword, ftResult.size());
+                        return ftResult;
+                    }
+                    // FTS无结果，降级到模糊搜索
+                    List<GpuKnowledge> fallback = knowledgeMapper.fallbackSearch(ftKeyword, 50);
+                    log.info("知识库FTS无结果，降级LIKE搜索: keyword={}, result={}", keyword, fallback.size());
+                    return fallback;
+                } catch (Exception e) {
+                    log.warn("全文检索异常，降级到LIKE查询: {}", e.getMessage());
+                    // 降级到原模糊查询
                 }
-                // FTS无结果，降级到模糊搜索
-                List<GpuKnowledge> fallback = knowledgeMapper.fallbackSearch(ftKeyword, 50);
-                log.info("知识库FTS无结果，降级LIKE搜索: keyword={}, result={}", keyword, fallback.size());
-                return fallback;
-            } catch (Exception e) {
-                log.warn("全文检索异常，降级到LIKE查询: {}", e.getMessage());
-                // 降级到原模糊查询
             }
         }
 
