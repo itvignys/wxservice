@@ -1,0 +1,54 @@
+<!-- 关于我们 -->
+<view class="container">
+  <view class="logo-card">
+    <view class="logo-icon">♻️</view>
+    <view class="logo-name">GPU算力回收</view>
+    <view class="logo-version">V1.0.0</view>
+  </view>
+
+  <view class="info-card">
+    <view class="info-title">公司介绍</view>
+    <view class="info-text">杭州秀源智能科技是一家专业从事AI算力硬件回收再利用的科技企业。我们致力于为企业提供专业、透明、高效的GPU服务器及AI算力硬件回收服务，通过专业验机和公允估价，让闲置算力硬件实现价值最大化。</view>
+  </view>
+
+  <view class="info-card">
+    <view class="info-title">联系我们</view>
+    <view class="contact-row" bindtap="callService">
+      <text class="contact-label">服务热线</text>
+      <text class="contact-value">13826580396</text>
+    </view>
+    <view class="contact-row">
+      <text class="contact-label">服务时间</text>
+      <text class="contact-value">9:00-21:00</text>
+    </view>
+    <view class="contact-row">
+      <text class="contact-label">公司地址</text>
+      <text class="contact-value">浙江省杭州市</text>
+    </view>
+  </view>
+
+  <view class="info-card">
+    <view class="info-title">服务承诺</view>
+    <view class="promise-row">
+      <text class="promise-icon">🔍</text>
+      <text class="promise-text">验机透明：专业工程师出具详细验机报告</text>
+    </view>
+    <view class="promise-row">
+      <text class="promise-icon">⚡</text>
+      <text class="promise-text">打款秒到：确认价格后即时对公打款</text>
+    </view>
+    <view class="promise-row">
+      <text class="promise-icon">🛡️</text>
+      <text class="promise-text">价格保护：验机报价不低于预估价80%</text>
+    </view>
+    <view class="promise-row">
+      <text class="promise-icon">🔐</text>
+      <text class="promise-text">隐私清除：回收设备全程数据安全擦除</text>
+    </view>
+  </view>
+
+  <view class="footer">
+    <view class="footer-text">© 2025 杭州秀源智能科技</view>
+    <view class="footer-text">All Rights Reserved</view>
+  </view>
+</view>

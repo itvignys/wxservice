@@ -1,0 +1,41 @@
+<!-- 价格协商 -->
+<view class="container">
+  <!-- 顶部报价信息 -->
+  <view class="price-info">
+    <view class="price-item">
+      <text class="price-label">预估价</text>
+      <text class="price-val">¥{{estimatedPriceText}}</text>
+    </view>
+    <view class="price-item">
+      <text class="price-label">验机报价</text>
+      <text class="price-val">¥{{inspectionPriceText}}</text>
+    </view>
+    <view class="price-item">
+      <text class="price-label">最新报价</text>
+      <text class="price-val highlight">¥{{latestOfferText}}</text>
+    </view>
+  </view>
+
+  <!-- 聊天记录 -->
+  <scroll-view scroll-y class="chat-area" scroll-into-view="msg-{{messages.length - 1}}" scroll-with-animation>
+    <view class="msg-item {{item.fromUser ? 'user' : 'service'}}" wx:for="{{messages}}" wx:key="index" id="msg-{{index}}">
+      <view class="msg-avatar">{{item.fromUser ? '🙋' : '👤'}}</view>
+      <view class="msg-bubble">
+        <view class="msg-text">{{item.text}}</view>
+        <view class="msg-price" wx:if="{{item.price}}">报价：¥{{item.priceText}}</view>
+        <view class="msg-time">{{item.timeText}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <view class="quick-btn" wx:for="{{quickActions}}" wx:key="*this" bindtap="quickReply" data-action="{{item}}">{{item}}</view>
+  </view>
+
+  <!-- 输入栏 -->
+  <view class="input-bar safe-bottom">
+    <input class="msg-input" placeholder="输入消息..." value="{{inputText}}" bindinput="onInput" confirm-type="send" bindconfirm="sendMsg" />
+    <view class="send-btn" bindtap="sendMsg">发送</view>
+  </view>
+</view>

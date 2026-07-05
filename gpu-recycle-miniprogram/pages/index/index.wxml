@@ -1,0 +1,101 @@
+<!-- 首页 -->
+<view class="container">
+  <!-- 顶部客服入口 -->
+  <view class="top-bar safe-bottom">
+    <view class="brand">GPU算力回收</view>
+    <view class="service-btn" bindtap="callService">
+      <text class="service-icon">📞</text>
+      <text>客服</text>
+    </view>
+  </view>
+
+  <!-- Banner区 -->
+  <view class="banner slide-up">
+    <view class="banner-bg"></view>
+    <view class="banner-content">
+      <view class="banner-title">专业AI算力硬件回收平台</view>
+      <view class="banner-subtitle">GPU服务器 · 显卡 · CPU · 内存 · 存储</view>
+      <view class="banner-stats">
+        <view class="stat-item">
+          <text class="stat-num">{{totalAmount}}</text>
+          <text class="stat-label">累计回收(万元)</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-num">{{totalOrders}}</text>
+          <text class="stat-label">服务订单</text>
+        </view>
+      </view>
+      <view class="banner-btn" bindtap="goRecycle">立即估价回收</view>
+    </view>
+  </view>
+
+  <!-- 热门回收机型 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">🔥 热门回收机型</text>
+      <text class="section-more" bindtap="goRecycle">更多 ></text>
+    </view>
+    <scroll-view scroll-x class="hot-scroll" enhanced show-scrollbar="{{false}}">
+      <view class="hot-card" wx:for="{{hotModels}}" wx:key="id" bindtap="goEstimate" data-model="{{item}}">
+        <view class="hot-brand">{{item.brand}}</view>
+        <view class="hot-name">{{item.name}}</view>
+        <view class="hot-spec">{{item.spec}}</view>
+        <view class="hot-price">
+          <text class="hot-price-label">参考回收价</text>
+          <text class="hot-price-val">¥{{item.priceMin}}~{{item.priceMax}}</text>
+        </view>
+        <view class="hot-action">立即估价</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 回收流程引导 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">回收流程</text>
+    </view>
+    <view class="flow-card">
+      <view class="flow-step" wx:for="{{flowSteps}}" wx:key="title">
+        <view class="flow-icon">{{item.icon}}</view>
+        <view class="flow-title">{{item.title}}</view>
+        <view class="flow-desc">{{item.desc}}</view>
+        <view class="flow-arrow" wx:if="{{index < flowSteps.length - 1}}">→</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 平台承诺 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">平台承诺</text>
+    </view>
+    <view class="promise-grid">
+      <view class="promise-item" wx:for="{{promises}}" wx:key="title">
+        <view class="promise-icon">{{item.icon}}</view>
+        <view class="promise-title">{{item.title}}</view>
+        <view class="promise-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 品类快捷入口 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">回收品类</text>
+    </view>
+    <view class="cat-grid">
+      <view class="cat-item" wx:for="{{categories}}" wx:key="id" bindtap="goCategory" data-cat="{{item}}">
+        <view class="cat-icon" style="background:{{item.color}}1a">{{item.icon}}</view>
+        <view class="cat-name">{{item.name}}</view>
+        <view class="cat-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部信息 -->
+  <view class="footer">
+    <view class="footer-text">杭州秀源智能科技</view>
+    <view class="footer-text">服务热线：13826580396（9:00-21:00）</view>
+  </view>
+</view>

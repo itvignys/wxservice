@@ -1,0 +1,70 @@
+<!-- 估价结果 -->
+<view class="container">
+  <!-- 大字价格展示 -->
+  <view class="price-banner slide-up">
+    <view class="price-label">预估回收价</view>
+    <view class="price-value">
+      <text class="price-symbol">¥</text>
+      <text class="price-num">{{displayPrice}}</text>
+    </view>
+    <view class="price-hint">* 实际价格以验机后为准，验机报价不低于预估价80%</view>
+  </view>
+
+  <!-- 价格构成 -->
+  <view class="card">
+    <view class="card-title">价格构成</view>
+    <view class="price-row">
+      <text class="row-label">基础回收价</text>
+      <text class="row-value">¥{{basePriceText}}</text>
+    </view>
+    <view class="price-row">
+      <text class="row-label">成色系数（{{conditionText}}）</text>
+      <text class="row-value">×{{conditionFactor}}</text>
+    </view>
+    <view class="price-row" wx:if="{{configAddPrice > 0}}">
+      <text class="row-label">配置加价</text>
+      <text class="row-value">+¥{{configAddPriceText}}</text>
+    </view>
+    <view class="divider"></view>
+    <view class="price-row">
+      <text class="row-label text-bold">预估总价</text>
+      <text class="row-value price">¥{{totalPriceText}}</text>
+    </view>
+  </view>
+
+  <!-- 设备信息 -->
+  <view class="card">
+    <view class="card-title">设备信息</view>
+    <view class="info-row"><text class="info-label">品类</text><text class="info-value">{{category.name}}</text></view>
+    <view class="info-row"><text class="info-label">型号</text><text class="info-value">{{model.name}}</text></view>
+    <view class="info-row"><text class="info-label">规格</text><text class="info-value">{{model.spec}}</text></view>
+    <view class="info-row"><text class="info-label">成色</text><text class="info-value">{{conditionText}}</text></view>
+  </view>
+
+  <!-- 设备照片上传 -->
+  <view class="card">
+    <view class="card-title">上传设备照片（可选）</view>
+    <view class="upload-hint">拍摄设备外观照片，有助于更精准估价</view>
+    <view class="upload-grid">
+      <view class="upload-item" wx:for="{{images}}" wx:key="index" bindtap="previewImage" data-index="{{index}}">
+        <image src="{{item}}" mode="aspectFill" class="upload-img"></image>
+        <view class="upload-del" catchtap="deleteImage" data-index="{{index}}">×</view>
+      </view>
+      <view class="upload-add" wx:if="{{images.length < 6}}" bindtap="chooseImage">
+        <text class="upload-icon">+</text>
+        <text class="upload-text">添加照片</text>
+      </view>
+    </view>
+  </view>
+
+  <view style="height:140rpx"></view>
+
+  <!-- 底部固定栏 -->
+  <view class="bottom-bar safe-bottom">
+    <view class="bar-price">
+      <text class="bar-price-label">预估价</text>
+      <text class="bar-price-val">¥{{totalPriceText}}</text>
+    </view>
+    <view class="bar-btn" bindtap="goCreate">立即下单</view>
+  </view>
+</view>

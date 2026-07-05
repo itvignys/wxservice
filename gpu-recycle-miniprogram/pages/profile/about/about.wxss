@@ -1,0 +1,21 @@
+/* 关于我们页样式 */
+.container { min-height: 100vh; padding-bottom: 40rpx; }
+.logo-card { display: flex; flex-direction: column; align-items: center; padding: 60rpx 0 40rpx; }
+.logo-icon { font-size: 100rpx; margin-bottom: 16rpx; }
+.logo-name { font-size: 36rpx; font-weight: 700; color: var(--text-primary); margin-bottom: 8rpx; }
+.logo-version { font-size: 24rpx; color: var(--text-tertiary); }
+
+.info-card { background: var(--bg-card); margin: 24rpx; border-radius: 16rpx; padding: 28rpx; box-shadow: var(--shadow-sm); }
+.info-title { font-size: 30rpx; font-weight: 700; color: var(--text-primary); margin-bottom: 16rpx; }
+.info-text { font-size: 26rpx; color: var(--text-secondary); line-height: 1.7; }
+
+.contact-row { display: flex; justify-content: space-between; padding: 14rpx 0; }
+.contact-label { font-size: 26rpx; color: var(--text-secondary); }
+.contact-value { font-size: 26rpx; color: var(--text-primary); font-weight: 500; }
+
+.promise-row { display: flex; align-items: center; padding: 12rpx 0; }
+.promise-icon { font-size: 36rpx; margin-right: 16rpx; }
+.promise-text { font-size: 26rpx; color: var(--text-primary); }
+
+.footer { text-align: center; padding: 48rpx 0; }
+.footer-text { font-size: 22rpx; color: var(--text-tertiary); line-height: 1.8; }

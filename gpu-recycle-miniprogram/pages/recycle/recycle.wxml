@@ -1,0 +1,84 @@
+<!-- 回收估价入口 -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input">
+      <text class="search-icon">🔍</text>
+      <input placeholder="搜索GPU型号，如A100、H100、MI300X" bindinput="onSearch" confirm-type="search" bindconfirm="onSearchConfirm" />
+    </view>
+  </view>
+
+  <!-- 品类选择 -->
+  <view class="section">
+    <view class="section-title">选择回收品类</view>
+    <view class="cat-grid">
+      <view class="cat-card" wx:for="{{categories}}" wx:key="id" bindtap="selectCategory" data-cat="{{item}}">
+        <view class="cat-icon" style="background:{{item.color}}1a; color:{{item.color}}">{{item.icon}}</view>
+        <view class="cat-name">{{item.name}}</view>
+        <view class="cat-desc">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view class="section" wx:if="{{searchResults.length > 0}}">
+    <view class="section-title">搜索结果</view>
+    <view class="model-list">
+      <view class="model-card" wx:for="{{searchResults}}" wx:key="id" bindtap="selectModel" data-model="{{item}}">
+        <view class="model-left">
+          <view class="model-brand">{{item.brand}}</view>
+          <view class="model-name">{{item.name}}</view>
+          <view class="model-spec">{{item.spec}}</view>
+        </view>
+        <view class="model-right">
+          <view class="model-price-label">参考价</view>
+          <view class="model-price">¥{{item.priceMin}}~{{item.priceMax}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近估价 -->
+  <view class="section" wx:if="{{recentQuotes.length > 0 && searchResults.length === 0}}">
+    <view class="section-title">最近估价</view>
+    <view class="recent-list">
+      <view class="recent-item" wx:for="{{recentQuotes}}" wx:key="index">
+        <view class="recent-info">
+          <view class="recent-name">{{item.modelName}}</view>
+          <view class="recent-time">{{item.time}}</view>
+        </view>
+        <view class="recent-price">¥{{item.price}}</view>
+        <view class="recent-btn" bindtap="reQuote" data-model="{{item}}">重新估价</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部说明 -->
+  <view class="section" wx:if="{{searchResults.length === 0}}">
+    <view class="section-title">回收说明</view>
+    <view class="info-card">
+      <view class="info-item">
+        <text class="info-icon">①</text>
+        <text>选择品类和型号，系统自动给出预估回收价</text>
+      </view>
+      <view class="info-item">
+        <text class="info-icon">②</text>
+        <text>选择成色等级和配置，获得精准估价</text>
+      </view>
+      <view class="info-item">
+        <text class="info-icon">③</text>
+        <text>选择回收方式（上门/邮寄/到店），提交回收订单</text>
+      </view>
+      <view class="info-item">
+        <text class="info-icon">④</text>
+        <text>工程师验机后确认最终价格，即时对公打款</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 客服热线 -->
+  <view class="contact-bar" bindtap="callService">
+    <text class="contact-icon">📞</text>
+    <text class="contact-text">客服热线：13826580396（9:00-21:00）</text>
+  </view>
+</view>

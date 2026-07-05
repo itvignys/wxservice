@@ -1,0 +1,34 @@
+/* 订单列表页样式 */
+.container { min-height: 100vh; }
+
+/* 状态Tab */
+.status-tabs { white-space: nowrap; background: var(--bg-card); padding: 16rpx 24rpx; position: sticky; top: 0; z-index: 10; box-shadow: var(--shadow-sm); }
+.status-tab { display: inline-block; padding: 14rpx 28rpx; border-radius: 32rpx; font-size: 26rpx; color: var(--text-secondary); margin-right: 16rpx; position: relative; }
+.status-tab.active { background: var(--primary); color: #fff; font-weight: 600; }
+.tab-count { font-size: 20rpx; background: var(--danger); color: #fff; border-radius: 20rpx; padding: 2rpx 10rpx; margin-left: 8rpx; }
+.status-tab.active .tab-count { background: rgba(255,255,255,0.3); }
+
+/* 订单列表 */
+.order-list { padding: 20rpx 24rpx; }
+.order-card { background: var(--bg-card); border-radius: 16rpx; padding: 28rpx; margin-bottom: 20rpx; box-shadow: var(--shadow-sm); }
+.order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.order-no { font-size: 24rpx; color: var(--text-secondary); }
+.order-status { font-size: 26rpx; font-weight: 600; }
+.order-body { padding-bottom: 16rpx; border-bottom: 1rpx solid var(--border-color); }
+.order-model { font-size: 30rpx; font-weight: 600; color: var(--text-primary); margin-bottom: 6rpx; }
+.order-spec { font-size: 24rpx; color: var(--text-secondary); margin-bottom: 12rpx; }
+.order-tags { display: flex; gap: 8rpx; }
+.order-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 16rpx; }
+.order-price { display: flex; flex-direction: column; }
+.price-label { font-size: 20rpx; color: var(--text-secondary); }
+.price-val { font-size: 32rpx; font-weight: 700; color: var(--danger); }
+.order-time { font-size: 22rpx; color: var(--text-tertiary); }
+
+/* 加载更多 */
+.load-more { text-align: center; padding: 24rpx; font-size: 24rpx; color: var(--text-tertiary); }
+
+/* 空状态 */
+.empty-state { display: flex; flex-direction: column; align-items: center; padding: 120rpx 0; }
+.empty-icon { font-size: 120rpx; opacity: 0.2; margin-bottom: 24rpx; }
+.empty-text { font-size: 28rpx; color: var(--text-secondary); margin-bottom: 32rpx; }
+.empty-btn { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; padding: 20rpx 56rpx; border-radius: 48rpx; font-size: 28rpx; font-weight: 600; }
