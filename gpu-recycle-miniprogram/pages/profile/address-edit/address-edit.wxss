@@ -1,0 +1,16 @@
+/* 地址编辑页样式 */
+.container { min-height: 100vh; }
+.form-card { background: var(--bg-card); margin: 24rpx; border-radius: 16rpx; padding: 0 28rpx; box-shadow: var(--shadow-sm); }
+.form-item { display: flex; align-items: center; padding: 24rpx 0; border-bottom: 1rpx solid var(--border-color); }
+.form-item:last-child { border-bottom: none; }
+.form-label { width: 160rpx; font-size: 28rpx; color: var(--text-secondary); flex-shrink: 0; }
+.form-input { flex: 1; font-size: 28rpx; color: var(--text-primary); }
+.form-value { flex: 1; font-size: 28rpx; color: var(--text-primary); }
+.form-value.placeholder { color: var(--text-tertiary); }
+.form-textarea { flex: 1; font-size: 28rpx; color: var(--text-primary); min-height: 80rpx; }
+
+.default-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); margin: 24rpx; border-radius: 16rpx; padding: 24rpx 28rpx; box-shadow: var(--shadow-sm); }
+.default-label { font-size: 28rpx; color: var(--text-primary); }
+
+.bottom-bar { background: var(--bg-card); }
+.save-btn { flex: 1; text-align: center; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; padding: 24rpx; border-radius: 48rpx; font-size: 30rpx; font-weight: 600; }

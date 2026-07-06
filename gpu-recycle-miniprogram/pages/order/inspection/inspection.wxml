@@ -1,0 +1,65 @@
+<!-- 验机报告 -->
+<view class="container">
+  <view wx:if="{{report}}">
+    <!-- 验机结论 -->
+    <view class="conclusion-card">
+      <view class="conclusion-icon {{report.passed ? 'pass' : 'fail'}}">{{report.passed ? '✓' : '!'}}</view>
+      <view class="conclusion-info">
+        <view class="conclusion-title">{{report.passed ? '验机通过' : '存在异常'}}</view>
+        <view class="conclusion-price">验机报价：¥{{inspectionPriceText}}</view>
+      </view>
+    </view>
+
+    <!-- 外观检查 -->
+    <view class="card">
+      <view class="card-title">外观检查</view>
+      <view class="check-row" wx:for="{{report.appearance}}" wx:key="item">
+        <text class="check-name">{{item.name}}</text>
+        <text class="check-result {{item.ok ? 'pass' : 'fail'}}">{{item.ok ? '正常' : item.issue}}</text>
+      </view>
+    </view>
+
+    <!-- 功能测试 -->
+    <view class="card">
+      <view class="card-title">功能测试</view>
+      <view class="check-row" wx:for="{{report.functions}}" wx:key="item">
+        <text class="check-name">{{item.name}}</text>
+        <text class="check-result {{item.ok ? 'pass' : 'fail'}}">{{item.ok ? '通过' : item.issue}}</text>
+      </view>
+    </view>
+
+    <!-- 配置核实 -->
+    <view class="card">
+      <view class="card-title">配置核实</view>
+      <view class="check-row" wx:for="{{report.configVerify}}" wx:key="item">
+        <text class="check-name">{{item.name}}</text>
+        <text class="check-result">{{item.value}}</text>
+      </view>
+    </view>
+
+    <!-- 验机照片 -->
+    <view class="card" wx:if="{{report.photos && report.photos.length > 0}}">
+      <view class="card-title">验机照片</view>
+      <view class="photo-grid">
+        <image wx:for="{{report.photos}}" wx:key="index" src="{{item}}" mode="aspectFill" class="photo-item" bindtap="previewPhoto" data-index="{{index}}"></image>
+      </view>
+    </view>
+
+    <!-- 验机结论 -->
+    <view class="card">
+      <view class="card-title">验机结论</view>
+      <view class="conclusion-text">{{report.conclusion}}</view>
+      <view class="inspector-info">
+        <text>验机工程师：{{report.inspector}}</text>
+        <text class="inspect-time">{{report.inspectTimeText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">🔍</view>
+    <view class="empty-text">验机报告尚未出具</view>
+    <view class="empty-sub">工程师验机完成后将在此展示</view>
+  </view>
+</view>

@@ -1,0 +1,33 @@
+/* 验机报告页样式 */
+.container { min-height: 100vh; padding-bottom: 40rpx; }
+
+/* 结论卡片 */
+.conclusion-card { display: flex; align-items: center; background: var(--bg-card); margin: 24rpx; border-radius: 20rpx; padding: 36rpx; box-shadow: var(--shadow-sm); }
+.conclusion-icon { width: 88rpx; height: 88rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48rpx; font-weight: 700; color: #fff; margin-right: 24rpx; }
+.conclusion-icon.pass { background: var(--success); }
+.conclusion-icon.fail { background: var(--warning); }
+.conclusion-info { flex: 1; }
+.conclusion-title { font-size: 32rpx; font-weight: 700; color: var(--text-primary); margin-bottom: 8rpx; }
+.conclusion-price { font-size: 30rpx; font-weight: 700; color: var(--danger); }
+
+/* 检查行 */
+.check-row { display: flex; justify-content: space-between; align-items: center; padding: 14rpx 0; border-bottom: 1rpx solid var(--border-color); }
+.check-row:last-child { border-bottom: none; }
+.check-name { font-size: 26rpx; color: var(--text-secondary); }
+.check-result { font-size: 26rpx; font-weight: 600; color: var(--text-primary); }
+.check-result.pass { color: var(--success); }
+.check-result.fail { color: var(--danger); }
+
+/* 照片 */
+.photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12rpx; margin-top: 16rpx; }
+.photo-item { width: 100%; aspect-ratio: 1; border-radius: 8rpx; }
+
+/* 结论文字 */
+.conclusion-text { font-size: 28rpx; color: var(--text-primary); line-height: 1.6; margin-bottom: 20rpx; }
+.inspector-info { display: flex; justify-content: space-between; font-size: 24rpx; color: var(--text-secondary); padding-top: 16rpx; border-top: 1rpx solid var(--border-color); }
+
+/* 空状态 */
+.empty-state { display: flex; flex-direction: column; align-items: center; padding: 160rpx 0; }
+.empty-icon { font-size: 120rpx; opacity: 0.2; margin-bottom: 24rpx; }
+.empty-text { font-size: 30rpx; color: var(--text-secondary); margin-bottom: 8rpx; }
+.empty-sub { font-size: 24rpx; color: var(--text-tertiary); }

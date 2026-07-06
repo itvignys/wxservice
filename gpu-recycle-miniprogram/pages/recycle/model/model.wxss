@@ -1,0 +1,78 @@
+/* 选型号页样式 */
+.container { min-height: 100vh; background: var(--bg-page); }
+
+/* 进度条 */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28rpx 24rpx;
+  background: var(--bg-card);
+}
+.step { display: flex; flex-direction: column; align-items: center; }
+.step-dot {
+  width: 48rpx; height: 48rpx; border-radius: 50%;
+  background: var(--bg-gray); color: var(--text-tertiary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24rpx; font-weight: 700;
+}
+.step.active .step-dot { background: var(--primary); color: #fff; }
+.step-label { font-size: 20rpx; color: var(--text-tertiary); margin-top: 6rpx; }
+.step.active .step-label { color: var(--primary); font-weight: 600; }
+.step-line { width: 60rpx; height: 4rpx; background: var(--bg-gray); margin: 0 8rpx; margin-bottom: 24rpx; }
+.step-line.active { background: var(--primary); }
+
+/* 已选品类 */
+.selected-cat {
+  display: flex; align-items: center; gap: 12rpx;
+  padding: 20rpx 32rpx;
+  background: var(--primary-light);
+}
+.cat-icon { font-size: 36rpx; }
+.cat-name { font-size: 28rpx; font-weight: 600; color: var(--primary); }
+
+/* 品牌Tab */
+.brand-tabs { white-space: nowrap; padding: 20rpx 24rpx; background: var(--bg-card); }
+.brand-tab {
+  display: inline-block; padding: 12rpx 32rpx;
+  border-radius: 32rpx; font-size: 26rpx;
+  background: var(--bg-gray); color: var(--text-secondary);
+  margin-right: 16rpx;
+}
+.brand-tab.active { background: var(--primary); color: #fff; font-weight: 600; }
+
+/* 型号列表 */
+.model-list { padding: 20rpx 24rpx; }
+.model-card {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-card); border-radius: 16rpx; padding: 28rpx;
+  margin-bottom: 16rpx; box-shadow: var(--shadow-sm);
+  border: 4rpx solid transparent;
+  transition: border-color 0.2s;
+}
+.model-card.selected { border-color: var(--primary); }
+.model-left { flex: 1; }
+.model-brand {
+  display: inline-block; font-size: 20rpx; color: var(--primary);
+  background: var(--primary-light); padding: 4rpx 12rpx; border-radius: 6rpx; margin-bottom: 8rpx;
+}
+.model-name { font-size: 28rpx; font-weight: 600; color: var(--text-primary); margin-bottom: 6rpx; }
+.model-spec { font-size: 22rpx; color: var(--text-secondary); margin-bottom: 8rpx; }
+.model-price-range { font-size: 24rpx; color: var(--danger); font-weight: 600; }
+.model-check {
+  width: 44rpx; height: 44rpx; border-radius: 50%;
+  border: 4rpx solid var(--border-color);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24rpx; color: #fff;
+}
+.model-check.checked { background: var(--primary); border-color: var(--primary); }
+
+/* 底部栏 */
+.bar-info { flex: 1; }
+.bar-label { font-size: 22rpx; color: var(--text-secondary); display: block; }
+.bar-value { font-size: 30rpx; font-weight: 600; color: var(--text-primary); }
+.bar-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; padding: 20rpx 56rpx; border-radius: 48rpx; font-size: 30rpx; font-weight: 600;
+}
+.bar-btn.disabled { background: var(--text-tertiary); }

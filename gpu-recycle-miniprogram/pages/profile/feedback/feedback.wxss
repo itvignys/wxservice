@@ -1,0 +1,16 @@
+/* 意见反馈页样式 */
+.container { min-height: 100vh; }
+.form-card { background: var(--bg-card); margin: 24rpx; border-radius: 16rpx; padding: 28rpx; box-shadow: var(--shadow-sm); }
+.form-label { font-size: 28rpx; font-weight: 600; color: var(--text-primary); margin-bottom: 16rpx; }
+
+.type-list { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.type-item { font-size: 26rpx; color: var(--text-secondary); background: var(--bg-gray); padding: 14rpx 28rpx; border-radius: 32rpx; border: 2rpx solid transparent; }
+.type-item.selected { color: var(--primary); background: var(--primary-light); border-color: var(--primary); }
+
+.content-input { width: 100%; min-height: 240rpx; font-size: 28rpx; color: var(--text-primary); line-height: 1.6; }
+.char-count { text-align: right; font-size: 22rpx; color: var(--text-tertiary); margin-top: 8rpx; }
+
+.contact-input { width: 100%; font-size: 28rpx; color: var(--text-primary); }
+
+.bottom-bar { background: var(--bg-card); }
+.submit-btn { flex: 1; text-align: center; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; padding: 24rpx; border-radius: 48rpx; font-size: 30rpx; font-weight: 600; }

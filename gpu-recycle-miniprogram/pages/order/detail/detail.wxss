@@ -1,0 +1,48 @@
+/* 订单详情页样式 */
+.container { min-height: 100vh; padding-bottom: 40rpx; }
+
+/* 状态卡片 */
+.status-card { position: relative; overflow: hidden; }
+.status-bg { position: absolute; top:0; left:0; right:0; height: 100%; background: linear-gradient(135deg, #0D1B2A 0%, #1a3a5c 100%); }
+.status-content { position: relative; padding: 40rpx 32rpx; color: #fff; }
+.status-text { font-size: 36rpx; font-weight: 700; margin-bottom: 8rpx; }
+.status-desc { font-size: 24rpx; opacity: 0.8; margin-bottom: 32rpx; }
+
+/* 时间轴 */
+.timeline { display: flex; align-items: flex-start; justify-content: space-between; }
+.timeline-item { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+.timeline-dot { width: 56rpx; height: 56rpx; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 28rpx; margin-bottom: 8rpx; }
+.timeline-item.active .timeline-dot { background: var(--primary); }
+.timeline-label { font-size: 20rpx; opacity: 0.7; text-align: center; }
+.timeline-item.active .timeline-label { opacity: 1; font-weight: 600; }
+.timeline-line { position: absolute; top: 28rpx; left: 50%; width: 100%; height: 4rpx; background: rgba(255,255,255,0.15); }
+.timeline-item.active .timeline-line { background: var(--primary); }
+
+/* 价格行 */
+.price-row { display: flex; justify-content: space-between; padding: 14rpx 0; }
+.row-label { font-size: 26rpx; color: var(--text-secondary); }
+.row-value { font-size: 28rpx; font-weight: 600; color: var(--text-primary); }
+.row-value.price { color: var(--danger); font-size: 34rpx; font-weight: 800; }
+
+/* 信息行 */
+.info-row { display: flex; justify-content: space-between; padding: 12rpx 0; }
+.info-label { font-size: 26rpx; color: var(--text-secondary); flex-shrink: 0; }
+.info-value { font-size: 26rpx; color: var(--text-primary); font-weight: 500; text-align: right; }
+
+/* 照片 */
+.photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12rpx; margin-top: 20rpx; }
+.photo-item { width: 100%; aspect-ratio: 1; border-radius: 8rpx; }
+
+/* 入口卡片 */
+.entry-card { display: flex; align-items: center; background: var(--bg-card); border-radius: 16rpx; padding: 28rpx; margin: 20rpx 24rpx; box-shadow: var(--shadow-sm); }
+.entry-card.negotiate { border-left: 8rpx solid var(--danger); }
+.entry-icon { font-size: 48rpx; margin-right: 20rpx; }
+.entry-info { flex: 1; }
+.entry-title { font-size: 30rpx; font-weight: 600; color: var(--text-primary); margin-bottom: 4rpx; }
+.entry-desc { font-size: 24rpx; color: var(--text-secondary); }
+.entry-arrow { font-size: 32rpx; color: var(--text-tertiary); }
+
+/* 底部操作栏 */
+.action-btn { padding: 18rpx 40rpx; border-radius: 40rpx; font-size: 28rpx; font-weight: 600; }
+.action-btn.primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
+.action-btn.secondary { background: var(--bg-gray); color: var(--text-primary); border: 2rpx solid var(--border-color); }

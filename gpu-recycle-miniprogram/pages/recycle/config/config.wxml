@@ -1,0 +1,60 @@
+<!-- 配置详情（仅服务器整机） -->
+<view class="container">
+  <!-- 进度指示器 -->
+  <view class="steps">
+    <view class="step active"><view class="step-dot">✓</view><text class="step-label">选品类</text></view>
+    <view class="step-line active"></view>
+    <view class="step active"><view class="step-dot">✓</view><text class="step-label">选型号</text></view>
+    <view class="step-line active"></view>
+    <view class="step active"><view class="step-dot">✓</view><text class="step-label">选成色</text></view>
+    <view class="step-line active"></view>
+    <view class="step active"><view class="step-dot">4</view><text class="step-label">配置</text></view>
+  </view>
+
+  <view class="section-title">选择服务器配置（影响回收加价）</view>
+
+  <!-- CPU配置 -->
+  <view class="config-section">
+    <view class="config-label">CPU处理器</view>
+    <view class="option-list">
+      <view class="option-item {{config.cpu === item.id ? 'selected' : ''}}" wx:for="{{cpuOptions}}" wx:key="id" bindtap="selectOption" data-type="cpu" data-id="{{item.id}}">
+        <view class="option-name">{{item.label}}</view>
+        <view class="option-add">+¥{{item.priceText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内存配置 -->
+  <view class="config-section">
+    <view class="config-label">内存容量</view>
+    <view class="option-list">
+      <view class="option-item {{config.memory === item.id ? 'selected' : ''}}" wx:for="{{memoryOptions}}" wx:key="id" bindtap="selectOption" data-type="memory" data-id="{{item.id}}">
+        <view class="option-name">{{item.label}}</view>
+        <view class="option-add">+¥{{item.priceText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 存储配置 -->
+  <view class="config-section">
+    <view class="config-label">存储设备</view>
+    <view class="option-list">
+      <view class="option-item {{config.storage === item.id ? 'selected' : ''}}" wx:for="{{storageOptions}}" wx:key="id" bindtap="selectOption" data-type="storage" data-id="{{item.id}}">
+        <view class="option-name">{{item.label}}</view>
+        <view class="option-add">+¥{{item.priceText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view style="height:160rpx"></view>
+
+  <!-- 底部固定栏 -->
+  <view class="bottom-bar safe-bottom">
+    <view class="bar-info">
+      <text class="bar-label">配置加价</text>
+      <text class="bar-value" wx:if="{{totalAddPrice > 0}}">+¥{{totalAddPriceText}}</text>
+      <text class="bar-value" wx:else>无加价</text>
+    </view>
+    <view class="bar-btn" bindtap="next">查看估价</view>
+  </view>
+</view>

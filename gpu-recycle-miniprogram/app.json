@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/recycle/recycle",
+    "pages/orders/orders",
+    "pages/profile/profile",
+    "pages/recycle/category/category",
+    "pages/recycle/model/model",
+    "pages/recycle/condition/condition",
+    "pages/recycle/config/config",
+    "pages/recycle/quote/quote",
+    "pages/recycle/create/create",
+    "pages/order/detail/detail",
+    "pages/order/inspection/inspection",
+    "pages/order/negotiate/negotiate",
+    "pages/profile/address/address",
+    "pages/profile/address-edit/address-edit",
+    "pages/profile/history/history",
+    "pages/profile/about/about",
+    "pages/profile/feedback/feedback"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#0D1B2A",
+    "navigationBarTitleText": "GPU算力回收",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F7FA"
+  },
+  "tabBar": {
+    "color": "#86868B",
+    "selectedColor": "#2BB673",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/recycle/recycle",
+        "text": "估价"
+      },
+      {
+        "pagePath": "pages/orders/orders",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,35 @@
+/* 下单页样式 */
+.container { min-height: 100vh; padding-bottom: 40rpx; }
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 14rpx 0; }
+.info-label { font-size: 26rpx; color: var(--text-secondary); }
+.info-value { font-size: 26rpx; color: var(--text-primary); font-weight: 500; }
+.info-value.price { font-size: 32rpx; color: var(--danger); font-weight: 800; }
+
+/* 回收方式 */
+.method-list { display: flex; flex-direction: column; gap: 16rpx; }
+.method-card { display: flex; align-items: center; background: var(--bg-gray); border-radius: 16rpx; padding: 24rpx 28rpx; border: 4rpx solid transparent; transition: all 0.2s; }
+.method-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.method-icon { font-size: 48rpx; margin-right: 20rpx; }
+.method-info { flex: 1; }
+.method-name { font-size: 28rpx; font-weight: 600; color: var(--text-primary); margin-bottom: 4rpx; }
+.method-desc { font-size: 22rpx; color: var(--text-secondary); }
+.method-check { width: 40rpx; height: 40rpx; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24rpx; }
+
+/* 表单 */
+.form-item { display: flex; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid var(--border-color); }
+.form-label { width: 160rpx; font-size: 26rpx; color: var(--text-secondary); flex-shrink: 0; }
+.form-input { flex: 1; font-size: 28rpx; color: var(--text-primary); }
+.form-value { flex: 1; font-size: 28rpx; color: var(--text-primary); }
+.form-value.placeholder { color: var(--text-tertiary); }
+.form-textarea { flex: 1; font-size: 28rpx; color: var(--text-primary); min-height: 80rpx; }
+
+/* 邮寄提示 */
+.mail-tip { background: var(--primary-light); border-radius: 12rpx; padding: 24rpx; display: flex; flex-direction: column; gap: 8rpx; margin: 16rpx 0; }
+.mail-tip text { font-size: 26rpx; color: var(--primary); }
+.mail-sub { font-size: 22rpx !important; opacity: 0.8; }
+
+/* 底部栏 */
+.bar-price { flex: 1; }
+.bar-price-label { font-size: 22rpx; color: var(--text-secondary); display: block; }
+.bar-price-val { font-size: 40rpx; font-weight: 800; color: var(--danger); }
+.bar-btn { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; padding: 24rpx 64rpx; border-radius: 48rpx; font-size: 32rpx; font-weight: 600; box-shadow: 0 4rpx 16rpx rgba(43,182,115,0.3); }

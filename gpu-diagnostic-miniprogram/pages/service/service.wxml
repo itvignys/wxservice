@@ -1,0 +1,182 @@
+<view class="container">
+  <!-- 顶部说明 -->
+  <view class="header-card">
+    <view class="header-icon">🏢</view>
+    <view class="header-content">
+      <text class="header-title">企业服务认证</text>
+      <text class="header-desc">完善企业信息，解锁免费上门检测服务</text>
+    </view>
+  </view>
+
+  <!-- 服务说明 -->
+  <view class="benefit-card">
+    <text class="benefit-title">🎁 企业认证权益</text>
+    <view class="benefit-list">
+      <view class="benefit-item">
+        <text class="benefit-icon">✓</text>
+        <text class="benefit-text">免费一次上门检测服务（价值¥500）</text>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">✓</text>
+        <text class="benefit-text">专属客户经理一对一服务</text>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">✓</text>
+        <text class="benefit-text">优先响应，2小时极速上门</text>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">✓</text>
+        <text class="benefit-text">维修费用9折优惠</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 表单 -->
+  <view class="form-card">
+    <view class="form-header">
+      <text class="form-title">企业信息</text>
+      <text class="form-subtitle">请填写真实信息，我们将严格保密</text>
+    </view>
+
+    <view class="form-body">
+      <!-- 企业名称 -->
+      <view class="form-item {{errors.name ? 'error' : ''}}">
+        <text class="item-label">企业名称 <text class="required">*</text></text>
+        <input 
+          class="item-input" 
+          placeholder="请输入营业执照上的企业全称"
+          value="{{form.name}}"
+          bindinput="onInput"
+          data-field="name"
+        />
+        <text class="error-msg" wx:if="{{errors.name}}">{{errors.name}}</text>
+      </view>
+
+      <!-- 统一社会信用代码 -->
+      <view class="form-item {{errors.creditCode ? 'error' : ''}}">
+        <text class="item-label">统一社会信用代码 <text class="required">*</text></text>
+        <input 
+          class="item-input" 
+          placeholder="请输入18位统一社会信用代码"
+          value="{{form.creditCode}}"
+          bindinput="onInput"
+          data-field="creditCode"
+          maxlength="18"
+        />
+        <text class="error-msg" wx:if="{{errors.creditCode}}">{{errors.creditCode}}</text>
+      </view>
+
+      <!-- 联系人 -->
+      <view class="form-item {{errors.contact ? 'error' : ''}}">
+        <text class="item-label">联系人姓名 <text class="required">*</text></text>
+        <input 
+          class="item-input" 
+          placeholder="请输入联系人姓名"
+          value="{{form.contact}}"
+          bindinput="onInput"
+          data-field="contact"
+        />
+        <text class="error-msg" wx:if="{{errors.contact}}">{{errors.contact}}</text>
+      </view>
+
+      <!-- 联系电话 -->
+      <view class="form-item {{errors.phone ? 'error' : ''}}">
+        <text class="item-label">联系电话 <text class="required">*</text></text>
+        <input 
+          class="item-input" 
+          placeholder="请输入11位手机号码"
+          value="{{form.phone}}"
+          bindinput="onInput"
+          data-field="phone"
+          type="number"
+          maxlength="11"
+        />
+        <text class="error-msg" wx:if="{{errors.phone}}">{{errors.phone}}</text>
+      </view>
+
+      <!-- 企业地址 -->
+      <view class="form-item {{errors.address ? 'error' : ''}}">
+        <text class="item-label">企业地址 <text class="required">*</text></text>
+        <textarea 
+          class="item-textarea" 
+          placeholder="请输入详细地址（省市区+街道门牌号）"
+          value="{{form.address}}"
+          bindinput="onInput"
+          data-field="address"
+          maxlength="200"
+        />
+        <text class="error-msg" wx:if="{{errors.address}}">{{errors.address}}</text>
+      </view>
+
+      <!-- 显卡数量 -->
+      <view class="form-item">
+        <text class="item-label">预估显卡数量</text>
+        <picker bindchange="onGpuCountChange" value="{{gpuCountIndex}}" range="{{gpuCountOptions}}">
+          <view class="picker-value">
+            <text>{{gpuCountOptions[gpuCountIndex]}}</text>
+            <text class="picker-arrow">▶</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 服务需求 -->
+      <view class="form-item">
+        <text class="item-label">服务需求</text>
+        <checkbox-group bindchange="onServiceChange">
+          <label class="checkbox-item" wx:for="{{serviceOptions}}" wx:key="value">
+            <checkbox value="{{item.value}}" checked="{{item.checked}}" color="#065A82"/>
+            <text class="checkbox-text">{{item.name}}</text>
+          </label>
+        </checkbox-group>
+      </view>
+
+      <!-- 备注 -->
+      <view class="form-item">
+        <text class="item-label">备注说明</text>
+        <textarea 
+          class="item-textarea" 
+          placeholder="请描述您的具体需求或问题（选填）"
+          value="{{form.remark}}"
+          bindinput="onInput"
+          data-field="remark"
+          maxlength="500"
+        />
+      </view>
+    </view>
+
+    <!-- 协议 -->
+    <view class="agreement">
+      <checkbox checked="{{agreed}}" bindtap="toggleAgreement" color="#065A82"/>
+      <text class="agreement-text">我已阅读并同意</text>
+      <text class="agreement-link" bindtap="viewAgreement">《服务协议》</text>
+      <text class="agreement-text">和</text>
+      <text class="agreement-link" bindtap="viewPrivacy">《隐私政策》</text>
+    </view>
+
+    <!-- 提交按钮 -->
+    <button class="submit-btn {{!agreed ? 'disabled' : ''}}" bindtap="submitForm">
+      {{isEdit ? '更新信息' : '提交认证'}}
+    </button>
+  </view>
+
+  <!-- 客服信息 -->
+  <view class="contact-card">
+    <text class="contact-title">需要帮助？</text>
+    <view class="contact-items">
+      <view class="contact-item" bindtap="callService">
+        <text class="contact-icon">📞</text>
+        <view class="contact-info">
+          <text class="contact-label">专家服务热线</text>
+          <text class="contact-value">13826580396</text>
+        </view>
+      </view>
+      <view class="contact-item" bindtap="openChat">
+        <text class="contact-icon">💬</text>
+        <view class="contact-info">
+          <text class="contact-label">在线客服</text>
+          <text class="contact-value">9:00-21:00</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

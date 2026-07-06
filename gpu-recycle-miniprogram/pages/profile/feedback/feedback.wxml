@@ -1,0 +1,25 @@
+<!-- 意见反馈 -->
+<view class="container">
+  <view class="form-card">
+    <view class="form-label">反馈类型</view>
+    <view class="type-list">
+      <view class="type-item {{form.type === item ? 'selected' : ''}}" wx:for="{{types}}" wx:key="*this" bindtap="selectType" data-type="{{item}}">{{item}}</view>
+    </view>
+  </view>
+
+  <view class="form-card">
+    <view class="form-label">反馈内容</view>
+    <textarea class="content-input" placeholder="请详细描述您的问题或建议（至少10个字）" maxlength="500" value="{{form.content}}" bindinput="onContentInput" />
+    <view class="char-count">{{form.content.length}}/500</view>
+  </view>
+
+  <view class="form-card">
+    <view class="form-label">联系方式（选填）</view>
+    <input class="contact-input" placeholder="手机号或微信号，方便我们联系您" value="{{form.contact}}" bindinput="onContactInput" />
+  </view>
+
+  <view style="height:140rpx"></view>
+  <view class="bottom-bar safe-bottom">
+    <view class="submit-btn" bindtap="submit">提交反馈</view>
+  </view>
+</view>

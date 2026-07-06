@@ -1,0 +1,62 @@
+<!-- 选型号 -->
+<view class="container">
+  <!-- 进度指示器 -->
+  <view class="steps">
+    <view class="step active">
+      <view class="step-dot">1</view>
+      <text class="step-label">选品类</text>
+    </view>
+    <view class="step-line active"></view>
+    <view class="step active">
+      <view class="step-dot">2</view>
+      <text class="step-label">选型号</text>
+    </view>
+    <view class="step-line"></view>
+    <view class="step">
+      <view class="step-dot">3</view>
+      <text class="step-label">选成色</text>
+    </view>
+    <view class="step-line"></view>
+    <view class="step">
+      <view class="step-dot">4</view>
+      <text class="step-label">估价</text>
+    </view>
+  </view>
+
+  <!-- 已选品类 -->
+  <view class="selected-cat">
+    <text class="cat-icon" style="color:{{category.color}}">{{category.icon}}</text>
+    <text class="cat-name">{{category.name}}</text>
+  </view>
+
+  <!-- 品牌筛选 -->
+  <scroll-view scroll-x class="brand-tabs" enhanced show-scrollbar="{{false}}">
+    <view class="brand-tab {{currentBrand === item ? 'active' : ''}}" wx:for="{{brands}}" wx:key="*this" bindtap="switchBrand" data-brand="{{item}}">{{item}}</view>
+  </scroll-view>
+
+  <!-- 型号列表 -->
+  <view class="model-list">
+    <view class="model-card {{selectedId === item.id ? 'selected' : ''}}" wx:for="{{filteredModels}}" wx:key="id" bindtap="selectModel" data-model="{{item}}">
+      <view class="model-left">
+        <view class="model-brand">{{item.brand}}</view>
+        <view class="model-name">{{item.name}}</view>
+        <view class="model-spec">{{item.spec}}</view>
+        <view class="model-price-range">参考价：¥{{item.priceMin}} ~ ¥{{item.priceMax}}</view>
+      </view>
+      <view class="model-check {{selectedId === item.id ? 'checked' : ''}}">
+        <text wx:if="{{selectedId === item.id}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <view style="height:140rpx"></view>
+
+  <!-- 底部固定栏 -->
+  <view class="bottom-bar safe-bottom">
+    <view class="bar-info">
+      <text class="bar-label">已选品类</text>
+      <text class="bar-value">{{category.name}}</text>
+    </view>
+    <view class="bar-btn {{selectedId ? '' : 'disabled'}}" bindtap="next">下一步</view>
+  </view>
+</view>
